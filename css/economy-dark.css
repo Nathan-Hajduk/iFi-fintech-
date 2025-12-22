@@ -1,0 +1,540 @@
+/**
+ * Economy Page CSS - Market data, news, and economic indicators
+ * Works with html/economy.html dark theme layout
+ */
+
+/* ============================================
+   ECONOMY PAGE CONTAINER
+   ============================================ */
+.dashboard-main {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ============================================
+   MARKET OVERVIEW
+   ============================================ */
+.market-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.market-card {
+  background: var(--surface-color, #141a2e);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color, rgba(136, 149, 171, 0.15));
+  transition: all 0.3s ease;
+}
+
+.market-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg, 0 8px 32px rgba(0, 0, 0, 0.6));
+}
+
+.market-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.market-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  background: rgba(100, 181, 246, 0.15);
+  color: var(--primary-color, #64b5f6);
+}
+
+.market-label {
+  flex: 1;
+}
+
+.market-name {
+  font-weight: 700;
+  color: var(--text-primary, #e8eef9);
+  margin-bottom: 0.125rem;
+}
+
+.market-symbol {
+  font-size: 0.875rem;
+  color: var(--text-tertiary, #8895aa);
+}
+
+.market-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary, #e8eef9);
+  margin-bottom: 0.5rem;
+}
+
+.market-change {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.market-change.positive {
+  color: var(--success-color, #66bb6a);
+}
+
+.market-change.negative {
+  color: var(--danger-color, #ef5350);
+}
+
+/* ============================================
+   CHARTS SECTION
+   ============================================ */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.chart-widget {
+  background: var(--surface-color, #141a2e);
+  border-radius: 12px;
+  border: 1px solid var(--border-color, rgba(136, 149, 171, 0.15));
+  overflow: hidden;
+}
+
+.chart-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color, rgba(136, 149, 171, 0.15));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chart-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary, #e8eef9);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chart-title i {
+  color: var(--primary-color, #64b5f6);
+}
+
+.chart-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.time-selector {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--elevated-surface, #1c2438);
+  padding: 0.25rem;
+  border-radius: 6px;
+}
+
+.time-btn {
+  padding: 0.375rem 0.75rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary, #b8c5d9);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.time-btn:hover {
+  background: var(--hover-surface, #242d45);
+}
+
+.time-btn.active {
+  background: var(--primary-color, #64b5f6);
+  color: white;
+}
+
+.chart-body {
+  padding: 1.5rem;
+}
+
+.chart-canvas-container {
+  position: relative;
+  height: 300px;
+}
+
+/* ============================================
+   NEWS FEED
+   ============================================ */
+.news-section {
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #e8eef9);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface-color, #141a2e);
+  border: 1px solid var(--border-color, rgba(136, 149, 171, 0.15));
+  color: var(--text-secondary, #b8c5d9);
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.refresh-btn:hover {
+  background: var(--hover-surface, #242d45);
+  border-color: var(--primary-color, #64b5f6);
+  color: var(--primary-color, #64b5f6);
+}
+
+.news-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.news-item {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--surface-color, #141a2e);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color, rgba(136, 149, 171, 0.15));
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.news-item:hover {
+  background: var(--elevated-surface, #1c2438);
+  border-color: var(--primary-color, #64b5f6);
+  transform: translateX(4px);
+}
+
+.news-image {
+  width: 200px;
+  height: 140px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--elevated-surface, #1c2438);
+}
+
+.news-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.news-source {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--primary-color, #64b5f6);
+  font-weight: 600;
+}
+
+.news-date {
+  font-size: 0.875rem;
+  color: var(--text-tertiary, #8895aa);
+}
+
+.news-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary, #e8eef9);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.news-excerpt {
+  color: var(--text-secondary, #b8c5d9);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.news-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color, rgba(136, 149, 171, 0.15));
+}
+
+.news-category {
+  padding: 0.25rem 0.75rem;
+  background: rgba(100, 181, 246, 0.15);
+  color: var(--primary-color, #64b5f6);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.news-read-more {
+  margin-left: auto;
+  color: var(--primary-color, #64b5f6);
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ============================================
+   ECONOMIC INDICATORS
+   ============================================ */
+.indicators-section {
+  margin-bottom: 2rem;
+}
+
+.indicators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.indicator-card {
+  background: var(--surface-color, #141a2e);
+  border-radius: 10px;
+  padding: 1.25rem;
+  border: 1px solid var(--border-color, rgba(136, 149, 171, 0.15));
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.indicator-card:hover {
+  border-color: var(--primary-color, #64b5f6);
+}
+
+.indicator-name {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #b8c5d9);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.indicator-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary, #e8eef9);
+}
+
+.indicator-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.indicator-trend.up {
+  color: var(--success-color, #66bb6a);
+}
+
+.indicator-trend.down {
+  color: var(--danger-color, #ef5350);
+}
+
+/* ============================================
+   SECTOR PERFORMANCE
+   ============================================ */
+.sectors-widget {
+  background: var(--surface-color, #141a2e);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color, rgba(136, 149, 171, 0.15));
+  margin-bottom: 2rem;
+}
+
+.sectors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sector-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sector-name {
+  flex: 1;
+  font-weight: 600;
+  color: var(--text-primary, #e8eef9);
+}
+
+.sector-bar {
+  flex: 2;
+  height: 8px;
+  background: var(--elevated-surface, #1c2438);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.sector-bar::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border-color, rgba(136, 149, 171, 0.15));
+}
+
+.sector-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.sector-fill.positive {
+  background: var(--success-color, #66bb6a);
+  margin-left: 50%;
+}
+
+.sector-fill.negative {
+  background: var(--danger-color, #ef5350);
+  margin-right: 50%;
+}
+
+.sector-change {
+  min-width: 80px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.sector-change.positive {
+  color: var(--success-color, #66bb6a);
+}
+
+.sector-change.negative {
+  color: var(--danger-color, #ef5350);
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-color, #141a2e) 0%,
+    var(--elevated-surface, #1c2438) 50%,
+    var(--surface-color, #141a2e) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-text {
+  height: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  width: 60%;
+  margin-bottom: 1rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 992px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .news-image {
+    width: 150px;
+    height: 110px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-main {
+    padding: 1rem;
+  }
+  
+  .market-overview {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .news-item {
+    flex-direction: column;
+  }
+  
+  .news-image {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .indicators-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  
+  .sector-bar {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .market-value {
+    font-size: 1.5rem;
+  }
+  
+  .news-title {
+    font-size: 1.125rem;
+  }
+  
+  .time-selector {
+    flex-wrap: wrap;
+  }
+}
