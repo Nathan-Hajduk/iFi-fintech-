@@ -1,0 +1,557 @@
+/**
+ * LIGHT THEME OVERRIDES FOR PRE-LOGIN PAGES
+ * Fintech-Grade Light Theme Design System
+ * 
+ * Design Philosophy:
+ * - Clean white backgrounds signal clarity and transparency
+ * - Soft gradients maintain premium feel
+ * - High contrast for readability
+ * - Maintains brand identity with accent colors
+ */
+
+/* ============================================
+   LIGHT THEME COLOR TOKENS
+   ============================================ */
+:root {
+  /* Light Backgrounds */
+  --light-bg-primary: #ffffff;
+  --light-bg-secondary: #f8f9fc;
+  --light-bg-elevated: #f0f4f8;
+  --light-bg-gradient: linear-gradient(165deg, #ffffff 0%, #f8f9fc 50%, #f0f4f8 100%);
+  
+  /* Text Colors for Light Theme */
+  --light-text-primary: #0a0e1a;
+  --light-text-secondary: #4a5568;
+  --light-text-tertiary: #718096;
+  --light-text-muted: #a0aec0;
+  
+  /* Borders & Dividers */
+  --light-border-subtle: rgba(0, 0, 0, 0.08);
+  --light-border-medium: rgba(0, 0, 0, 0.12);
+  --light-border-strong: rgba(0, 0, 0, 0.16);
+  
+  /* Shadows for Light Theme */
+  --light-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --light-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --light-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --light-shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.12);
+  
+  /* Accent colors remain the same */
+  --ifi-cyan-primary: #00d4ff;
+  --ifi-blue-accent: #5c8df6;
+  --ifi-gradient-primary: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
+}
+
+/* ============================================
+   BODY & GLOBAL OVERRIDES
+   ============================================ */
+body {
+  background: var(--light-bg-primary);
+  color: var(--light-text-primary);
+}
+
+/* ============================================
+   HEADER - LIGHT THEME
+   ============================================ */
+.modern-header {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-bottom: 1px solid var(--light-border-subtle);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.brand-name {
+  color: var(--light-text-primary) !important;
+}
+
+.nav-link {
+  color: var(--light-text-secondary) !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--ifi-cyan-primary) !important;
+}
+
+/* ============================================
+   LOGIN PAGE - LIGHT THEME
+   ============================================ */
+.split-container {
+  background: var(--light-bg-primary) !important;
+}
+
+.value-proposition {
+  background: var(--light-bg-gradient) !important;
+}
+
+.text-box h2 {
+  color: var(--light-text-primary) !important;
+}
+
+.lead-text,
+.feature-item span {
+  color: var(--light-text-secondary) !important;
+}
+
+.feature-item i {
+  color: var(--ifi-cyan-primary) !important;
+}
+
+.login-form-container {
+  background: var(--light-bg-primary) !important;
+  border-left: 1px solid var(--light-border-subtle);
+}
+
+.login-form-box {
+  background: var(--light-bg-secondary) !important;
+  border: 1px solid var(--light-border-medium);
+  box-shadow: var(--light-shadow-lg);
+}
+
+.login-form-box h2 {
+  color: var(--light-text-primary) !important;
+}
+
+.login-form-box p {
+  color: var(--light-text-secondary) !important;
+}
+
+.form-group label {
+  color: var(--light-text-primary) !important;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--light-bg-primary) !important;
+  color: var(--light-text-primary) !important;
+  border: 2px solid var(--light-border-medium) !important;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--light-text-muted) !important;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--ifi-cyan-primary) !important;
+  box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.1) !important;
+}
+
+/* ============================================
+   CONTACT US PAGE - LIGHT THEME
+   ============================================ */
+.contact-page {
+  background: var(--light-bg-gradient) !important;
+}
+
+.contact-info {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+  box-shadow: var(--light-shadow-lg) !important;
+}
+
+.contact-info:hover {
+  border-color: var(--ifi-cyan-primary) !important;
+  box-shadow: var(--light-shadow-xl), 0 0 0 2px rgba(0, 212, 255, 0.1) !important;
+}
+
+.contact-info h2 {
+  color: var(--light-text-primary) !important;
+}
+
+.contact-info > p {
+  color: var(--light-text-secondary) !important;
+}
+
+.contact-method {
+  background: var(--light-bg-secondary) !important;
+  border: 1px solid var(--light-border-subtle) !important;
+}
+
+.contact-method:hover {
+  background: var(--light-bg-elevated) !important;
+  border-color: var(--ifi-cyan-primary) !important;
+  box-shadow: var(--light-shadow-md), 0 0 0 2px rgba(0, 212, 255, 0.08) !important;
+}
+
+.method-details h3 {
+  color: var(--light-text-primary) !important;
+}
+
+.method-details p {
+  color: var(--light-text-secondary) !important;
+}
+
+.response-badge {
+  background: rgba(0, 212, 255, 0.08) !important;
+  border: 1px solid rgba(0, 212, 255, 0.2) !important;
+}
+
+.response-badge:hover {
+  background: rgba(0, 212, 255, 0.12) !important;
+}
+
+.contact-form-section {
+  background: var(--light-bg-primary) !important;
+  box-shadow: var(--light-shadow-lg) !important;
+}
+
+.contact-form-section:hover {
+  box-shadow: var(--light-shadow-xl) !important;
+}
+
+.contact-form-section h2 {
+  color: var(--light-text-primary) !important;
+}
+
+.contact-form-section > p {
+  color: var(--light-text-secondary) !important;
+}
+
+/* ============================================
+   HOW IT WORKS PAGE - LIGHT THEME
+   ============================================ */
+.how-it-works-hero,
+.purpose-section,
+.onboarding-section,
+.dashboard-preview-section,
+.tier-comparison-section,
+.final-cta-section {
+  background: var(--light-bg-primary) !important;
+}
+
+.how-it-works-hero {
+  background: var(--light-bg-gradient) !important;
+}
+
+.hero-content h1,
+.section-title {
+  color: var(--light-text-primary) !important;
+}
+
+.hero-content p,
+.section-description {
+  color: var(--light-text-secondary) !important;
+}
+
+.purpose-card,
+.dashboard-card {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+  box-shadow: var(--light-shadow-md) !important;
+}
+
+.purpose-card:hover,
+.dashboard-card:hover {
+  border-color: var(--ifi-cyan-primary) !important;
+  box-shadow: var(--light-shadow-lg), 0 0 0 2px rgba(0, 212, 255, 0.08) !important;
+}
+
+.purpose-card h3,
+.dashboard-card h3 {
+  color: var(--light-text-primary) !important;
+}
+
+.purpose-card p,
+.dashboard-card p {
+  color: var(--light-text-secondary) !important;
+}
+
+.onboarding-step {
+  background: var(--light-bg-secondary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+}
+
+.step-number {
+  background: var(--ifi-gradient-primary) !important;
+}
+
+.step-content h4 {
+  color: var(--light-text-primary) !important;
+}
+
+.step-content p {
+  color: var(--light-text-secondary) !important;
+}
+
+.free-tier,
+.premium-tier {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+  box-shadow: var(--light-shadow-lg) !important;
+}
+
+.premium-tier {
+  border: 2px solid var(--ifi-cyan-primary) !important;
+}
+
+.tier-header h3 {
+  color: var(--light-text-primary) !important;
+}
+
+.tier-price {
+  color: var(--light-text-primary) !important;
+}
+
+.tier-description {
+  color: var(--light-text-secondary) !important;
+}
+
+.tier-features li {
+  color: var(--light-text-secondary) !important;
+}
+
+/* ============================================
+   FEATURES PAGE - LIGHT THEME
+   ============================================ */
+.features-hero {
+  background: var(--light-bg-gradient) !important;
+}
+
+.feature-section {
+  background: var(--light-bg-primary) !important;
+}
+
+.feature-section:nth-child(even) {
+  background: var(--light-bg-secondary) !important;
+}
+
+.feature-content h2,
+.feature-content h3 {
+  color: var(--light-text-primary) !important;
+}
+
+.feature-content p,
+.feature-content li {
+  color: var(--light-text-secondary) !important;
+}
+
+.feature-card {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+  box-shadow: var(--light-shadow-md) !important;
+}
+
+.feature-card:hover {
+  border-color: var(--ifi-cyan-primary) !important;
+  box-shadow: var(--light-shadow-lg) !important;
+}
+
+/* ============================================
+   PRICING PAGE - LIGHT THEME
+   ============================================ */
+.pricing-hero {
+  background: var(--light-bg-gradient) !important;
+}
+
+.pricing-container {
+  background: var(--light-bg-primary) !important;
+}
+
+.pricing-card {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+  box-shadow: var(--light-shadow-lg) !important;
+}
+
+.pricing-card.featured {
+  border: 2px solid var(--ifi-cyan-primary) !important;
+  box-shadow: var(--light-shadow-xl), 0 0 0 2px rgba(0, 212, 255, 0.1) !important;
+}
+
+.pricing-card:hover {
+  box-shadow: var(--light-shadow-xl) !important;
+}
+
+.pricing-card h3,
+.pricing-card .price {
+  color: var(--light-text-primary) !important;
+}
+
+.pricing-card p,
+.pricing-card li {
+  color: var(--light-text-secondary) !important;
+}
+
+.faq-section {
+  background: var(--light-bg-secondary) !important;
+}
+
+.faq-item {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-subtle) !important;
+}
+
+.faq-question {
+  color: var(--light-text-primary) !important;
+}
+
+.faq-answer {
+  color: var(--light-text-secondary) !important;
+}
+
+/* ============================================
+   FORGOT PASSWORD/USERNAME PAGES - LIGHT THEME
+   ============================================ */
+.forgot-page {
+  background: var(--light-bg-gradient) !important;
+}
+
+.forgot-card {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+  box-shadow: var(--light-shadow-lg) !important;
+}
+
+.forgot-card h1,
+.forgot-card h2 {
+  color: var(--light-text-primary) !important;
+}
+
+.forgot-card p {
+  color: var(--light-text-secondary) !important;
+}
+
+/* ============================================
+   SIGNUP PAGE - LIGHT THEME
+   ============================================ */
+.signup-container {
+  background: var(--light-bg-gradient) !important;
+}
+
+.signup-card {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+  box-shadow: var(--light-shadow-xl) !important;
+}
+
+.signup-card h2 {
+  color: var(--light-text-primary) !important;
+}
+
+.signup-card p {
+  color: var(--light-text-secondary) !important;
+}
+
+.plan-selector {
+  background: var(--light-bg-secondary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+}
+
+.plan-option {
+  background: var(--light-bg-primary) !important;
+  border: 2px solid var(--light-border-medium) !important;
+}
+
+.plan-option.selected {
+  border-color: var(--ifi-cyan-primary) !important;
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1) !important;
+}
+
+.plan-option h4 {
+  color: var(--light-text-primary) !important;
+}
+
+.plan-option p {
+  color: var(--light-text-secondary) !important;
+}
+
+/* ============================================
+   FOOTER - LIGHT THEME
+   ============================================ */
+.footer {
+  background: var(--light-bg-secondary) !important;
+  border-top: 1px solid var(--light-border-subtle);
+  color: var(--light-text-secondary) !important;
+}
+
+.footer a {
+  color: var(--light-text-secondary) !important;
+}
+
+.footer a:hover {
+  color: var(--ifi-cyan-primary) !important;
+}
+
+/* ============================================
+   CARDS & COMPONENTS - LIGHT THEME
+   ============================================ */
+.card,
+.info-card,
+.stat-card {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+  box-shadow: var(--light-shadow-md) !important;
+}
+
+.card:hover,
+.info-card:hover,
+.stat-card:hover {
+  box-shadow: var(--light-shadow-lg) !important;
+}
+
+/* ============================================
+   BUTTONS - MAINTAINED FOR BRAND CONSISTENCY
+   ============================================ */
+/* Primary buttons keep gradient for brand identity */
+.cta-button,
+.btn-primary,
+.btn-premium,
+.btn-send,
+.signup-btn {
+  background: var(--ifi-gradient-primary) !important;
+  color: #ffffff !important;
+}
+
+/* Secondary buttons adjusted for light theme */
+.btn-secondary,
+.btn-outline {
+  background: transparent !important;
+  border: 2px solid var(--ifi-blue-accent) !important;
+  color: var(--ifi-blue-accent) !important;
+}
+
+.btn-secondary:hover,
+.btn-outline:hover {
+  background: rgba(92, 141, 246, 0.08) !important;
+}
+
+/* ============================================
+   UTILITY OVERRIDES
+   ============================================ */
+.text-white {
+  color: var(--light-text-primary) !important;
+}
+
+.text-muted {
+  color: var(--light-text-secondary) !important;
+}
+
+.bg-dark {
+  background: var(--light-bg-secondary) !important;
+}
+
+.bg-darker {
+  background: var(--light-bg-elevated) !important;
+}
+
+/* ============================================
+   ACCESSIBILITY - HIGH CONTRAST MAINTAINED
+   ============================================ */
+/* Focus states remain highly visible */
+*:focus-visible {
+  outline: 3px solid var(--ifi-cyan-primary) !important;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 768px) {
+  .modern-header {
+    background: var(--light-bg-primary) !important;
+  }
+}
