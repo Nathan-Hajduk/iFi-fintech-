@@ -1,105 +1,360 @@
 /**
- * Features Page CSS - Feature showcase
- * Works with features.html
+ * Features Page CSS - Fintech-Grade Feature Showcase
+ * Psychological Principles: Authority, Specificity, Trust Formation
+ * 
+ * Design Philosophy:
+ * - Deep navy backgrounds reinforce institutional credibility
+ * - Feature cards with subtle animations demonstrate quality
+ * - Specific details build trust through transparency
  */
 
-.features-page {
-  background: var(--background-color, #f5f7fa);
-}
+/* Import design tokens */
+@import url('login.css');
 
-.features-hero {
-  padding: 6rem 2rem 4rem;
-  background: linear-gradient(135deg, #2196f3, #9c27b0);
-  color: white;
+/* ============================================
+   HERO SECTION - Authority & Value
+   ============================================ */
+.hero-section {
+  background: linear-gradient(165deg, #0a0e1a 0%, #141b2b 50%, #1a2332 100%);
+  padding: 6rem 3rem 5rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.features-hero h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+/* Institutional grid pattern */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.02) 2px,
+    rgba(0, 212, 255, 0.02) 4px
+  );
+  pointer-events: none;
 }
 
-.features-hero p {
-  font-size: 1.25rem;
-  max-width: 800px;
+.hero-content {
+  max-width: 900px;
   margin: 0 auto;
-  opacity: 0.95;
+  position: relative;
+  z-index: 1;
+  animation: fadeSlideUp 500ms cubic-bezier(0.0, 0.0, 0.2, 1);
 }
 
-.features-grid {
-  padding: 4rem 2rem;
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-shadow: 0 2px 24px rgba(0, 212, 255, 0.15);
+}
+
+.hero-content p {
+  font-size: 1.375rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  font-weight: 400;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   FEATURES CONTAINER - Clean Layout
+   ============================================ */
+.features-container {
   max-width: 1400px;
   margin: 0 auto;
+  padding: 4rem 3rem;
+  background: #ffffff;
+}
+
+/* ============================================
+   FEATURE SECTION - Alternating Layout
+   ============================================ */
+.feature-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 4rem 0;
+  border-bottom: 1px solid #e9ecef;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlideUp 600ms cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
 }
 
-.feature-card {
-  background: white;
-  border-radius: 16px;
-  padding: 2.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+.feature-section:nth-child(1) { animation-delay: 100ms; }
+.feature-section:nth-child(2) { animation-delay: 200ms; }
+.feature-section:nth-child(3) { animation-delay: 300ms; }
+.feature-section:nth-child(4) { animation-delay: 400ms; }
+.feature-section:nth-child(5) { animation-delay: 500ms; }
+.feature-section:nth-child(6) { animation-delay: 600ms; }
+
+.feature-section:last-child {
+  border-bottom: none;
 }
 
-.feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+/* Alternate layout for even sections */
+.feature-section:nth-child(even) {
+  grid-template-columns: 1.5fr 1fr;
 }
 
-.feature-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
+.feature-section:nth-child(even) .feature-visual {
+  order: 2;
+}
+
+.feature-section:nth-child(even) .feature-content {
+  order: 1;
+}
+
+/* ============================================
+   FEATURE VISUAL - Image Placeholder Area
+   ============================================ */
+.feature-visual {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  color: white;
-  margin-bottom: 1.5rem;
+  min-height: 400px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 20px;
+  border: 1px solid #dee2e6;
+  position: relative;
+  overflow: hidden;
+  transition: all 350ms cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
-.feature-card h3 {
-  font-size: 1.5rem;
+.feature-visual:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Large Feature Icon - Placeholder for Images */
+.feature-icon-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
+  color: #ffffff;
+  box-shadow: 0 12px 40px rgba(0, 212, 255, 0.25);
+  transition: transform 350ms;
+}
+
+.feature-visual:hover .feature-icon-large {
+  transform: scale(1.05) rotate(5deg);
+}
+
+/* Specific icon colors for different features */
+.feature-section:nth-child(1) .feature-icon-large {
+  background: linear-gradient(135deg, #5c8df6, #4a6fd5);
+}
+
+.feature-section:nth-child(2) .feature-icon-large {
+  background: linear-gradient(135deg, #26a69a, #00897b);
+}
+
+.feature-section:nth-child(3) .feature-icon-large {
+  background: linear-gradient(135deg, #ff6f00, #e65100);
+}
+
+.feature-section:nth-child(4) .feature-icon-large {
+  background: linear-gradient(135deg, #00c853, #00a843);
+}
+
+.feature-section:nth-child(5) .feature-icon-large {
+  background: linear-gradient(135deg, #00d4ff, #5c8df6);
+}
+
+.feature-section:nth-child(6) .feature-icon-large {
+  background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+}
+
+/* ============================================
+   FEATURE CONTENT - Trust Through Specificity
+   ============================================ */
+.feature-content h2 {
+  font-size: 2.25rem;
   font-weight: 700;
-  color: #1a1d2e;
+  color: #0a0e1a;
   margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
-.feature-card p {
-  color: #4a5568;
+.feature-content p {
+  font-size: 1.125rem;
   line-height: 1.7;
-  margin-bottom: 1.5rem;
+  color: #495057;
+  margin-bottom: 2rem;
 }
 
+/* Feature List - Specificity Builds Authority */
 .feature-list {
   list-style: none;
   padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .feature-list li {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: #4a5568;
+  align-items: flex-start;
+  gap: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #212529;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 3px solid #00d4ff;
+  transition: all 250ms;
+}
+
+.feature-list li:hover {
+  background: rgba(0, 212, 255, 0.04);
+  transform: translateX(4px);
 }
 
 .feature-list li i {
-  color: #4caf50;
+  color: #00d4ff;
   font-size: 1.125rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
-  .features-hero h1 {
-    font-size: 2rem;
+.feature-list li strong {
+  color: #0a0e1a;
+  font-weight: 600;
+}
+
+/* ============================================
+   CTA SECTION - Conversion Point
+   ============================================ */
+.features-cta {
+  background: linear-gradient(135deg, #0a0e1a 0%, #141b2b 100%);
+  padding: 5rem 3rem;
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.features-cta h2 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.features-cta p {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-button-large {
+  padding: 1.25rem 3rem;
+  background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
+  transition: all 350ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.cta-button-large:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 212, 255, 0.4);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1024px) {
+  .feature-section,
+  .feature-section:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
   
-  .features-grid {
-    grid-template-columns: 1fr;
+  .feature-section:nth-child(even) .feature-visual {
+    order: 1;
+  }
+  
+  .feature-section:nth-child(even) .feature-content {
+    order: 2;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.75rem;
+  }
+  
+  .feature-content h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-section {
+    padding: 4rem 2rem 3rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.25rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.125rem;
+  }
+  
+  .features-container {
+    padding: 3rem 2rem;
+  }
+  
+  .feature-section {
+    padding: 3rem 0;
+  }
+  
+  .feature-visual {
+    min-height: 300px;
+  }
+  
+  .feature-icon-large {
+    width: 100px;
+    height: 100px;
+    font-size: 40px;
+  }
+  
+  .features-cta h2 {
+    font-size: 2rem;
   }
 }

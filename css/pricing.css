@@ -1,0 +1,388 @@
+/**
+ * Pricing Page CSS - Fintech-Grade Pricing Display
+ * Psychological Principles: Loss Aversion, Social Proof, Cognitive Fluency
+ * 
+ * Design Philosophy:
+ * - Highlight Premium tier through visual prominence (most popular)
+ * - Use specificity to justify price (detailed feature lists)
+ * - Create urgency through trial offers and clear CTAs
+ */
+
+/* Import design tokens */
+@import url('login.css');
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero-section {
+  background: linear-gradient(165deg, #0a0e1a 0%, #141b2b 50%, #1a2332 100%);
+  padding: 6rem 3rem 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.02) 2px,
+    rgba(0, 212, 255, 0.02) 4px
+  );
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  animation: fadeSlideUp 500ms cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 50px;
+  color: #00d4ff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.hero-content p {
+  font-size: 1.375rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+.main-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 5rem 3rem;
+  background: #ffffff;
+}
+
+/* ============================================
+   COMPARISON GRID - 3-Tier Pricing
+   ============================================ */
+.comparison-section {
+  margin-bottom: 5rem;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.comparison-card {
+  background: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 20px;
+  padding: 2.5rem;
+  position: relative;
+  transition: all 350ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.comparison-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+  border-color: #00d4ff;
+}
+
+/* Premium Tier - Visual Prominence */
+.comparison-card.highlight {
+  background: linear-gradient(165deg, #0a0e1a 0%, #141b2b 100%);
+  color: #ffffff;
+  border: 3px solid #00d4ff;
+  box-shadow: 0 12px 48px rgba(0, 212, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.comparison-card.highlight:hover {
+  transform: scale(1.05) translateY(-8px);
+  box-shadow: 0 16px 56px rgba(0, 212, 255, 0.3);
+}
+
+/* Popular Badge - Social Proof */
+.badge-popular {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
+  color: #ffffff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.4);
+}
+
+.comparison-card h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #0a0e1a;
+}
+
+.comparison-card.highlight h3 {
+  color: #ffffff;
+}
+
+.price {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #0a0e1a;
+  margin-bottom: 2rem;
+  line-height: 1;
+}
+
+.comparison-card.highlight .price {
+  color: #00d4ff;
+  text-shadow: 0 2px 24px rgba(0, 212, 255, 0.3);
+}
+
+/* Feature List - Specificity Builds Trust */
+.comparison-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  flex-grow: 1;
+}
+
+.comparison-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f3f5;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #495057;
+}
+
+.comparison-card.highlight .comparison-features li {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.comparison-features li:last-child {
+  border-bottom: none;
+}
+
+.comparison-features li i {
+  color: #00d4ff;
+  font-size: 1rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.comparison-features li strong {
+  color: #0a0e1a;
+  font-weight: 600;
+}
+
+.comparison-card.highlight .comparison-features li strong {
+  color: #00d4ff;
+}
+
+/* CTA Buttons */
+.cta-button {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  text-align: center;
+  display: inline-block;
+  transition: all 350ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.2);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.35);
+}
+
+.comparison-card.highlight .cta-button {
+  background: #ffffff;
+  color: #0a0e1a;
+  font-weight: 700;
+}
+
+.comparison-card.highlight .cta-button:hover {
+  background: #f8f9fa;
+}
+
+/* ============================================
+   PREMIUM FEATURES HIGHLIGHT
+   ============================================ */
+.premium-features {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 4rem 3rem;
+  border-radius: 24px;
+  margin-bottom: 4rem;
+}
+
+.premium-features h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0a0e1a;
+  text-align: center;
+  margin-bottom: 3rem;
+  letter-spacing: -0.02em;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-highlight {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 350ms;
+}
+
+.feature-highlight:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.feature-highlight h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0a0e1a;
+  margin-bottom: 0.75rem;
+}
+
+.feature-highlight p {
+  color: #495057;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================
+   CTA SECTION
+   ============================================ */
+.cta-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #0a0e1a 0%, #141b2b 100%);
+  border-radius: 24px;
+}
+
+.cta-section h2 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.cta-section .cta-button {
+  padding: 1.25rem 3rem;
+  font-size: 1.125rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1024px) {
+  .comparison-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  
+  .comparison-card.highlight {
+    transform: scale(1);
+  }
+  
+  .comparison-card.highlight:hover {
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-section {
+    padding: 4rem 2rem 3rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.25rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.125rem;
+  }
+  
+  .main-container {
+    padding: 3rem 2rem;
+  }
+  
+  .comparison-card {
+    padding: 2rem;
+  }
+  
+  .price {
+    font-size: 2.75rem;
+  }
+  
+  .premium-features {
+    padding: 3rem 2rem;
+  }
+  
+  .premium-features h2 {
+    font-size: 2rem;
+  }
+}

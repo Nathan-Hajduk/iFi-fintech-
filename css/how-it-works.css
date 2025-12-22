@@ -1,0 +1,360 @@
+/**
+ * How It Works Page CSS - Fintech-Grade Process Flow
+ * Psychological Principles: Progressive Disclosure, Cognitive Fluency, Trust
+ * 
+ * Design Philosophy:
+ * - Clear step-by-step progression builds confidence
+ * - Visual hierarchy guides attention through process
+ * - Numbered steps reduce cognitive load
+ */
+
+/* Import design tokens */
+@import url('login.css');
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero-section {
+  background: linear-gradient(165deg, #0a0e1a 0%, #141b2b 50%, #1a2332 100%);
+  padding: 6rem 3rem 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.02) 2px,
+    rgba(0, 212, 255, 0.02) 4px
+  );
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  animation: fadeSlideUp 500ms cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 50px;
+  color: #00d4ff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.hero-content p {
+  font-size: 1.375rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+.main-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5rem 3rem;
+  background: #ffffff;
+}
+
+/* ============================================
+   TIMELINE - Step-by-Step Process
+   ============================================ */
+.timeline {
+  position: relative;
+  padding: 2rem 0;
+}
+
+/* Connecting Line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 42px;
+  top: 80px;
+  bottom: 80px;
+  width: 3px;
+  background: linear-gradient(180deg, #00d4ff 0%, #5c8df6 100%);
+  opacity: 0.3;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: slideInFromLeft 600ms cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
+}
+
+.step:nth-child(1) { animation-delay: 100ms; }
+.step:nth-child(2) { animation-delay: 250ms; }
+.step:nth-child(3) { animation-delay: 400ms; }
+.step:nth-child(4) { animation-delay: 550ms; }
+.step:nth-child(5) { animation-delay: 700ms; }
+
+@keyframes slideInFromLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Step Icon - Numbered Circles */
+.step-icon {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #ffffff;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  transition: transform 350ms;
+  counter-increment: step-counter;
+}
+
+.step:hover .step-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Add automatic numbering */
+.timeline {
+  counter-reset: step-counter;
+}
+
+.step-icon::before {
+  content: counter(step-counter);
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #0a0e1a;
+  color: #00d4ff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+}
+
+/* Step Content */
+.step-content {
+  padding: 1.5rem 2rem;
+  background: #f8f9fa;
+  border-radius: 16px;
+  border-left: 4px solid #00d4ff;
+  transition: all 350ms;
+}
+
+.step:hover .step-content {
+  background: rgba(0, 212, 255, 0.04);
+  transform: translateX(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.step-content h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0a0e1a;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.step-content p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #495057;
+  margin: 0;
+}
+
+/* Image Placeholders for Steps */
+.step-visual {
+  margin-top: 1.5rem;
+  height: 200px;
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-visual::before {
+  content: '📊';
+  font-size: 4rem;
+  opacity: 0.3;
+}
+
+.step:nth-child(1) .step-visual::before { content: '👤'; }
+.step:nth-child(2) .step-visual::before { content: '🔗'; }
+.step:nth-child(3) .step-visual::before { content: '📈'; }
+.step:nth-child(4) .step-visual::before { content: '⚡'; }
+
+/* ============================================
+   CTA SECTION
+   ============================================ */
+.cta-section {
+  text-align: center;
+  padding: 4rem 3rem;
+  background: linear-gradient(135deg, #0a0e1a 0%, #141b2b 100%);
+  border-radius: 24px;
+  margin-top: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(0, 212, 255, 0.03) 20px,
+    rgba(0, 212, 255, 0.03) 40px
+  );
+  pointer-events: none;
+}
+
+.cta-section h2 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-section p {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-button {
+  padding: 1.25rem 3rem;
+  background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
+  transition: all 350ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 212, 255, 0.4);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 4rem 2rem 3rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.25rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.125rem;
+  }
+  
+  .main-container {
+    padding: 3rem 2rem;
+  }
+  
+  .timeline::before {
+    left: 32px;
+  }
+  
+  .step {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .step-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+    margin: 0 auto;
+  }
+  
+  .step-content {
+    padding: 1.5rem;
+  }
+  
+  .step-content h3 {
+    font-size: 1.5rem;
+  }
+  
+  .cta-section h2 {
+    font-size: 2rem;
+  }
+}
