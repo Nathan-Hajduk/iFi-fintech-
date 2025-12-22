@@ -92,36 +92,40 @@ html {
     var(--ifi-navy-elevated) 100%);
   color: var(--ifi-white);
   overflow: hidden;
-  
-  /* Subtle grid pattern for institutional feel */
-  background-image: 
-    linear-gradient(165deg, var(--ifi-navy-deep) 0%, var(--ifi-navy-primary) 50%, var(--ifi-navy-elevated) 100%),
-    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px);
+}
+
+.value-proposition::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 14, 26, 0.6);
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Background image overlay - visible but not overpowering */
 .hero-image {
   position: absolute;
   inset: 0;
-  opacity: 0.25;
+  opacity: 0.65;
   z-index: 0;
-  mix-blend-mode: soft-light;
+  mix-blend-mode: normal;
 }
 
 .feature-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(1px) brightness(0.9);
+  filter: brightness(0.7);
 }
 
 /* Value Proposition Content */
 .text-box {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 650px;
   animation: fadeSlideUp var(--ifi-duration-slow) var(--ifi-easing-decelerate);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
 }
 
 @keyframes fadeSlideUp {
