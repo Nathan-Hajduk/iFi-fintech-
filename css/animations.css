@@ -1,0 +1,573 @@
+/* ================================================
+   FINTECH-GRADE MICRO-INTERACTIONS & ANIMATIONS
+   ================================================
+   Design System: Institutional trust with intelligent responsiveness
+   Timing: 150ms instant, 250ms fast, 350ms normal, 500ms deliberate
+   Easing: cubic-bezier(0.2, 0.0, 0.2, 1) - Material Design standard
+*/
+
+/* ================================================
+   ANIMATION KEYFRAMES
+   ================================================ */
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideUnderline {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes subtleGlow {
+    0% {
+        box-shadow: 0 4px 12px rgba(0, 212, 255, 0.15);
+    }
+    50% {
+        box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
+    }
+    100% {
+        box-shadow: 0 4px 12px rgba(0, 212, 255, 0.15);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        max-height: 100px;
+        transform: translateY(0);
+    }
+}
+
+/* ================================================
+   BUTTON MICRO-INTERACTIONS
+   ================================================ */
+
+button,
+.btn-send,
+.cta-button,
+.btn-primary,
+.btn-secondary,
+.btn-premium,
+.signup-btn,
+input[type="submit"] {
+    position: relative;
+    transition: all 350ms cubic-bezier(0.2, 0.0, 0.2, 1);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+button:hover,
+.btn-send:hover,
+.cta-button:hover,
+.btn-primary:hover,
+.btn-premium:hover,
+.signup-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0, 212, 255, 0.35);
+}
+
+button:active,
+.btn-send:active,
+.cta-button:active,
+.btn-primary:active,
+.btn-premium:active,
+.signup-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+    transition-duration: 150ms;
+}
+
+button:focus-visible,
+.btn-send:focus-visible,
+.cta-button:focus-visible,
+.btn-primary:focus-visible {
+    outline: 4px solid rgba(0, 212, 255, 0.4);
+    outline-offset: 2px;
+}
+
+/* Loading state */
+button.btn-loading,
+.btn-send.btn-loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+button.btn-loading::before,
+.btn-send.btn-loading::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 600ms linear infinite;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Ripple effect on click */
+button::after,
+.btn-send::after,
+.cta-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width 500ms, height 500ms, opacity 500ms;
+    opacity: 0;
+}
+
+button:active::after,
+.btn-send:active::after,
+.cta-button:active::after {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+    transition: 0s;
+}
+
+/* ================================================
+   NAVIGATION LINK MICRO-INTERACTIONS
+   ================================================ */
+
+.nav-link,
+.header-nav a:not(.cta-button) {
+    position: relative;
+    transition: color 250ms cubic-bezier(0.2, 0.0, 0.2, 1);
+}
+
+.nav-link::after,
+.header-nav a:not(.cta-button)::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00d4ff, #5c8df6);
+    transition: width 350ms cubic-bezier(0.2, 0.0, 0.2, 1);
+}
+
+.nav-link:hover::after,
+.header-nav a:not(.cta-button):hover::after {
+    width: 100%;
+}
+
+.nav-link:hover,
+.header-nav a:not(.cta-button):hover {
+    color: #00d4ff;
+}
+
+.nav-link.active,
+.header-nav a.active:not(.cta-button) {
+    color: #00d4ff;
+}
+
+.nav-link.active::after,
+.header-nav a.active:not(.cta-button)::after {
+    width: 100%;
+}
+
+.nav-link:focus-visible,
+.header-nav a:not(.cta-button):focus-visible {
+    outline: 2px solid #00d4ff;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* ================================================
+   CARD MICRO-INTERACTIONS
+   ================================================ */
+
+.purpose-card,
+.dashboard-card,
+.feature-card,
+.pricing-card,
+.tier-card,
+.contact-method {
+    transition: all 350ms cubic-bezier(0.2, 0.0, 0.2, 1);
+    position: relative;
+}
+
+.purpose-card:hover,
+.dashboard-card:hover,
+.feature-card:hover,
+.pricing-card:hover,
+.tier-card:hover,
+.contact-method:hover {
+    transform: translateY(-4px);
+    border-color: #00d4ff;
+    box-shadow: 0 12px 32px rgba(0, 212, 255, 0.2);
+}
+
+.purpose-card:hover .icon-wrapper,
+.dashboard-card:hover .icon-wrapper,
+.feature-card:hover .icon-wrapper {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+}
+
+/* Staggered card reveal on scroll */
+.purpose-card,
+.dashboard-card,
+.contact-method {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeSlideUp 600ms cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
+}
+
+.purpose-card:nth-child(1) { animation-delay: 0ms; }
+.purpose-card:nth-child(2) { animation-delay: 100ms; }
+.purpose-card:nth-child(3) { animation-delay: 200ms; }
+.purpose-card:nth-child(4) { animation-delay: 300ms; }
+
+.dashboard-card:nth-child(1) { animation-delay: 0ms; }
+.dashboard-card:nth-child(2) { animation-delay: 150ms; }
+.dashboard-card:nth-child(3) { animation-delay: 300ms; }
+
+/* ================================================
+   FORM INPUT MICRO-INTERACTIONS
+   ================================================ */
+
+.form-group input,
+.form-group textarea,
+.form-group select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+    transition: all 250ms cubic-bezier(0.2, 0.0, 0.2, 1);
+    border: 2px solid rgba(92, 141, 246, 0.2);
+}
+
+.form-group.input-focused input,
+.form-group.input-focused textarea,
+.form-group.input-focused select,
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #00d4ff;
+    box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.08);
+    outline: none;
+}
+
+.form-group.input-focused label,
+.form-group label:has(+ input:focus),
+.form-group label:has(+ textarea:focus),
+.form-group label:has(+ select:focus) {
+    color: #00d4ff;
+}
+
+/* Input validation states */
+input.valid,
+textarea.valid,
+select.valid {
+    border-color: #00c853;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300c853' viewBox='0 0 16 16'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 40px;
+}
+
+input.invalid,
+textarea.invalid,
+select.invalid {
+    border-color: #f44336;
+    animation: shake 400ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.error-message {
+    color: #f44336;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    animation: slideDown 300ms cubic-bezier(0.2, 0.0, 0.2, 1);
+}
+
+/* ================================================
+   SCROLL-TRIGGERED REVEAL ANIMATIONS
+   ================================================ */
+
+.reveal-element {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 600ms cubic-bezier(0.0, 0.0, 0.2, 1),
+                transform 600ms cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+.reveal-element.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Section headers */
+h1, h2.section-title {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeSlideUp 600ms cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
+}
+
+/* ================================================
+   HERO ENTRANCE ANIMATIONS
+   ================================================ */
+
+.hero h1,
+.hero .headline {
+    opacity: 0;
+    animation: fadeSlideUp 500ms cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
+    animation-delay: 0ms;
+}
+
+.hero p,
+.hero .subheading {
+    opacity: 0;
+    animation: fadeSlideUp 500ms cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
+    animation-delay: 150ms;
+}
+
+.hero button,
+.hero .cta-button,
+.hero .btn-primary {
+    opacity: 0;
+    animation: fadeSlideUp 500ms cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
+    animation-delay: 300ms;
+}
+
+.hero .hero-image,
+.hero img {
+    opacity: 0;
+    animation: fadeSlideIn 600ms cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
+    animation-delay: 450ms;
+}
+
+/* ================================================
+   PRIMARY CTA EMPHASIS
+   ================================================ */
+
+.cta-button,
+.btn-primary,
+.btn-premium,
+.signup-btn {
+    padding: 1.25rem 3rem;
+    background: linear-gradient(135deg, #00d4ff, #5c8df6);
+    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
+    font-weight: 600;
+    font-size: 1.05rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-button::before,
+.btn-primary::before,
+.btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 500ms cubic-bezier(0.2, 0.0, 0.2, 1);
+}
+
+.cta-button:hover::before,
+.btn-primary:hover::before,
+.btn-premium:hover::before {
+    left: 100%;
+}
+
+.cta-button:hover,
+.btn-primary:hover,
+.btn-premium:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 28px rgba(0, 212, 255, 0.4);
+}
+
+/* Secondary CTAs */
+.btn-secondary,
+.btn-outline {
+    padding: 1.25rem 3rem;
+    border: 2px solid rgba(92, 141, 246, 0.5);
+    background: transparent;
+    color: #5c8df6;
+    transition: all 350ms cubic-bezier(0.2, 0.0, 0.2, 1);
+}
+
+.btn-secondary:hover,
+.btn-outline:hover {
+    background: rgba(92, 141, 246, 0.1);
+    border-color: #5c8df6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(92, 141, 246, 0.2);
+}
+
+/* ================================================
+   LOGO INTERACTIONS
+   ================================================ */
+
+.logo {
+    transition: transform 350ms cubic-bezier(0.2, 0.0, 0.2, 1);
+}
+
+.logo-brand:hover .logo {
+    transform: scale(1.05);
+}
+
+.logo rect {
+    transition: fill 250ms cubic-bezier(0.2, 0.0, 0.2, 1);
+}
+
+.logo-brand:hover .logo rect:nth-child(1) {
+    fill: #5dade2;
+}
+
+.logo-brand:hover .logo rect:nth-child(2) {
+    fill: #00d4ff;
+}
+
+.logo-brand:hover .logo rect:nth-child(3) {
+    fill: #5c8df6;
+}
+
+/* ================================================
+   BADGE & PILL MICRO-INTERACTIONS
+   ================================================ */
+
+.badge,
+.pill,
+.tier-badge,
+.response-badge {
+    transition: all 250ms cubic-bezier(0.2, 0.0, 0.2, 1);
+}
+
+.badge:hover,
+.pill:hover,
+.tier-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+}
+
+/* ================================================
+   ICON ANIMATIONS
+   ================================================ */
+
+.icon-wrapper,
+.method-icon {
+    transition: transform 350ms cubic-bezier(0.2, 0.0, 0.2, 1);
+}
+
+.contact-method:hover .method-icon,
+.purpose-card:hover .icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* ================================================
+   REDUCED MOTION SUPPORT
+   ================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ================================================
+   LOADING STATES
+   ================================================ */
+
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 600ms linear infinite;
+}
+
+/* ================================================
+   TOOLTIP MICRO-INTERACTIONS
+   ================================================ */
+
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    padding: 0.5rem 1rem;
+    background: rgba(10, 14, 26, 0.95);
+    color: #ffffff;
+    font-size: 0.875rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms cubic-bezier(0.2, 0.0, 0.2, 1),
+                transform 250ms cubic-bezier(0.2, 0.0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-12px);
+}
