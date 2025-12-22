@@ -1,0 +1,568 @@
+/**
+ * Dashboard Light CSS - Lighter theme variant for budget, debt, goals, net-worth pages
+ * Complements dark-theme.css with a lighter alternative
+ */
+
+/* ============================================
+   LIGHT THEME COLOR OVERRIDES
+   ============================================ */
+:root {
+  /* Primary colors for light mode */
+  --primary-color: #2196f3;
+  --secondary-color: #1976d2;
+  --accent-color: #9c27b0;
+  
+  /* Background colors */
+  --background-color: #f5f7fa;
+  --surface-color: #ffffff;
+  --elevated-surface: #ffffff;
+  --hover-surface: #f8f9fa;
+  
+  /* Text colors */
+  --text-primary: #1a1d2e;
+  --text-secondary: #4a5568;
+  --text-tertiary: #718096;
+  --text-disabled: #a0aec0;
+  
+  /* Border colors */
+  --border-color: #e2e8f0;
+  --border-hover: rgba(33, 150, 243, 0.3);
+  
+  /* Status colors */
+  --success-color: #4caf50;
+  --warning-color: #ff9800;
+  --danger-color: #f44336;
+  --info-color: #2196f3;
+  
+  /* Shadows for light mode */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.15);
+  
+  /* Gradients for light mode */
+  --gradient-primary: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+  --gradient-success: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+  --gradient-danger: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+  --gradient-accent: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+}
+
+/* ============================================
+   BODY & LAYOUT
+   ============================================ */
+body {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+
+/* ============================================
+   NAVIGATION (Shared with dark theme)
+   ============================================ */
+.dashboard-nav,
+.sidebar {
+  background: var(--surface-color);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   CARDS & SURFACES
+   ============================================ */
+.card,
+.widget,
+.summary-card,
+.category-card,
+.goal-card,
+.debt-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover,
+.widget:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
+}
+
+/* ============================================
+   PAGE HEADER
+   ============================================ */
+.page-header {
+  background: var(--surface-color);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* ============================================
+   SUMMARY CARDS (Budget, Net Worth, etc.)
+   ============================================ */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+}
+
+.summary-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.summary-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.summary-change {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.summary-change.positive {
+  color: var(--success-color);
+}
+
+.summary-change.negative {
+  color: var(--danger-color);
+}
+
+/* ============================================
+   BUDGET CATEGORIES
+   ============================================ */
+.budget-categories {
+  background: var(--surface-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--hover-surface);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.category-item:hover {
+  background: var(--elevated-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.category-info {
+  flex: 1;
+}
+
+.category-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.category-progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.category-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.category-bar-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.category-bar-fill.warning {
+  background: var(--warning-color);
+}
+
+.category-bar-fill.danger {
+  background: var(--danger-color);
+}
+
+.category-amount {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+/* ============================================
+   GOALS SECTION
+   ============================================ */
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.goal-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.goal-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.goal-menu {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+}
+
+.goal-stats {
+  margin-bottom: 1rem;
+}
+
+.goal-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.25rem;
+}
+
+.goal-target {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.goal-progress {
+  margin-bottom: 1rem;
+}
+
+.goal-progress-bar {
+  height: 10px;
+  background: var(--border-color);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.goal-progress-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.goal-progress-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+}
+
+.goal-deadline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+}
+
+/* ============================================
+   DEBT MANAGEMENT
+   ============================================ */
+.debt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.debt-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.debt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.debt-info h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.debt-type {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.debt-amount {
+  text-align: right;
+}
+
+.debt-balance {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--danger-color);
+}
+
+.debt-apr {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.debt-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.debt-detail-item {
+  padding: 1rem;
+  background: var(--hover-surface);
+  border-radius: 8px;
+}
+
+.debt-detail-label {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.debt-detail-value {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.debt-payoff-bar {
+  height: 8px;
+  background: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.debt-payoff-fill {
+  height: 100%;
+  background: var(--gradient-success);
+  border-radius: 4px;
+}
+
+.debt-payoff-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   NET WORTH BREAKDOWN
+   ============================================ */
+.net-worth-chart {
+  background: var(--surface-color);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.asset-liability-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.split-section h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.account-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: var(--hover-surface);
+  border-radius: 8px;
+}
+
+.account-name {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.account-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-color);
+  color: white;
+}
+
+.account-value {
+  font-weight: 700;
+}
+
+.account-value.positive {
+  color: var(--success-color);
+}
+
+.account-value.negative {
+  color: var(--danger-color);
+}
+
+/* ============================================
+   ACTION BUTTONS
+   ============================================ */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(33, 150, 243, 0.25);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-outline:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 992px) {
+  .asset-liability-split {
+    grid-template-columns: 1fr;
+  }
+  
+  .summary-cards {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1.5rem;
+  }
+  
+  .page-title {
+    font-size: 1.5rem;
+  }
+  
+  .goals-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .debt-details {
+    grid-template-columns: 1fr;
+  }
+}

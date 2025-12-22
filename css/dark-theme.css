@@ -1,0 +1,436 @@
+/**
+ * Dark Theme CSS - Applied to all dashboard pages
+ * Works with existing HTML structure across dashboard, economy, investments, etc.
+ */
+
+/* ============================================
+   DARK THEME COLOR OVERRIDES
+   ============================================ */
+:root {
+  /* Primary colors adjusted for dark mode */
+  --primary-color: #64b5f6;
+  --secondary-color: #90caf9;
+  --accent-color: #ba68c8;
+  
+  /* Background colors */
+  --background-color: #0a0e27;
+  --surface-color: #141a2e;
+  --elevated-surface: #1c2438;
+  --hover-surface: #242d45;
+  
+  /* Text colors */
+  --text-primary: #e8eef9;
+  --text-secondary: #b8c5d9;
+  --text-tertiary: #8895aa;
+  --text-disabled: #5a667a;
+  
+  /* Border colors */
+  --border-color: rgba(136, 149, 171, 0.15);
+  --border-hover: rgba(100, 181, 246, 0.3);
+  
+  /* Status colors */
+  --success-color: #66bb6a;
+  --warning-color: #ffa726;
+  --danger-color: #ef5350;
+  --info-color: #42a5f5;
+  
+  /* Chart colors for dark mode */
+  --chart-blue: #42a5f5;
+  --chart-green: #66bb6a;
+  --chart-red: #ef5350;
+  --chart-purple: #ba68c8;
+  --chart-orange: #ffa726;
+  --chart-cyan: #26c6da;
+  
+  /* Shadows for dark mode */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.7);
+  
+  /* Gradients for dark mode */
+  --gradient-primary: linear-gradient(135deg, #2196f3 0%, #1565c0 100%);
+  --gradient-success: linear-gradient(135deg, #66bb6a 0%, #388e3c 100%);
+  --gradient-danger: linear-gradient(135deg, #ef5350 0%, #c62828 100%);
+  --gradient-accent: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
+  --gradient-hero: linear-gradient(135deg, #0a0e27 0%, #1c2438 50%, #2c3e50 100%);
+  
+  /* Overlay colors */
+  --overlay-light: rgba(255, 255, 255, 0.05);
+  --overlay-medium: rgba(255, 255, 255, 0.1);
+  --overlay-heavy: rgba(255, 255, 255, 0.15);
+}
+
+/* ============================================
+   BODY & LAYOUT
+   ============================================ */
+body {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+
+/* ============================================
+   CARDS & SURFACES
+   ============================================ */
+.card,
+.widget,
+.metric-card,
+.summary-card,
+.overview-card,
+.budget-category,
+.activity-item,
+.transaction-item,
+.investment-card,
+.news-item {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.card:hover,
+.widget:hover,
+.metric-card:hover {
+  background: var(--elevated-surface);
+  border-color: var(--border-hover);
+}
+
+.elevated,
+.welcome-banner,
+.modal-content,
+.dropdown-menu {
+  background: var(--elevated-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ============================================
+   HEADERS & NAVIGATION
+   ============================================ */
+.dashboard-header,
+.modern-header,
+.sidebar {
+  background: var(--surface-color);
+  border-color: var(--border-color);
+}
+
+.nav-link {
+  color: var(--text-secondary);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color);
+  background: var(--hover-surface);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: var(--surface-color);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--hover-surface);
+  border-color: var(--primary-color);
+}
+
+.btn-success {
+  background: var(--gradient-success);
+  color: white;
+}
+
+.btn-danger {
+  background: var(--gradient-danger);
+  color: white;
+}
+
+/* ============================================
+   FORMS & INPUTS
+   ============================================ */
+input,
+textarea,
+select,
+.form-control {
+  background: var(--elevated-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus {
+  background: var(--surface-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-disabled);
+}
+
+/* ============================================
+   TABLES
+   ============================================ */
+table {
+  background: var(--surface-color);
+}
+
+th {
+  background: var(--elevated-surface);
+  color: var(--text-secondary);
+  border-bottom: 2px solid var(--border-color);
+}
+
+tr {
+  border-bottom: 1px solid var(--border-color);
+}
+
+tr:hover {
+  background: var(--hover-surface);
+}
+
+td {
+  color: var(--text-primary);
+}
+
+/* ============================================
+   CHARTS & GRAPHS
+   ============================================ */
+.chart-container {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+}
+
+.chart-legend {
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   BADGES & TAGS
+   ============================================ */
+.badge {
+  background: var(--overlay-medium);
+  color: var(--text-primary);
+}
+
+.badge-success {
+  background: rgba(102, 187, 106, 0.2);
+  color: var(--success-color);
+}
+
+.badge-warning {
+  background: rgba(255, 167, 38, 0.2);
+  color: var(--warning-color);
+}
+
+.badge-danger {
+  background: rgba(239, 83, 80, 0.2);
+  color: var(--danger-color);
+}
+
+.badge-info {
+  background: rgba(66, 165, 245, 0.2);
+  color: var(--info-color);
+}
+
+/* ============================================
+   PROGRESS BARS
+   ============================================ */
+.progress {
+  background: var(--elevated-surface);
+  border: 1px solid var(--border-color);
+}
+
+.progress-bar {
+  background: var(--gradient-primary);
+}
+
+.progress-bar.success {
+  background: var(--gradient-success);
+}
+
+.progress-bar.danger {
+  background: var(--gradient-danger);
+}
+
+/* ============================================
+   MODALS & OVERLAYS
+   ============================================ */
+.modal-overlay {
+  background: rgba(10, 14, 39, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: var(--elevated-surface);
+  border: 1px solid var(--border-color);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-color);
+}
+
+/* ============================================
+   TOOLTIPS & POPOVERS
+   ============================================ */
+.tooltip,
+.popover {
+  background: var(--elevated-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ============================================
+   SCROLLBARS (Webkit)
+   ============================================ */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--elevated-surface);
+  border-radius: 5px;
+  border: 2px solid var(--background-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hover-surface);
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+a {
+  color: var(--primary-color);
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+/* ============================================
+   TEXT UTILITIES
+   ============================================ */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+
+.text-success {
+  color: var(--success-color);
+}
+
+.text-danger {
+  color: var(--danger-color);
+}
+
+.text-warning {
+  color: var(--warning-color);
+}
+
+.text-info {
+  color: var(--info-color);
+}
+
+/* ============================================
+   DIVIDERS
+   ============================================ */
+hr {
+  border-color: var(--border-color);
+  opacity: 1;
+}
+
+/* ============================================
+   DROPDOWNS
+   ============================================ */
+.dropdown-menu {
+  background: var(--elevated-surface);
+  border: 1px solid var(--border-color);
+}
+
+.dropdown-item {
+  color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+  background: var(--hover-surface);
+  color: var(--primary-color);
+}
+
+/* ============================================
+   ALERTS & NOTIFICATIONS
+   ============================================ */
+.alert {
+  background: var(--overlay-medium);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.alert-success {
+  background: rgba(102, 187, 106, 0.15);
+  border-color: var(--success-color);
+  color: var(--success-color);
+}
+
+.alert-warning {
+  background: rgba(255, 167, 38, 0.15);
+  border-color: var(--warning-color);
+  color: var(--warning-color);
+}
+
+.alert-danger {
+  background: rgba(239, 83, 80, 0.15);
+  border-color: var(--danger-color);
+  color: var(--danger-color);
+}
+
+.alert-info {
+  background: rgba(66, 165, 245, 0.15);
+  border-color: var(--info-color);
+  color: var(--info-color);
+}
+
+/* ============================================
+   CODE & PRE
+   ============================================ */
+code {
+  background: var(--elevated-surface);
+  color: var(--info-color);
+  border: 1px solid var(--border-color);
+}
+
+pre {
+  background: var(--elevated-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
