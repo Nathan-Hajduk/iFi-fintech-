@@ -49,35 +49,75 @@
     <section class="comparison-section reveal">
       <div class="comparison-grid">
         <div class="comparison-card">
-          <h3>Starter</h3>
-          <p class="price">Free</p>
+          <h3>Free</h3>
+          <p class="price">$0<span style="font-size: 0.5em; color: #666;">/month</span></p>
           <ul class="comparison-features">
-            <li><i class="fas fa-check"></i> Basic guidance</li>
-            <li><i class="fas fa-check"></i> Savings tracker</li>
-            <li><i class="fas fa-check"></i> Limited questions</li>
+            <li><i class="fas fa-check"></i> Basic budgeting tools</li>
+            <li><i class="fas fa-check"></i> Transaction tracking</li>
+            <li><i class="fas fa-check"></i> Up to 3 linked accounts</li>
+            <li><i class="fas fa-check"></i> Monthly financial summaries</li>
+            <li><i class="fas fa-check"></i> Mobile app access</li>
           </ul>
-          <a href="signup.html" class="cta-button" style="width:100%;text-align:center">Get Started</a>
+          <a href="signup.html" class="cta-button" style="width:100%;text-align:center">Get Started Free</a>
         </div>
+        
         <div class="comparison-card highlight">
-          <h3>Pro</h3>
-          <p class="price">$24.99/mo</p>
+          <div class="badge-popular">Most Popular</div>
+          <h3>Premium</h3>
+          <p class="price">$12<span style="font-size: 0.5em; color: #666;">/month</span></p>
           <ul class="comparison-features">
-            <li><i class="fas fa-check"></i> Full AI access</li>
-            <li><i class="fas fa-check"></i> Portfolio insights</li>
-            <li><i class="fas fa-check"></i> Smart alerts</li>
+            <li><i class="fas fa-check"></i> <strong>Everything in Free, plus:</strong></li>
+            <li><i class="fas fa-check"></i> <strong>🤖 iFi AI Financial Advisor</strong></li>
+            <li><i class="fas fa-check"></i> <strong>Personalized insights & recommendations</strong></li>
+            <li><i class="fas fa-check"></i> <strong>Advanced analytics & forecasting</strong></li>
+            <li><i class="fas fa-check"></i> Unlimited linked accounts</li>
+            <li><i class="fas fa-check"></i> Investment portfolio optimization</li>
+            <li><i class="fas fa-check"></i> Bill negotiation insights</li>
             <li><i class="fas fa-check"></i> Priority support</li>
           </ul>
-          <a href="signup.html" class="cta-button" style="width:100%;text-align:center">Start Free Trial</a>
+          <button class="cta-button premium-btn" data-plan="premium" style="width:100%;text-align:center">Start Free Trial</button>
+          <p style="font-size: 0.85em; color: #666; text-align: center; margin-top: 0.5rem;">7-day free trial, cancel anytime</p>
         </div>
+        
         <div class="comparison-card">
-          <h3>Premium</h3>
-          <p class="price">$39.99/mo</p>
+          <h3>Enterprise</h3>
+          <p class="price">$49<span style="font-size: 0.5em; color: #666;">/month</span></p>
           <ul class="comparison-features">
-            <li><i class="fas fa-check"></i> Advanced analytics</li>
-            <li><i class="fas fa-check"></i> Deeper company intelligence</li>
-            <li><i class="fas fa-check"></i> Personalized coaching sessions</li>
+            <li><i class="fas fa-check"></i> <strong>Everything in Premium, plus:</strong></li>
+            <li><i class="fas fa-check"></i> API access for integrations</li>
+            <li><i class="fas fa-check"></i> White-label options</li>
+            <li><i class="fas fa-check"></i> Dedicated account manager</li>
+            <li><i class="fas fa-check"></i> Custom reporting</li>
+            <li><i class="fas fa-check"></i> Team collaboration features</li>
           </ul>
-          <a href="signup.html" class="cta-button" style="width:100%;text-align:center">Contact Sales</a>
+          <a href="contact-us.html" class="cta-button" style="width:100%;text-align:center">Contact Sales</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Premium Features Highlight -->
+    <section class="premium-features reveal">
+      <h2 style="text-align: center; margin-bottom: 2rem;">Why Go Premium?</h2>
+      <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+        <div class="feature-highlight">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🤖</div>
+          <h3>iFi AI Financial Advisor</h3>
+          <p>Get personalized financial advice 24/7. Ask questions about budgeting, investing, debt payoff, and more. Our AI understands your complete financial picture and provides tailored recommendations.</p>
+        </div>
+        <div class="feature-highlight">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+          <h3>Personalized Insights</h3>
+          <p>Receive custom insights optimized for YOUR financial success. Our algorithms analyze your spending patterns, income trends, and goals to surface actionable recommendations.</p>
+        </div>
+        <div class="feature-highlight">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+          <h3>Advanced Analytics</h3>
+          <p>Unlock powerful forecasting tools, what-if scenarios, and predictive analytics. See how your decisions today impact your financial future 5, 10, or 20 years from now.</p>
+        </div>
+        <div class="feature-highlight">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+          <h3>Investment Optimization</h3>
+          <p>Get AI-powered portfolio rebalancing recommendations, tax-loss harvesting alerts, and diversification analysis. Maximize returns while managing risk.</p>
         </div>
       </div>
     </section>
@@ -86,11 +126,19 @@
       <h2>Pricing FAQs</h2>
       <div class="qa-item">
         <div class="qa-question"><i class="fas fa-circle-question"></i> Can I cancel anytime?</div>
-        <div class="qa-answer">Yes — plans are month-to-month. You can cancel anytime from settings.</div>
+        <div class="qa-answer">Yes — all plans are month-to-month with no long-term commitment. You can cancel anytime from your account settings, and you'll retain access until the end of your billing period.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-question"><i class="fas fa-circle-question"></i> What's included in the free trial?</div>
+        <div class="qa-answer">The Premium 7-day free trial includes full access to iFi AI, personalized insights, advanced analytics, and all premium features. No credit card required to start.</div>
       </div>
       <div class="qa-item">
         <div class="qa-question"><i class="fas fa-circle-question"></i> Do you offer student discounts?</div>
-        <div class="qa-answer">We occasionally run promotions. Join the newsletter for early access.</div>
+        <div class="qa-answer">Yes! Students with a valid .edu email address receive 50% off Premium plans. Verify your student status during signup.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-question"><i class="fas fa-circle-question"></i> Can I switch plans later?</div>
+        <div class="qa-answer">Absolutely. You can upgrade or downgrade your plan at any time. Upgrades take effect immediately, and downgrades apply at the end of your current billing period.</div>
       </div>
     </section>
   </main>
@@ -99,6 +147,84 @@
     <p>&copy; 2025 iFi. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="contact-us.html">Contact</a></p>
   </footer>
 
+  <script src="../js/auth-manager.js"></script>
   <script src="../js/site.js"></script>
+  <script>
+    // Handle premium subscription button clicks
+    document.querySelectorAll('.premium-btn').forEach(btn => {
+      btn.addEventListener('click', async function() {
+        const plan = this.dataset.plan;
+        
+        // Check if user is logged in
+        if (!window.authManager || !authManager.isAuthenticated()) {
+          // Redirect to signup with plan parameter
+          window.location.href = `signup.html?plan=${plan}`;
+          return;
+        }
+        
+        // User is logged in - proceed to checkout
+        try {
+          btn.disabled = true;
+          btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Loading...';
+          
+          // Call Stripe checkout endpoint (Phase 6 - to be implemented)
+          const response = await authManager.fetch('/api/billing/create-checkout', {
+            method: 'POST',
+            body: JSON.stringify({ plan })
+          });
+          
+          const data = await response.json();
+          
+          if (data.checkoutUrl) {
+            window.location.href = data.checkoutUrl;
+          } else {
+            throw new Error('Failed to create checkout session');
+          }
+        } catch (error) {
+          console.error('Checkout error:', error);
+          alert('Unable to process checkout. Please try again or contact support.');
+          btn.disabled = false;
+          btn.innerHTML = 'Start Free Trial';
+        }
+      });
+    });
+  </script>
+  <style>
+    .badge-popular {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .comparison-card {
+      position: relative;
+    }
+    .comparison-card.highlight {
+      border: 3px solid #667eea;
+      transform: scale(1.05);
+    }
+    .feature-highlight {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .feature-highlight h3 {
+      color: #1a4f7c;
+      margin-bottom: 1rem;
+    }
+    .premium-features {
+      padding: 4rem 2rem;
+      background: #f8f9fa;
+    }
+  </style>
 </body>
 </html>
