@@ -27,6 +27,7 @@ const {
 // Import routes
 const plaidRoutes = require('./routes/plaidRoutes');
 const authRoutes = require('./routes/auth');
+const ifiAIRoutes = require('./routes/ifi-ai');
 
 // Import database
 const db = require('./config/database');
@@ -82,6 +83,9 @@ app.use('/api', apiLimiter);
 // Authentication routes (public)
 app.use('/api/auth', authRoutes);
 
+// iFi AI routes (requires authentication + premium)
+app.use('/api/ifi-ai', ifiAIRoutes);
+
 // Plaid routes with specific rate limiting
 app.use('/api/plaid', plaidLimiter, plaidRoutes);
 
@@ -92,7 +96,8 @@ app.get('/', (req, res) => {
     version: process.env.API_VERSION || 'v1',
     environment: process.env.NODE_ENV || 'development',
     status: 'running',
-    endpoints: {
+    enifiAI: '/api/ifi-ai',
+      dpoints: {
       health: '/health',
       auth: '/api/auth',
       plaid: '/api/plaid',
