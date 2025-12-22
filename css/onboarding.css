@@ -1,0 +1,480 @@
+/**
+ * Onboarding Flow CSS - Multi-step onboarding process
+ * Works with html/onboarding.html
+ */
+
+/* ============================================
+   ONBOARDING CONTAINER
+   ============================================ */
+.onboarding-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0e27 0%, #1c2438 50%, #2c3e50 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   ONBOARDING HEADER
+   ============================================ */
+.onboarding-header {
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  text-decoration: none;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #64b5f6, #ba68c8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.skip-btn {
+  padding: 0.5rem 1.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.skip-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+.progress-section {
+  padding: 0 2rem 2rem;
+}
+
+.progress-bar {
+  position: relative;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #64b5f6, #ba68c8);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  position: relative;
+}
+
+.step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  transition: all 0.3s;
+}
+
+.progress-step.active .step-number {
+  background: linear-gradient(135deg, #64b5f6, #ba68c8);
+  color: white;
+  box-shadow: 0 4px 16px rgba(100, 181, 246, 0.4);
+}
+
+.progress-step.completed .step-number {
+  background: #66bb6a;
+  color: white;
+}
+
+.step-label {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  text-align: center;
+}
+
+.progress-step.active .step-label {
+  color: white;
+}
+
+/* ============================================
+   ONBOARDING CONTENT
+   ============================================ */
+.onboarding-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.step-content {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(20, 26, 46, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(136, 149, 171, 0.15);
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.step-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #64b5f6, #ba68c8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.step-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.step-description {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ============================================
+   OPTION CARDS
+   ============================================ */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.option-card {
+  position: relative;
+  padding: 2rem 1.5rem;
+  background: rgba(28, 36, 56, 0.6);
+  border: 2px solid rgba(136, 149, 171, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.option-card:hover {
+  background: rgba(36, 45, 69, 0.8);
+  border-color: rgba(100, 181, 246, 0.3);
+  transform: translateY(-4px);
+}
+
+.option-card.selected {
+  background: rgba(100, 181, 246, 0.15);
+  border-color: #64b5f6;
+  box-shadow: 0 8px 24px rgba(100, 181, 246, 0.2);
+}
+
+.option-card input[type="checkbox"],
+.option-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.option-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #64b5f6;
+}
+
+.option-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.option-description {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.checkmark {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(100, 181, 246, 0.2);
+  border: 2px solid rgba(100, 181, 246, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: all 0.2s;
+}
+
+.option-card.selected .checkmark {
+  background: #64b5f6;
+  border-color: #64b5f6;
+  color: white;
+}
+
+/* ============================================
+   FORM ELEMENTS
+   ============================================ */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input-group input,
+.input-group select {
+  padding: 0.875rem;
+  background: rgba(28, 36, 56, 0.6);
+  border: 1px solid rgba(136, 149, 171, 0.15);
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #64b5f6;
+  box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
+  background: rgba(28, 36, 56, 0.8);
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ============================================
+   PLAID CONNECT
+   ============================================ */
+.plaid-section {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(28, 36, 56, 0.4);
+  border-radius: 12px;
+  margin-bottom: 2.5rem;
+}
+
+.plaid-icon {
+  font-size: 4rem;
+  color: #64b5f6;
+  margin-bottom: 1.5rem;
+}
+
+.plaid-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.plaid-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-plaid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #64b5f6, #42a5f5);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-plaid:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(100, 181, 246, 0.3);
+}
+
+.manual-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.manual-link:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+/* ============================================
+   NAVIGATION BUTTONS
+   ============================================ */
+.step-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.btn-back,
+.btn-next {
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-back {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.btn-back:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.btn-next {
+  background: linear-gradient(135deg, #64b5f6, #42a5f5);
+  border: none;
+  color: white;
+  margin-left: auto;
+}
+
+.btn-next:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(100, 181, 246, 0.3);
+}
+
+.btn-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  .onboarding-header {
+    padding: 1.5rem;
+  }
+  
+  .progress-section {
+    padding: 0 1.5rem 1.5rem;
+  }
+  
+  .progress-steps {
+    display: none;
+  }
+  
+  .onboarding-main {
+    padding: 1rem;
+  }
+  
+  .step-content {
+    padding: 2rem 1.5rem;
+  }
+  
+  .step-title {
+    font-size: 1.5rem;
+  }
+  
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .step-actions {
+    flex-direction: column;
+  }
+  
+  .btn-next {
+    margin-left: 0;
+  }
+}
