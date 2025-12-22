@@ -1,125 +1,156 @@
 /**
- * Signup Page CSS - Registration form styling
- * Works with html/signup.html
+ * Signup Page CSS - Fintech-Grade Registration
+ * Psychological Principles: Trust Formation, Authority, Progressive Disclosure
+ * 
+ * Design Philosophy:
+ * - Deep navy background for institutional credibility
+ * - Clean white form for cognitive fluency
+ * - Progressive validation for trust building
  */
 
+/* Import design tokens from login.css */
+@import url('login.css');
+
 /* ============================================
-   SIGNUP CONTAINER
+   SIGNUP CONTAINER - Authority & Trust
    ============================================ */
 .signup-container {
   min-height: 100vh;
   display: flex;
-  background: linear-gradient(135deg, #1976d2 0%, #7b1fa2 50%, #2196f3 100%);
-  padding: 2rem;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(165deg, 
+    #0a0e1a 0%, 
+    #141b2b 50%,
+    #1a2332 100%);
+  padding: 3rem 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.signup-wrapper {
+/* Subtle institutional grid */
+.signup-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.02) 2px,
+    rgba(0, 212, 255, 0.02) 4px
+  );
+  pointer-events: none;
+}
+
+.signup-content {
   width: 100%;
-  max-width: 600px;
-  margin: auto;
-  background: white;
-  border-radius: 20px;
-  padding: 3rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 680px;
+  position: relative;
+  z-index: 1;
 }
 
+/* Header - Clear value proposition */
 .signup-header {
   text-align: center;
   margin-bottom: 2.5rem;
-}
-
-.logo-link {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  text-decoration: none;
-}
-
-.logo {
-  font-size: 2.5rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #2196f3, #9c27b0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  animation: fadeSlideUp 500ms cubic-bezier(0.0, 0.0, 0.2, 1);
 }
 
 .signup-header h1 {
-  font-size: 2rem;
+  font-size: 2.75rem;
   font-weight: 700;
-  color: #1a1d2e;
-  margin-bottom: 0.5rem;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
-.signup-header p {
-  color: #4a5568;
-  font-size: 1rem;
+.subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 /* ============================================
-   SIGNUP FORM
+   SIGNUP CARD - Premium Elevation
+   ============================================ */
+.signup-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 3rem 2.75rem;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 212, 255, 0.1);
+  animation: fadeSlideUp 500ms cubic-bezier(0.0, 0.0, 0.2, 1) 150ms backwards;
+}
+
+/* ============================================
+   SIGNUP FORM - Cognitive Fluency
    ============================================ */
 .signup-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
+/* Form Row for side-by-side inputs */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
+/* Form Group */
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.625rem;
 }
 
 .form-group label {
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1d2e;
+  color: #0f1419;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  letter-spacing: -0.01em;
 }
 
 .form-group label i {
-  color: #2196f3;
+  color: #00d4ff;
   font-size: 0.875rem;
 }
 
-.form-group input {
-  padding: 0.875rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+/* Input Fields - Trust through clarity */
+.form-group input,
+.form-group select {
+  padding: 0.9375rem 1.125rem;
+  border: 1.5px solid #dee2e6;
+  border-radius: 10px;
   font-size: 1rem;
-  transition: all 0.2s ease;
-  font-family: inherit;
+  font-weight: 500;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #0f1419;
+  background: #ffffff;
+  transition: all 250ms cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
   outline: none;
-  border-color: #2196f3;
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+  border-color: #00d4ff;
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.08);
+  background: #ffffff;
 }
 
-.form-group input.error {
-  border-color: #f44336;
+.form-group input::placeholder {
+  color: #6c757d;
+  opacity: 0.6;
 }
 
-.error-message {
-  font-size: 0.875rem;
-  color: #f44336;
-  display: none;
-}
-
-.error-message.show {
-  display: block;
-}
-
-/* Password strength indicator */
+/* Password Strength Indicator - Trust Building */
 .password-strength {
   display: none;
   margin-top: 0.5rem;
@@ -130,32 +161,32 @@
 }
 
 .strength-bar {
-  height: 4px;
-  background: #e2e8f0;
-  border-radius: 2px;
+  height: 5px;
+  background: #e9ecef;
+  border-radius: 3px;
   overflow: hidden;
   margin-bottom: 0.5rem;
 }
 
 .strength-fill {
   height: 100%;
-  transition: all 0.3s ease;
-  border-radius: 2px;
+  transition: all 350ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  border-radius: 3px;
 }
 
 .strength-fill.weak {
   width: 33%;
-  background: #f44336;
+  background: linear-gradient(90deg, #d32f2f, #f44336);
 }
 
 .strength-fill.medium {
   width: 66%;
-  background: #ff9800;
+  background: linear-gradient(90deg, #ff6f00, #ff9800);
 }
 
 .strength-fill.strong {
   width: 100%;
-  background: #4caf50;
+  background: linear-gradient(90deg, #00c853, #00e676);
 }
 
 .strength-text {
@@ -163,79 +194,120 @@
   font-weight: 600;
 }
 
-.strength-text.weak {
-  color: #f44336;
+.strength-text.weak { color: #d32f2f; }
+.strength-text.medium { color: #ff6f00; }
+.strength-text.strong { color: #00c853; }
+
+/* Error Messages */
+.error-message {
+  font-size: 0.875rem;
+  color: #d32f2f;
+  display: none;
+  font-weight: 500;
 }
 
-.strength-text.medium {
-  color: #ff9800;
+.error-message.show {
+  display: block;
 }
 
-.strength-text.strong {
-  color: #4caf50;
+.form-group input.error {
+  border-color: #d32f2f;
+  background: #fff5f5;
 }
 
-/* Terms and conditions */
+/* Terms and Conditions - Legal Trust */
 .terms-group {
   display: flex;
-  align-items: start;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: #f5f7fa;
-  border-radius: 8px;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 1.25rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1.5px solid #dee2e6;
+  transition: all 250ms;
+}
+
+.terms-group:has(input:checked) {
+  background: rgba(0, 212, 255, 0.04);
+  border-color: #00d4ff;
 }
 
 .terms-group input[type="checkbox"] {
   margin-top: 0.25rem;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
+  accent-color: #00d4ff;
 }
 
 .terms-group label {
   flex: 1;
-  font-size: 0.9rem;
-  color: #4a5568;
+  font-size: 0.9375rem;
+  color: #495057;
   cursor: pointer;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .terms-group label a {
-  color: #2196f3;
+  color: #00d4ff;
   text-decoration: none;
   font-weight: 600;
+  transition: color 150ms;
 }
 
 .terms-group label a:hover {
+  color: #5c8df6;
   text-decoration: underline;
 }
 
-/* Submit button */
+/* Submit Button - Premium CTA */
 .btn-signup {
   width: 100%;
-  padding: 1rem;
-  background: linear-gradient(135deg, #2196f3, #1976d2);
-  color: white;
+  padding: 1.125rem 1.5rem;
+  background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 12px;
+  font-size: 1.0625rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 350ms cubic-bezier(0.4, 0.0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.625rem;
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-signup::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+  opacity: 0;
+  transition: opacity 250ms;
 }
 
 .btn-signup:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(33, 150, 243, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 212, 255, 0.35);
+}
+
+.btn-signup:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.btn-signup:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .btn-signup:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
 .btn-signup .spinner {
@@ -256,58 +328,86 @@
   to { transform: rotate(360deg); }
 }
 
-/* Divider */
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 1.5rem 0;
+/* Login Redirect - Subtle Conversion */
+.login-redirect {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #dee2e6;
+  font-size: 0.9375rem;
+  color: #495057;
 }
 
-.divider-line {
-  flex: 1;
-  height: 1px;
-  background: #e2e8f0;
-}
-
-.divider-text {
-  color: #718096;
-  font-size: 0.875rem;
+.login-redirect a {
+  color: #00d4ff;
   font-weight: 600;
+  text-decoration: none;
+  transition: color 150ms;
 }
 
-/* Social signup */
-.social-signup {
-  display: flex;
-  gap: 1rem;
+.login-redirect a:hover {
+  color: #5c8df6;
+  text-decoration: underline;
 }
 
-.btn-social {
-  flex: 1;
-  padding: 0.875rem;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* Trust Badges - Below Form */
+.trust-badges {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.btn-social:hover {
-  background: #f5f7fa;
-  border-color: #2196f3;
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.btn-social i {
-  font-size: 1.25rem;
+.trust-badge i {
+  color: #00d4ff;
+  font-size: 1rem;
 }
 
-.btn-google {
-  color: #db4437;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .signup-container {
+    padding: 2rem 1.5rem;
+  }
+  
+  .signup-header h1 {
+    font-size: 2.25rem;
+  }
+  
+  .signup-card {
+    padding: 2.5rem 2rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  
+  .trust-badges {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-header h1 {
+    font-size: 1.875rem;
+  }
+  
+  .signup-card {
+    padding: 2rem 1.5rem;
+  }
+}
 }
 
 .btn-apple {
