@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Economy | iFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/economy-dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation will be dynamically loaded -->
+    <script>
+        // Set active page for navigation
+        window.activePage = 'economy';
+    </script>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header-section">
+            <h1><i class="fas fa-globe-americas"></i> Today's Economy</h1>
+            <p>Real-time market data and curated business news — updated every 5 seconds</p>
+            <div class="last-updated-badge">
+                <i class="fas fa-sync-alt pulse"></i> 
+                Last updated: <span id="last-updated-time">--:--:--</span>
+            </div>
+        </section>
+
+        <!-- Real-Time Stock Market Indices -->
+        <section class="market-indices fade-in" style="animation-delay: 0.1s">
+            <h2><i class="fas fa-chart-line"></i> Market Indices</h2>
+            <div class="indices-grid">
+                <div class="stock-card">
+                    <div class="stock-header">
+                        <span class="stock-name">S&P 500</span>
+                        <span class="stock-symbol">SPY</span>
+                    </div>
+                    <div class="stock-price" id="spy-price">$450.00</div>
+                    <div class="change positive" id="spy-change">
+                        ▲ +0.00% (+0.00)
+                    </div>
+                    <div class="stock-details">
+                        <span>High: <strong id="spy-high">$455.00</strong></span>
+                        <span>Low: <strong id="spy-low">$448.00</strong></span>
+                    </div>
+                </div>
+
+                <div class="stock-card">
+                    <div class="stock-header">
+                        <span class="stock-name">Dow Jones</span>
+                        <span class="stock-symbol">DIA</span>
+                    </div>
+                    <div class="stock-price" id="dia-price">$350.00</div>
+                    <div class="change positive" id="dia-change">
+                        ▲ +0.00% (+0.00)
+                    </div>
+                    <div class="stock-details">
+                        <span>High: <strong id="dia-high">$352.00</strong></span>
+                        <span>Low: <strong id="dia-low">$348.00</strong></span>
+                    </div>
+                </div>
+
+                <div class="stock-card">
+                    <div class="stock-header">
+                        <span class="stock-name">Nasdaq</span>
+                        <span class="stock-symbol">QQQ</span>
+                    </div>
+                    <div class="stock-price" id="qqq-price">$380.00</div>
+                    <div class="change positive" id="qqq-change">
+                        ▲ +0.00% (+0.00)
+                    </div>
+                    <div class="stock-details">
+                        <span>High: <strong id="qqq-high">$385.00</strong></span>
+                        <span>Low: <strong id="qqq-low">$378.00</strong></span>
+                    </div>
+                </div>
+
+                <div class="stock-card">
+                    <div class="stock-header">
+                        <span class="stock-name">Apple</span>
+                        <span class="stock-symbol">AAPL</span>
+                    </div>
+                    <div class="stock-price" id="aapl-price">$185.00</div>
+                    <div class="change positive" id="aapl-change">
+                        ▲ +0.00% (+0.00)
+                    </div>
+                    <div class="stock-details">
+                        <span>High: <strong id="aapl-high">$188.00</strong></span>
+                        <span>Low: <strong id="aapl-low">$183.00</strong></span>
+                    </div>
+                </div>
+
+                <div class="stock-card">
+                    <div class="stock-header">
+                        <span class="stock-name">Microsoft</span>
+                        <span class="stock-symbol">MSFT</span>
+                    </div>
+                    <div class="stock-price" id="msft-price">$380.00</div>
+                    <div class="change positive" id="msft-change">
+                        ▲ +0.00% (+0.00)
+                    </div>
+                    <div class="stock-details">
+                        <span>High: <strong id="msft-high">$385.00</strong></span>
+                        <span>Low: <strong id="msft-low">$377.00</strong></span>
+                    </div>
+                </div>
+
+                <div class="stock-card">
+                    <div class="stock-header">
+                        <span class="stock-name">Google</span>
+                        <span class="stock-symbol">GOOGL</span>
+                    </div>
+                    <div class="stock-price" id="googl-price">$140.00</div>
+                    <div class="change positive" id="googl-change">
+                        ▲ +0.00% (+0.00)
+                    </div>
+                    <div class="stock-details">
+                        <span>High: <strong id="googl-high">$143.00</strong></span>
+                        <span>Low: <strong id="googl-low">$138.00</strong></span>
+                    </div>
+                </div>
+
+                <div class="stock-card">
+                    <div class="stock-header">
+                        <span class="stock-name">Amazon</span>
+                        <span class="stock-symbol">AMZN</span>
+                    </div>
+                    <div class="stock-price" id="amzn-price">$175.00</div>
+                    <div class="change positive" id="amzn-change">
+                        ▲ +0.00% (+0.00)
+                    </div>
+                    <div class="stock-details">
+                        <span>High: <strong id="amzn-high">$178.00</strong></span>
+                        <span>Low: <strong id="amzn-low">$173.00</strong></span>
+                    </div>
+                </div>
+
+                <div class="stock-card">
+                    <div class="stock-header">
+                        <span class="stock-name">Tesla</span>
+                        <span class="stock-symbol">TSLA</span>
+                    </div>
+                    <div class="stock-price" id="tsla-price">$240.00</div>
+                    <div class="change negative" id="tsla-change">
+                        ▼ -0.00% (-0.00)
+                    </div>
+                    <div class="stock-details">
+                        <span>High: <strong id="tsla-high">$245.00</strong></span>
+                        <span>Low: <strong id="tsla-low">$238.00</strong></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business News Section -->
+        <section class="news-section fade-in" style="animation-delay: 0.2s">
+            <div class="section-header">
+                <h2><i class="fas fa-newspaper"></i> Top Business Stories</h2>
+                <div class="news-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="technology">Tech</button>
+                    <button class="filter-btn" data-filter="business">Business</button>
+                </div>
+            </div>
+            <div id="news-container" class="news-grid">
+                <!-- News articles will be loaded dynamically -->
+                <div class="loading-spinner">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                    <p>Loading latest business news...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Configuration Info -->
+        <section class="api-info-banner fade-in" style="animation-delay: 0.3s">
+            <i class="fas fa-info-circle"></i>
+            <div>
+                <strong>Real-Time Data Sources:</strong>
+                <p>Stock data from Alpha Vantage & Finnhub APIs • Business news from NewsAPI</p>
+                <p class="api-note">To enable live data, add your API keys to <code>js/economy-realtime.js</code></p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../js/shared-nav.js"></script>
+    <script src="../js/economy-realtime.js"></script>
+    <script>
+        // Initialize navigation with active page
+        if (typeof initializeNavigation === 'function') {
+            initializeNavigation('economy');
+        }
+    </script>
+</body>
+</html>

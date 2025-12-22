@@ -1,0 +1,264 @@
+/* Confirmation Pages Styles - Shared for username-sent and reset-link-sent */
+@import url('main.css');
+
+/* ===== HEADER ===== */
+.modern-header {
+    background: linear-gradient(135deg, #1a4f7a 0%, #2980b9 100%);
+    padding: 1.25rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    height: 50px;
+}
+
+.brand-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+.header-nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover {
+    opacity: 0.8;
+}
+
+.signup-cta {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.6rem 1.5rem;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+}
+
+.signup-cta:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ===== MAIN CONTAINER ===== */
+.confirmation-container {
+    min-height: calc(100vh - 80px - 100px);
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    padding: 4rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmation-content {
+    max-width: 600px;
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+/* ===== SUCCESS ICON ===== */
+.success-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.success-icon i {
+    font-size: 3.5rem;
+    color: white;
+}
+
+/* ===== TEXT CONTENT ===== */
+.confirmation-content h1 {
+    font-size: 2.3rem;
+    color: #1a4f7a;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.confirmation-message {
+    font-size: 1.15rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.confirmation-note {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+    margin-bottom: 2rem;
+}
+
+.btn-modern {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2980b9 0%, #1a4f7a 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(41, 128, 185, 0.3);
+}
+
+/* ===== HELP TEXT ===== */
+.help-text {
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.help-text p {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+}
+
+.help-text a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.help-text a:hover {
+    text-decoration: underline;
+}
+
+/* ===== FOOTER ===== */
+.modern-footer {
+    background: #0f2a3f;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.modern-footer p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+.modern-footer a {
+    color: #5dade2;
+    text-decoration: none;
+}
+
+.modern-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .confirmation-content h1 {
+        font-size: 2rem;
+    }
+
+    .confirmation-content {
+        padding: 2.5rem 2rem;
+    }
+
+    .success-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .success-icon i {
+        font-size: 3rem;
+    }
+
+    .header-nav {
+        gap: 1rem;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+    }
+
+    .signup-cta {
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirmation-container {
+        padding: 2rem 1rem;
+    }
+
+    .confirmation-content h1 {
+        font-size: 1.7rem;
+    }
+
+    .confirmation-content {
+        padding: 2rem 1.5rem;
+    }
+
+    .btn-modern {
+        width: 100%;
+    }
+}

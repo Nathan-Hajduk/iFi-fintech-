@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions | iFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/transactions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation loaded dynamically -->
+
+    <main class="transactions-container">
+        <!-- Page Header -->
+        <section class="page-title-section">
+            <div class="page-title-content">
+                <h1><i class="fas fa-receipt"></i> Transactions</h1>
+                <p>Track and manage all your financial activity</p>
+            </div>
+            <button class="btn-add-transaction" onclick="openAddTransactionModal()">
+                <i class="fas fa-plus"></i> Add Transaction
+            </button>
+        </section>
+
+        <!-- Summary Cards -->
+        <section class="summary-cards">
+            <div class="summary-card income">
+                <div class="summary-icon"><i class="fas fa-arrow-down"></i></div>
+                <div class="summary-content">
+                    <span class="summary-label">Total Income</span>
+                    <span class="summary-value" id="totalIncome">$0</span>
+                    <span class="summary-period">This Month</span>
+                </div>
+            </div>
+            <div class="summary-card expense">
+                <div class="summary-icon"><i class="fas fa-arrow-up"></i></div>
+                <div class="summary-content">
+                    <span class="summary-label">Total Expenses</span>
+                    <span class="summary-value" id="totalExpenses">$0</span>
+                    <span class="summary-period">This Month</span>
+                </div>
+            </div>
+            <div class="summary-card balance">
+                <div class="summary-icon"><i class="fas fa-wallet"></i></div>
+                <div class="summary-content">
+                    <span class="summary-label">Net Cash Flow</span>
+                    <span class="summary-value" id="netCashFlow">$0</span>
+                    <span class="summary-period">This Month</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters & Search -->
+        <section class="transaction-controls">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search transactions..." onkeyup="filterTransactions()">
+            </div>
+            <div class="filters">
+                <select id="categoryFilter" onchange="filterTransactions()">
+                    <option value="">All Categories</option>
+                    <option value="income">Income</option>
+                    <option value="food">Food & Dining</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="utilities">Utilities</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="healthcare">Healthcare</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="typeFilter" onchange="filterTransactions()">
+                    <option value="">All Types</option>
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+                <select id="periodFilter" onchange="filterTransactions()">
+                    <option value="month">This Month</option>
+                    <option value="quarter">This Quarter</option>
+                    <option value="year">This Year</option>
+                    <option value="all">All Time</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Transactions List -->
+        <section class="transactions-list">
+            <div class="list-header">
+                <h3>Recent Transactions</h3>
+                <span id="transactionCount">0 transactions</span>
+            </div>
+            <div class="transactions-grid" id="transactionsGrid">
+                <!-- Transactions will be dynamically loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Transaction Modal -->
+    <div class="modal" id="addTransactionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Transaction</h2>
+                <button class="modal-close" onclick="closeAddTransactionModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="transaction-form" id="transactionForm" onsubmit="addTransaction(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <div class="type-selector">
+                            <label class="type-option">
+                                <input type="radio" name="type" value="income" required>
+                                <span><i class="fas fa-arrow-down"></i> Income</span>
+                            </label>
+                            <label class="type-option">
+                                <input type="radio" name="type" value="expense" checked required>
+                                <span><i class="fas fa-arrow-up"></i> Expense</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="amount"><i class="fas fa-dollar-sign"></i> Amount</label>
+                        <input type="number" id="amount" name="amount" step="0.01" min="0.01" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date"><i class="fas fa-calendar"></i> Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description"><i class="fas fa-file-alt"></i> Description</label>
+                    <input type="text" id="description" name="description" placeholder="What was this for?" required>
+                </div>
+                <div class="form-group">
+                    <label for="category"><i class="fas fa-tag"></i> Category</label>
+                    <select id="category" name="category" required>
+                        <option value="">Select category</option>
+                        <option value="income">Income</option>
+                        <option value="food">Food & Dining</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeAddTransactionModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/shared-nav.js"></script>
+    <script src="../js/transactions.js"></script>
+    <script>
+        // Initialize unified navigation
+        initializeNavigation('transactions');
+    </script>
+</body>
+</html>

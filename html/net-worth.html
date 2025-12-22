@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Net Worth Dashboard | iFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/dashboard-light.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation loaded dynamically -->
+
+    <main class="dashboard-main" role="main">
+        <div class="page-header-section">
+            <h1><i class="fas fa-chart-line" aria-hidden="true"></i> Net Worth Dashboard</h1>
+            <p>Your complete financial snapshot — assets, liabilities, and growth over time</p>
+        </div>
+
+        <section class="summary-cards" aria-label="Financial summary">
+            <article class="summary-card primary">
+                <div class="card-icon" aria-hidden="true"><i class="fas fa-wallet"></i></div>
+                <div class="card-content">
+                    <h2>Total Net Worth</h2>
+                    <p class="big-number" id="netWorth" aria-live="polite">$0</p>
+                    <span class="trend positive" aria-label="Increased by 5.2% this month"><i class="fas fa-arrow-up" aria-hidden="true"></i> +5.2% this month</span>
+                </div>
+            </article>
+            <article class="summary-card success">
+                <div class="card-icon" aria-hidden="true"><i class="fas fa-coins"></i></div>
+                <div class="card-content">
+                    <h2>Total Assets</h2>
+                    <p class="big-number" id="totalAssets" aria-live="polite">$0</p>
+                    <span class="detail">Cash, investments, property</span>
+                </div>
+            </article>
+            <article class="summary-card warning">
+                <div class="card-icon" aria-hidden="true"><i class="fas fa-file-invoice-dollar"></i></div>
+                <div class="card-content">
+                    <h2>Total Liabilities</h2>
+                    <p class="big-number" id="totalLiabilities" aria-live="polite">$0</p>
+                    <span class="detail">Loans, credits cards, mortgages</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="chart-section" aria-label="Net worth trends">
+            <div class="card">
+                <h2><i class="fas fa-chart-area" aria-hidden="true"></i> Net Worth Trend (12 Months)</h2>
+                <div class="chart-container" style="position: relative; height: 300px;">
+                    <canvas id="netWorthChart" role="img" aria-label="Line chart showing net worth over the past 12 months"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <div class="balance-grid">
+            <section class="card" aria-labelledby="assets-heading">
+                <h2 id="assets-heading"><i class="fas fa-piggy-bank" aria-hidden="true"></i> Assets Breakdown</h2>
+                <ul class="balance-list" id="assetsList" role="list">
+                    <li class="balance-item">
+                        <div class="item-info">
+                            <i class="fas fa-university" aria-hidden="true"></i>
+                            <div>
+                                <strong>Chase Checking</strong>
+                                <span class="account-number" aria-label="Account ending in 4532">•••• 4532</span>
+                            </div>
+                        </div>
+                        <span class="amount" aria-label="$12,450">$12,450.00</span>
+                    </li>
+                    <li class="balance-item">
+                        <div class="item-info">
+                            <i class="fas fa-chart-line" aria-hidden="true"></i>
+                            <div>
+                                <strong>Vanguard 401(k)</strong>
+                                <span class="account-number" aria-label="Account ending in 8891">•••• 8891</span>
+                            </div>
+                        </div>
+                        <span class="amount" aria-label="$78,200">$78,200.00</span>
+                    </li>
+                    <li class="balance-item">
+                        <div class="item-info">
+                            <i class="fas fa-home" aria-hidden="true"></i>
+                            <div>
+                                <strong>Home Equity</strong>
+                                <span class="account-number">Estimated value</span>
+                            </div>
+                        </div>
+                        <span class="amount" aria-label="$125,000">$125,000.00</span>
+                    </li>
+                </ul>
+                <button class="add-account-btn" aria-label="Add new asset account"><i class="fas fa-plus" aria-hidden="true"></i> Add Asset</button>
+            </section>
+
+            <section class="card" aria-labelledby="liabilities-heading">
+                <h2 id="liabilities-heading"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> Liabilities Breakdown</h2>
+                <ul class="balance-list" id="liabilitiesList" role="list">
+                    <li class="balance-item debt">
+                        <div class="item-info">
+                            <i class="fas fa-home" aria-hidden="true"></i>
+                            <div>
+                                <strong>Mortgage</strong>
+                                <span class="account-number" aria-label="Account ending in 1234">•••• 1234</span>
+                            </div>
+                        </div>
+                        <span class="amount negative" aria-label="Negative $285,000">-$285,000.00</span>
+                    </li>
+                    <li class="balance-item debt">
+                        <div class="item-info">
+                            <i class="fas fa-car" aria-hidden="true"></i>
+                            <div>
+                                <strong>Auto Loan</strong>
+                                <span class="account-number" aria-label="Account ending in 5678">•••• 5678</span>
+                            </div>
+                        </div>
+                        <span class="amount negative" aria-label="Negative $18,500">-$18,500.00</span>
+                    </li>
+                    <li class="balance-item debt">
+                        <div class="item-info">
+                            <i class="fas fa-credit-card" aria-hidden="true"></i>
+                            <div>
+                                <strong>Credit Card</strong>
+                                <span class="account-number" aria-label="Account ending in 9012">•••• 9012</span>
+                            </div>
+                        </div>
+                        <span class="amount negative" aria-label="Negative $3,200">-$3,200.00</span>
+                    </li>
+                </ul>
+                <button class="add-account-btn" aria-label="Add new liability account"><i class="fas fa-plus" aria-hidden="true"></i> Add Liability</button>
+            </section>
+        </div>
+
+        <section class="card insights-card" aria-labelledby="insights-heading">
+            <h2 id="insights-heading"><i class="fas fa-lightbulb" aria-hidden="true"></i> AI Insights</h2>
+            <ul class="insight-list" role="list">
+                <li class="insight-item">
+                    <i class="fas fa-arrow-up text-success" aria-label="Positive insight" role="img"></i>
+                    <p>Your net worth increased by <strong>$4,200</strong> this month. Great progress on your savings goal!</p>
+                </li>
+                <li class="insight-item">
+                    <i class="fas fa-info-circle text-info" aria-label="Information" role="img"></i>
+                    <p>Consider paying down your credit card balance to reduce interest charges by ~$480/year.</p>
+                </li>
+                <li class="insight-item">
+                    <i class="fas fa-chart-line text-primary" aria-label="Analytical insight" role="img"></i>
+                    <p>Your debt-to-asset ratio is 14.2% — well within healthy range (target: under 36%).</p>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="../js/shared-nav.js"></script>
+    <script src="../js/dashboard-common.js"></script>
+    <script src="../js/net-worth.js"></script>
+    <script>
+        initializeNavigation('net-worth');
+    </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Goals | iFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/dashboard-light.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation loaded dynamically -->
+
+    <main class="dashboard-main">
+        <div class="page-header-section">
+            <h1><i class="fas fa-bullseye"></i> Financial Goals</h1>
+            <p>Stay motivated with clear milestones and automatic progress tracking</p>
+        </div>
+
+        <div class="summary-cards">
+            <div class="summary-card success">
+                <div class="card-icon"><i class="fas fa-flag-checkered"></i></div>
+                <div class="card-content">
+                    <h3>Active Goals</h3>
+                    <p class="big-number">4</p>
+                    <span class="detail">In progress</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="card-icon"><i class="fas fa-donate"></i></div>
+                <div class="card-content">
+                    <h3>Total Saved</h3>
+                    <p class="big-number">$48,200</p>
+                    <span class="detail">Across all goals</span>
+                </div>
+            </div>
+            <div class="summary-card primary">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="card-content">
+                    <h3>On Track</h3>
+                    <p class="big-number">75%</p>
+                    <span class="trend positive"><i class="fas fa-arrow-up"></i> 3 of 4 goals</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="goals-grid">
+            <div class="goal-card on-track">
+                <div class="goal-header">
+                    <div class="goal-icon"><i class="fas fa-home"></i></div>
+                    <div class="goal-info">
+                        <h3>Buy a Home</h3>
+                        <span class="goal-date">Target: Dec 2027</span>
+                    </div>
+                    <span class="goal-status on-track">On Track</span>
+                </div>
+                <div class="goal-progress">
+                    <div class="progress-info">
+                        <span>$42,000 of $80,000</span>
+                        <span>52.5%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 52.5%; background: var(--success-color);"></div>
+                    </div>
+                </div>
+                <div class="goal-details">
+                    <div class="detail-row">
+                        <span>Monthly Contribution:</span>
+                        <strong>$1,200</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Remaining:</span>
+                        <strong>$38,000</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Months Left:</span>
+                        <strong>32 months</strong>
+                    </div>
+                </div>
+                <div class="goal-actions">
+                    <button class="btn-secondary"><i class="fas fa-edit"></i> Adjust</button>
+                    <button class="btn-primary"><i class="fas fa-donate"></i> Add Funds</button>
+                </div>
+            </div>
+
+            <div class="goal-card on-track">
+                <div class="goal-header">
+                    <div class="goal-icon"><i class="fas fa-umbrella-beach"></i></div>
+                    <div class="goal-info">
+                        <h3>Retirement Savings</h3>
+                        <span class="goal-date">Target: Dec 2055</span>
+                    </div>
+                    <span class="goal-status on-track">On Track</span>
+                </div>
+                <div class="goal-progress">
+                    <div class="progress-info">
+                        <span>$78,200 of $1,200,000</span>
+                        <span>6.5%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 6.5%; background: var(--success-color);"></div>
+                    </div>
+                </div>
+                <div class="goal-details">
+                    <div class="detail-row">
+                        <span>Monthly Contribution:</span>
+                        <strong>$850</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Remaining:</span>
+                        <strong>$1,121,800</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Years Left:</span>
+                        <strong>30 years</strong>
+                    </div>
+                </div>
+                <div class="goal-actions">
+                    <button class="btn-secondary"><i class="fas fa-edit"></i> Adjust</button>
+                    <button class="btn-primary"><i class="fas fa-donate"></i> Add Funds</button>
+                </div>
+            </div>
+
+            <div class="goal-card behind">
+                <div class="goal-header">
+                    <div class="goal-icon"><i class="fas fa-plane"></i></div>
+                    <div class="goal-info">
+                        <h3>Europe Vacation</h3>
+                        <span class="goal-date">Target: Jun 2026</span>
+                    </div>
+                    <span class="goal-status behind">Behind</span>
+                </div>
+                <div class="goal-progress">
+                    <div class="progress-info">
+                        <span>$3,200 of $8,000</span>
+                        <span>40%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 40%; background: var(--error-color);"></div>
+                    </div>
+                </div>
+                <div class="goal-details">
+                    <div class="detail-row">
+                        <span>Monthly Contribution:</span>
+                        <strong>$200</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Remaining:</span>
+                        <strong>$4,800</strong>
+                    </div>
+                    <div class="detail-row alert">
+                        <span>Need to increase to:</span>
+                        <strong>$267/mo</strong>
+                    </div>
+                </div>
+                <div class="goal-actions">
+                    <button class="btn-secondary"><i class="fas fa-edit"></i> Adjust</button>
+                    <button class="btn-primary"><i class="fas fa-donate"></i> Add Funds</button>
+                </div>
+            </div>
+
+            <div class="goal-card on-track">
+                <div class="goal-header">
+                    <div class="goal-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="goal-info">
+                        <h3>Emergency Fund</h3>
+                        <span class="goal-date">Target: Dec 2025</span>
+                    </div>
+                    <span class="goal-status on-track">On Track</span>
+                </div>
+                <div class="goal-progress">
+                    <div class="progress-info">
+                        <span>$15,000 of $18,000</span>
+                        <span>83.3%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 83.3%; background: var(--success-color);"></div>
+                    </div>
+                </div>
+                <div class="goal-details">
+                    <div class="detail-row">
+                        <span>Monthly Contribution:</span>
+                        <strong>$500</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Remaining:</span>
+                        <strong>$3,000</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Months Left:</span>
+                        <strong>6 months</strong>
+                    </div>
+                </div>
+                <div class="goal-actions">
+                    <button class="btn-secondary"><i class="fas fa-edit"></i> Adjust</button>
+                    <button class="btn-primary"><i class="fas fa-donate"></i> Add Funds</button>
+                </div>
+            </div>
+        </div>
+
+        <button class="add-goal-btn"><i class="fas fa-plus"></i> Create New Goal</button>
+
+        <div class="card insights-card">
+            <h2><i class="fas fa-lightbulb"></i> Goal Insights</h2>
+            <div class="insight-item">
+                <i class="fas fa-exclamation-triangle text-warning"></i>
+                <p>Your Europe Vacation goal is behind schedule. Increase monthly contributions by <strong>$67</strong> to stay on track.</p>
+            </div>
+            <div class="insight-item">
+                <i class="fas fa-trophy text-success"></i>
+                <p>You're 6 months away from fully funding your emergency fund! Keep up the momentum.</p>
+            </div>
+            <div class="insight-item">
+                <i class="fas fa-chart-line text-info"></i>
+                <p>Consider reallocating $100/mo from your vacation goal to your down payment — you'll hit your home purchase target 3 months earlier.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/shared-nav.js"></script>
+    <script src="../js/dashboard-common.js"></script>
+    <script src="../js/goals.js"></script>
+    <script>
+        initializeNavigation('goals');
+    </script>
+</body>
+</html>

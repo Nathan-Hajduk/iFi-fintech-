@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | iFi</title>
+    <link rel="stylesheet" href="../css/settings.css">
+    <script src="../js/auth.js"></script>
+</head>
+<body>
+    <header class="page-header">
+        <svg class="logo" width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
+            <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
+            <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
+        </svg>
+        <div class="header-content">
+            <h1>Settings</h1>
+            <p>Manage your account settings and preferences.</p>
+        </div>
+    </header>
+    <nav class="dashboard-menu">
+        <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="transactions.html">Transactions</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="investments.html">Investments</a></li>
+            <li><a href="economy.html">Today's Economy</a></li>
+            <li><a href="ifi-ai.html">iFi AI</a></li>
+        </ul>
+    </nav>
+    <main class="settings-container">
+        <form class="settings-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Change Password</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </main>
+</body>
+</html>

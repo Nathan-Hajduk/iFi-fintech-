@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iFi AI | iFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/ifi-ai.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation loaded dynamically -->
+
+    <main>
+        <section class="page-header-section">
+            <h1><i class="fas fa-robot"></i> iFi AI Assistant</h1>
+            <p>Get personalized financial insights powered by artificial intelligence</p>
+        </section>
+
+        <section class="ai-container fade-in">
+            <div class="ai-chat-widget">
+                <div class="chat-header">
+                    <i class="fas fa-brain"></i>
+                    <h2>Financial AI Assistant</h2>
+                    <span class="status-indicator">Online</span>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                        <div class="message-content">
+                            <p>Hello! I'm your iFi AI assistant. I can help you with:</p>
+                            <ul>
+                                <li>Budget optimization strategies</li>
+                                <li>Investment recommendations</li>
+                                <li>Debt payoff planning</li>
+                                <li>Spending pattern analysis</li>
+                                <li>Financial goal planning</li>
+                            </ul>
+                            <p>What would you like help with today?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Ask me anything about your finances..." class="chat-input">
+                    <button class="btn-primary send-btn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="ai-insights-panel">
+                <h3><i class="fas fa-lightbulb"></i> Quick Insights</h3>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Smart Savings</h4>
+                        <p>Based on your spending, you could save $320/month by reducing dining expenses.</p>
+                    </div>
+                    <div class="insight-card">
+                        <i class="fas fa-piggy-bank"></i>
+                        <h4>Investment Tip</h4>
+                        <p>Your portfolio is 85% stocks. Consider diversifying with 15% bonds for stability.</p>
+                    </div>
+                    <div class="insight-card">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h4>Budget Alert</h4>
+                        <p>You're 15% over budget in the Entertainment category this month.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/shared-nav.js"></script>
+    <script>
+        initializeNavigation('ifi-ai');
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            const messagesContainer = document.getElementById('chatMessages');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.innerHTML = `
+                <div class="message-content"><p>${message}</p></div>
+                <div class="message-avatar"><i class="fas fa-user"></i></div>
+            `;
+            messagesContainer.appendChild(userMessage);
+
+            // Clear input
+            input.value = '';
+
+            // Simulate AI response (replace with actual API call)
+            setTimeout(() => {
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'message ai-message';
+                aiMessage.innerHTML = `
+                    <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                    <div class="message-content">
+                        <p>I'm analyzing your request. This feature will be fully integrated soon with advanced AI capabilities!</p>
+                    </div>
+                `;
+                messagesContainer.appendChild(aiMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 1000);
+        }
+
+        // Allow Enter key to send message
+        document.getElementById('chatInput')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>

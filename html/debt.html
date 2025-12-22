@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debt Manager | iFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/dashboard-light.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation loaded dynamically -->
+
+    <main class="dashboard-main">
+        <div class="page-header-section">
+            <h1><i class="fas fa-credit-card"></i> Debt Manager</h1>
+            <p>Strategic payoff planning — see interest burn, optimize payments, and track progress</p>
+        </div>
+
+        <div class="summary-cards">
+            <div class="summary-card warning">
+                <div class="card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                <div class="card-content">
+                    <h3>Total Debt</h3>
+                    <p class="big-number">$306,700</p>
+                    <span class="detail">All outstanding balances</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="card-icon"><i class="fas fa-fire"></i></div>
+                <div class="card-content">
+                    <h3>Interest Burn Rate</h3>
+                    <p class="big-number">$1,280/mo</p>
+                    <span class="trend negative">$15,360/year in interest</span>
+                </div>
+            </div>
+            <div class="summary-card success">
+                <div class="card-icon"><i class="fas fa-calendar"></i></div>
+                <div class="card-content">
+                    <h3>Debt-Free Date</h3>
+                    <p class="big-number">Mar 2048</p>
+                    <span class="detail">Current payment strategy</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-list"></i> Your Debts</h2>
+            <div class="debt-list">
+                <div class="debt-item">
+                    <div class="debt-header">
+                        <div class="debt-info">
+                            <i class="fas fa-home"></i>
+                            <div>
+                                <strong>Mortgage</strong>
+                                <span class="account-number">Wells Fargo •••• 1234</span>
+                            </div>
+                        </div>
+                        <span class="debt-balance">$285,000</span>
+                    </div>
+                    <div class="debt-details">
+                        <div class="detail-item"><strong>APR:</strong> 3.75%</div>
+                        <div class="detail-item"><strong>Payment:</strong> $1,320/mo</div>
+                        <div class="detail-item"><strong>Payoff:</strong> Feb 2048</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 5%; background: var(--primary-color);"></div>
+                    </div>
+                    <span class="progress-label">5% paid off</span>
+                </div>
+
+                <div class="debt-item high-priority">
+                    <div class="debt-header">
+                        <div class="debt-info">
+                            <i class="fas fa-credit-card"></i>
+                            <div>
+                                <strong>Credit Card</strong>
+                                <span class="account-number">Chase •••• 9012</span>
+                            </div>
+                        </div>
+                        <span class="debt-balance">$3,200</span>
+                    </div>
+                    <div class="debt-details">
+                        <div class="detail-item"><strong>APR:</strong> 18.99%</div>
+                        <div class="detail-item"><strong>Payment:</strong> $120/mo</div>
+                        <div class="detail-item"><strong>Payoff:</strong> Nov 2027</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 36%; background: var(--error-color);"></div>
+                    </div>
+                    <span class="progress-label">36% paid off · <strong>HIGH INTEREST</strong></span>
+                </div>
+
+                <div class="debt-item">
+                    <div class="debt-header">
+                        <div class="debt-info">
+                            <i class="fas fa-car"></i>
+                            <div>
+                                <strong>Auto Loan</strong>
+                                <span class="account-number">Toyota Financial •••• 5678</span>
+                            </div>
+                        </div>
+                        <span class="debt-balance">$18,500</span>
+                    </div>
+                    <div class="debt-details">
+                        <div class="detail-item"><strong>APR:</strong> 4.2%</div>
+                        <div class="detail-item"><strong>Payment:</strong> $385/mo</div>
+                        <div class="detail-item"><strong>Payoff:</strong> Jul 2028</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 54%; background: var(--primary-color);"></div>
+                    </div>
+                    <span class="progress-label">54% paid off</span>
+                </div>
+            </div>
+            <button class="add-debt-btn"><i class="fas fa-plus"></i> Add Debt</button>
+        </div>
+
+        <div class="payoff-strategy card">
+            <h2><i class="fas fa-chess"></i> Payoff Strategy Comparison</h2>
+            <div class="strategy-tabs">
+                <button class="strategy-tab active" data-strategy="current">Current Plan</button>
+                <button class="strategy-tab" data-strategy="avalanche">Avalanche (Highest APR First)</button>
+                <button class="strategy-tab" data-strategy="snowball">Snowball (Smallest Balance First)</button>
+            </div>
+            <div class="strategy-results">
+                <div class="result-card">
+                    <h4>Total Interest Paid</h4>
+                    <p class="result-number">$87,420</p>
+                </div>
+                <div class="result-card">
+                    <h4>Debt-Free Date</h4>
+                    <p class="result-number">Mar 2048</p>
+                </div>
+                <div class="result-card">
+                    <h4>Monthly Payment</h4>
+                    <p class="result-number">$1,825</p>
+                </div>
+            </div>
+            <div class="strategy-comparison">
+                <p><strong>Switch to Avalanche:</strong> Pay off debt 14 months faster and save $5,840 in interest.</p>
+                <button class="btn-primary">Apply Avalanche Strategy</button>
+            </div>
+        </div>
+
+        <div class="card insights-card">
+            <h2><i class="fas fa-lightbulb"></i> Debt Insights</h2>
+            <div class="insight-item">
+                <i class="fas fa-fire text-error"></i>
+                <p>Your credit card is burning <strong>$50/month</strong> in interest. Pay an extra $100/mo to save $1,200 in interest charges.</p>
+            </div>
+            <div class="insight-item">
+                <i class="fas fa-percent text-info"></i>
+                <p>Refinancing your auto loan could reduce your APR from 4.2% to ~3.5%, saving <strong>$380</strong> over the loan term.</p>
+            </div>
+            <div class="insight-item">
+                <i class="fas fa-check-circle text-success"></i>
+                <p>Your debt-to-income ratio is 28% — well within healthy range (target: under 36%).</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="../js/shared-nav.js"></script>
+    <script src="../js/dashboard-common.js"></script>
+    <script src="../js/debt.js"></script>
+    <script>
+        initializeNavigation('debt');
+    </script>
+</body>
+</html>

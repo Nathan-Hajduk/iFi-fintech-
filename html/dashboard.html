@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | iFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation loaded dynamically -->
+
+    <main class="dashboard-container">
+        <!-- Welcome Banner -->
+        <section class="welcome-banner">
+            <div class="welcome-content">
+                <div class="welcome-header">
+                    <h1>Welcome back, <span id="user-first-name">User</span>!</h1>
+                    <div class="period-toggle">
+                        <button class="period-btn active" data-period="monthly">Monthly</button>
+                        <button class="period-btn" data-period="annual">Annual</button>
+                    </div>
+                </div>
+                <p id="welcome-subtitle">Here's your financial overview</p>
+            </div>
+            <div class="quick-actions">
+                <button class="action-btn" onclick="window.location.href='transactions.html'">
+                    <i class="fas fa-plus"></i> Add Transaction
+                </button>
+                <button class="action-btn secondary" onclick="window.location.href='ifi-ai.html'">
+                    <i class="fas fa-brain"></i> Ask iFi AI
+                </button>
+            </div>
+        </section>
+
+        <!-- Key Metrics -->
+        <section class="metrics-grid" id="metricsGrid">
+            <!-- Metrics will be dynamically generated based on onboarding data -->
+        </section>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Financial Health Score -->
+            <div class="widget health-score">
+                <div class="widget-header">
+                    <h3><i class="fas fa-heartbeat"></i> Financial Health Score</h3>
+                </div>
+                <div class="widget-body">
+                    <div class="score-display">
+                        <div class="score-circle" id="healthScore">
+                            <span class="score-value">--</span>
+                            <span class="score-label">Score</span>
+                        </div>
+                    </div>
+                    <div class="score-breakdown" id="scoreBreakdown">
+                        <!-- Generated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cash Flow Chart -->
+            <div class="widget cash-flow">
+                <div class="widget-header">
+                    <h3><i class="fas fa-chart-line"></i> Cash Flow Overview</h3>
+                    <select class="period-selector" id="cashFlowPeriod">
+                        <option value="month">This Month</option>
+                        <option value="quarter">This Quarter</option>
+                        <option value="year">This Year</option>
+                    </select>
+                </div>
+                <div class="widget-body">
+                    <div class="cash-flow-summary" id="cashFlowSummary">
+                        <!-- Generated dynamically -->
+                    </div>
+                    <div class="chart-container" id="cashFlowChart">
+                        <!-- Chart will be rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="widget recent-activity">
+                <div class="widget-header">
+                    <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                    <a href="transactions.html" class="view-all">View All</a>
+                </div>
+                <div class="widget-body">
+                    <div class="activity-list" id="activityList">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No recent transactions</p>
+                            <button onclick="window.location.href='../html/transactions.html'" class="btn-small">Add Transaction</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budget Progress (Conditional) -->
+            <div class="widget budget-progress" id="budgetWidget" style="display: none;">
+                <div class="widget-header">
+                    <h3><i class="fas fa-wallet"></i> Budget This Month</h3>
+                </div>
+                <div class="widget-body">
+                    <div id="budgetCategories">
+                        <!-- Generated based on expense data -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investment Performance (Conditional) -->
+            <div class="widget investment-performance" id="investmentWidget" style="display: none;">
+                <div class="widget-header">
+                    <h3><i class="fas fa-chart-pie"></i> Portfolio Performance</h3>
+                    <a href="investments.html" class="view-all">Details</a>
+                </div>
+                <div class="widget-body">
+                    <div id="portfolioSummary">
+                        <!-- Generated based on investment data -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights & Recommendations -->
+            <div class="widget insights">
+                <div class="widget-header">
+                    <h3><i class="fas fa-lightbulb"></i> Insights & Tips</h3>
+                </div>
+                <div class="widget-body">
+                    <div class="insight-list" id="insightList">
+                        <!-- Generated based on user data -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/shared-nav.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script>
+        // Initialize unified navigation
+        initializeNavigation('dashboard');
+    </script>
+</body>
+</html>

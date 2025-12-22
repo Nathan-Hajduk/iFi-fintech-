@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="iFi login page - Sign in to your intelligent financial companion">
+    <title>Login | iFi - Your Intelligent Financial Future</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <header class="modern-header">
+        <div class="header-inner">
+            <a href="Login.html" class="logo-brand">
+                <svg class="logo" width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
+                    <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
+                    <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
+                </svg>
+                <span class="brand-name">iFi</span>
+            </a>
+            <nav class="header-nav">
+                <a href="overview.html" class="nav-link">Overview</a>
+                <a href="how-it-works.html" class="nav-link">How It Works</a>
+                <a href="features.html" class="nav-link">Features</a>
+                <a href="ai-assistant.html" class="nav-link">AI Assistant</a>
+                <a href="use-cases.html" class="nav-link">Use Cases</a>
+                <a href="pricing.html" class="nav-link">Pricing</a>
+                <a href="security.html" class="nav-link">Security</a>
+                <a href="contact-us.html" class="nav-link">Contact Us</a>
+                <a href="signup.html" class="cta-button">Sign Up</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="split-container">
+        <div class="value-proposition">
+            <div class="hero-image" aria-hidden="true">
+                <img src="https://images.hdqwalls.com/download/best-nature-image-1400x900.jpg"
+                     alt=""
+                     class="feature-image">
+            </div>
+
+            <div class="text-box" role="region" aria-label="iFi value proposition">
+                <h2>The Future of Finance is Here</h2>
+                <p class="lead-text">Take your personal finances to the next level with iFi's cutting-edge tools and insights.</p>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line" aria-hidden="true"></i>
+                        <span>Smart Investment Tracking</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-robot" aria-hidden="true"></i>
+                        <span>AI-Powered Financial Insights</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                        <span>Secure Transaction Management</span>
+                    </div>
+                </div>
+
+                <a href="#features" class="cta-learn-more" aria-label="Learn how iFi helps">
+                    Learn how iFi helps <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="login-section">
+            <div class="login-card">
+                <div class="card-header">
+                    <h2>Sign In</h2>                </div>
+                <form class="login-form" id="loginForm" data-handler="inline">
+                    <div class="form-group">
+                        <label for="username"><i class="fas fa-user"></i> Username or Email</label>
+                        <input type="text" 
+                               id="username" 
+                               name="username"
+                               required 
+                               autocomplete="username"
+                               aria-required="true">
+                        <a href="forgot-username.html" class="help-link">Forgot Username?</a>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" 
+                               id="password" 
+                               name="password"
+                               required 
+                               autocomplete="password"
+                               aria-required="true">
+                        <a href="forgot-password.html" class="help-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-modern btn-primary">Sign In <i class="fas fa-arrow-right"></i></button>
+
+                    <div id="loginMessage" role="status" aria-live="polite" style="margin-top: 12px;"></div>
+
+                    <p class="signup-prompt">
+                        New to iFi? <a href="signup.html" class="signup-link">Create an account</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="section-header">
+            <h2 class="section-title">Why <span class="gradient-text">iFi</span>?</h2>
+            <p class="section-subtitle">  iFi Enables users to manage their finances effortlessly </p>
+        </div>
+
+        <div class="features-grid">
+            <!-- Budgeting Feature -->
+            <article class="feature-card">
+                <div class="feature-icon budget-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h3>Smart Budgeting</h3>
+                <p class="feature-desc">In today's volatile economy, every dollar counts. iFi's intelligent budgeting system analyzes your spending patterns, identifies savings opportunities, and helps you build financial resilience against inflation and economic uncertainty.</p>
+                <ul class="feature-highlights">
+                    <li><i class="fas fa-check"></i> Real-time expense tracking</li>
+                    <li><i class="fas fa-check"></i> Automated savings goals</li>
+                    <li><i class="fas fa-check"></i> Inflation-adjusted planning</li>
+                </ul>
+            </article>
+
+            <!-- AI System Feature -->
+            <article class="feature-card featured">
+                <div class="feature-badge">AI-Powered</div>
+                <div class="feature-icon ai-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>iFi AI Assistant</h3>
+                <p class="feature-desc">Our AI engine creates personalized short-term and long-term financial strategies. Whether you're planning next week's groceries or retirement, iFi AI considers market trends, your risk tolerance, and life goals to optimize every decision.</p>
+                <ul class="feature-highlights">
+                    <li><i class="fas fa-check"></i> Personalized investment strategies</li>
+                    <li><i class="fas fa-check"></i> Purchase timing recommendations</li>
+                    <li><i class="fas fa-check"></i> Adaptive budget forecasting</li>
+                    <li><i class="fas fa-check"></i> Risk assessment & alerts</li>
+                </ul>
+            </article>
+
+            <!-- Dashboard Feature -->
+            <article class="feature-card">
+                <div class="feature-icon dashboard-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3>Personal Finance Dashboard</h3>
+                <p class="feature-desc">Your financial life at a glance. The dashboard provides a comprehensive overview of your net worth, cash flow, savings rate, and financial health score—updated in real-time with beautiful visualizations.</p>
+                <ul class="feature-highlights">
+                    <li><i class="fas fa-check"></i> Net worth tracking</li>
+                    <li><i class="fas fa-check"></i> Cash flow analysis</li>
+                    <li><i class="fas fa-check"></i> Custom financial metrics</li>
+                </ul>
+            </article>
+
+            <!-- Transactions Feature -->
+            <article class="feature-card">
+                <div class="feature-icon transactions-icon">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <h3>Transaction Intelligence</h3>
+                <p class="feature-desc">Never miss a payment or lose track of spending. Our transaction page automatically categorizes daily purchases, flags lingering debts, tracks subscriptions, and reminds you of upcoming monthly or annual payments.</p>
+                <ul class="feature-highlights">
+                    <li><i class="fas fa-check"></i> Auto-categorization</li>
+                    <li><i class="fas fa-check"></i> Subscription tracking & alerts</li>
+                    <li><i class="fas fa-check"></i> Debt payoff planner</li>
+                    <li><i class="fas fa-check"></i> Recurring payment calendar</li>
+                </ul>
+            </article>
+
+            <!-- Investments Feature -->
+            <article class="feature-card">
+                <div class="feature-icon investments-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Investment Portfolio Tracker</h3>
+                <p class="feature-desc">Monitor your entire investment portfolio in one place. Track stocks, ETFs, crypto, bonds, and alternative investments with real-time prices, performance analytics, and AI-driven rebalancing recommendations.</p>
+                <ul class="feature-highlights">
+                    <li><i class="fas fa-check"></i> Multi-asset tracking (stocks, ETFs, crypto)</li>
+                    <li><i class="fas fa-check"></i> Performance & risk metrics</li>
+                    <li><i class="fas fa-check"></i> Portfolio diversification analysis</li>
+                    <li><i class="fas fa-check"></i> Tax-loss harvesting alerts</li>
+                </ul>
+            </article>
+
+            <!-- Economy News Feature -->
+            <article class="feature-card">
+                <div class="feature-icon economy-icon">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <h3>Today's Economy</h3>
+                <p class="feature-desc">Stay ahead of market movements. Get curated news and analysis on industries, businesses, and economic indicators that impact your investments and purchasing power—powered by AI that filters noise and surfaces what matters to you.</p>
+                <ul class="feature-highlights">
+                    <li><i class="fas fa-check"></i> Personalized economic news</li>
+                    <li><i class="fas fa-check"></i> Industry trend analysis</li>
+                    <li><i class="fas fa-check"></i> Market impact alerts</li>
+                    <li><i class="fas fa-check"></i> Company earnings & reports</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Transform Your Financial Future?</h2>
+            <p>Join our community of users who've taken control of their finances with iFi</p>
+            <a href="signup.html" class="btn-modern btn-large">Get Started Free <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <footer class="modern-footer">
+        <p>&copy; 2025 iFi. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+    <script src="../js/login-validation.js"></script>
+    <script>
+        // Toast helpers (scoped to this page)
+        function ensureToastContainer() {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            return container;
+        }
+        function showToast(type, message) {
+            const container = ensureToastContainer();
+            const toast = document.createElement('div');
+            toast.className = `toast ${type === 'success' ? 'toast-success' : type === 'error' ? 'toast-error' : ''}`;
+            toast.innerHTML = `
+                <span class="toast-icon">${type === 'success' ? '✔️' : type === 'error' ? '⚠️' : 'ℹ️'}</span>
+                <span class="toast-message">${message}</span>
+            `;
+            container.appendChild(toast);
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            const remove = () => {
+                toast.classList.remove('show');
+                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+            };
+            const timeout = setTimeout(remove, 3000);
+            toast.addEventListener('click', () => { clearTimeout(timeout); remove(); });
+        }
+
+        // Use Core API (same-origin when served via http://localhost:3000)
+        (function() {
+            const form = document.getElementById('loginForm');
+            const messageEl = document.getElementById('loginMessage');
+            if (!form) return;
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            // Determine API base: prefer same-origin; fallback to localhost:3000
+            const API_BASE = (location.protocol.startsWith('http')) ? `${location.origin}` : 'http://localhost:3000';
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                messageEl.textContent = '';
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                if (!username || !password) {
+                    messageEl.textContent = 'Please enter your username/email and password.';
+                    messageEl.style.color = '#d33';
+                    return;
+                }
+                try {
+                    // Spinner on
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('loading');
+                        submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Signing In';
+                    }
+                    const resp = await fetch(`${API_BASE}/api/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password })
+                    });
+                    const data = await resp.json().catch(() => ({ success: false, message: 'Invalid server response' }));
+                    if (!resp.ok || !data.success) {
+                        messageEl.textContent = data.message || 'Login failed';
+                        messageEl.style.color = '#d33';
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.classList.remove('loading');
+                            submitBtn.innerHTML = 'Sign In <i class="fas fa-arrow-right"></i>';
+                        }
+                        return;
+                    }
+                    // Persist session
+                    if (data.user) {
+                        localStorage.setItem('ifi_current_user', JSON.stringify(data.user));
+                    }
+                    messageEl.textContent = 'Login successful. Redirecting…';
+                    messageEl.style.color = '#2a7';
+                    showToast('success', 'Welcome back! Redirecting…');
+                    // Check if user has completed onboarding
+                    const onboardingComplete = localStorage.getItem('ifi_onboarding_complete');
+                    const redirectUrl = onboardingComplete === 'true' ? '../html/dashboard.html' : '../html/onboarding.html';
+                    setTimeout(() => {
+                        window.location.href = redirectUrl;
+                    }, 700);
+                } catch (err) {
+                    messageEl.textContent = 'Network error. Is the server running on http://localhost:3000?';
+                    messageEl.style.color = '#d33';
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('loading');
+                        submitBtn.innerHTML = 'Sign In <i class="fas fa-arrow-right"></i>';
+                    }
+                }
+            });
+        })();
+
+        // Smooth scroll for Learn how iFi helps button
+        document.querySelector('.cta-learn-more').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector('#features');
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 1500; // 1.5 seconds for smooth, slow scroll
+            let start = null;
+            
+            function animation(currentTime) {
+                if (start === null) start = currentTime;
+                const timeElapsed = currentTime - start;
+                const run = ease(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+                if (timeElapsed < duration) requestAnimationFrame(animation);
+            }
+            
+            // Easing function for smooth scroll
+            function ease(t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t + b;
+                t--;
+                return -c / 2 * (t * (t - 2) - 1) + b;
+            }
+            
+            requestAnimationFrame(animation);
+        });
+    </script>
+</body>
+</html>

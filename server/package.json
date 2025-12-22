@@ -1,0 +1,34 @@
+{
+  "name": "ifi-backend",
+  "version": "1.0.0",
+  "description": "iFi Backend Server with User Management",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.core.js",
+    "dev": "nodemon server.core.js",
+    "start:core": "node server.core.js",
+    "dev:core": "nodemon server.core.js",
+    "start:advanced": "node server.js",
+    "dev:advanced": "nodemon server.js"
+  },
+  "keywords": ["finance", "user-management", "api"],
+  "author": "Nathan Hajduk",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "bcrypt": "^5.1.1",
+    "sqlite3": "^5.1.6",
+    "joi": "^17.13.1",
+    "jsonwebtoken": "^9.0.2",
+    "express-rate-limit": "^6.10.0",
+    "winston": "^3.11.0",
+    "nodemailer": "^6.9.12",
+    "uuid": "^9.0.1",
+    "speakeasy": "^2.0.0",
+    "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

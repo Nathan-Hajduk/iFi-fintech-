@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investments | iFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/investments.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation loaded dynamically -->
+
+    <main class="investments-container">
+        <!-- Page Header -->
+        <section class="page-title-section">
+            <div class="page-title-content">
+                <h1><i class="fas fa-chart-line"></i> Investment Portfolio</h1>
+                <p>Track and optimize your investment performance</p>
+            </div>
+            <button class="btn-add-investment" onclick="openAddInvestmentModal()">
+                <i class="fas fa-plus"></i> Add Holding
+            </button>
+        </section>
+
+        <!-- Portfolio Summary -->
+        <section class="portfolio-summary">
+            <div class="portfolio-card total-value">
+                <div class="portfolio-icon"><i class="fas fa-wallet"></i></div>
+                <div class="portfolio-content">
+                    <span class="portfolio-label">Total Portfolio Value</span>
+                    <span class="portfolio-value" id="totalValue">$0</span>
+                    <span class="portfolio-change positive" id="totalChange">
+                        <i class="fas fa-arrow-up"></i> +0.00%
+                    </span>
+                </div>
+            </div>
+            <div class="portfolio-card day-change">
+                <div class="portfolio-icon"><i class="fas fa-chart-area"></i></div>
+                <div class="portfolio-content">
+                    <span class="portfolio-label">Today's Change</span>
+                    <span class="portfolio-value" id="dayChange">$0</span>
+                    <span class="portfolio-change" id="dayChangePercent">0.00%</span>
+                </div>
+            </div>
+            <div class="portfolio-card total-gain">
+                <div class="portfolio-icon"><i class="fas fa-arrow-trend-up"></i></div>
+                <div class="portfolio-content">
+                    <span class="portfolio-label">Total Gain/Loss</span>
+                    <span class="portfolio-value" id="totalGain">$0</span>
+                    <span class="portfolio-change" id="totalGainPercent">0.00%</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Asset Allocation & Holdings -->
+        <div class="content-grid">
+            <!-- Asset Allocation Chart -->
+            <div class="widget allocation-widget">
+                <div class="widget-header">
+                    <h3><i class="fas fa-pie-chart"></i> Asset Allocation</h3>
+                    <select id="allocationView" onchange="updateAllocation()">
+                        <option value="type">By Type</option>
+                        <option value="sector">By Sector</option>
+                    </select>
+                </div>
+                <div class="widget-body">
+                    <div class="allocation-chart" id="allocationChart">
+                        <!-- Chart placeholder -->
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-pie"></i>
+                            <p>Add holdings to see allocation</p>
+                        </div>
+                    </div>
+                    <div class="allocation-legend" id="allocationLegend">
+                        <!-- Legend items will be generated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Chart -->
+            <div class="widget performance-widget">
+                <div class="widget-header">
+                    <h3><i class="fas fa-chart-line"></i> Performance</h3>
+                    <div class="period-tabs">
+                        <button class="period-tab active" data-period="1D" onclick="changePeriod('1D', this)">1D</button>
+                        <button class="period-tab" data-period="1W" onclick="changePeriod('1W', this)">1W</button>
+                        <button class="period-tab" data-period="1M" onclick="changePeriod('1M', this)">1M</button>
+                        <button class="period-tab" data-period="3M" onclick="changePeriod('3M', this)">3M</button>
+                        <button class="period-tab" data-period="1Y" onclick="changePeriod('1Y', this)">1Y</button>
+                        <button class="period-tab" data-period="ALL" onclick="changePeriod('ALL', this)">ALL</button>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="performance-chart" id="performanceChart">
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-area"></i>
+                            <p>Performance tracking coming soon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Holdings Table -->
+        <section class="holdings-section">
+            <div class="holdings-header">
+                <h3>Your Holdings</h3>
+                <div class="holdings-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchHoldings" placeholder="Search holdings..." onkeyup="filterHoldings()">
+                    </div>
+                    <select id="assetTypeFilter" onchange="filterHoldings()">
+                        <option value="">All Assets</option>
+                        <option value="stocks">Stocks</option>
+                        <option value="etf">ETFs</option>
+                        <option value="crypto">Crypto</option>
+                        <option value="bonds">Bonds</option>
+                        <option value="real-estate">Real Estate</option>
+                    </select>
+                </div>
+            </div>
+            <div class="holdings-table-container">
+                <table class="holdings-table" id="holdingsTable">
+                    <thead>
+                        <tr>
+                            <th>Symbol/Name</th>
+                            <th>Type</th>
+                            <th>Shares/Units</th>
+                            <th>Avg Cost</th>
+                            <th>Current Price</th>
+                            <th>Total Value</th>
+                            <th>Gain/Loss</th>
+                            <th>% Change</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="holdingsBody">
+                        <!-- Holdings will be dynamically loaded -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Investment Modal -->
+    <div class="modal" id="addInvestmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Investment Holding</h2>
+                <button class="modal-close" onclick="closeAddInvestmentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="investment-form" id="investmentForm" onsubmit="addInvestment(event)">
+                <div class="form-group">
+                    <label for="assetType"><i class="fas fa-layer-group"></i> Asset Type</label>
+                    <select id="assetType" name="assetType" required>
+                        <option value="">Select type</option>
+                        <option value="stocks">Stocks</option>
+                        <option value="etf">ETF</option>
+                        <option value="crypto">Cryptocurrency</option>
+                        <option value="bonds">Bonds</option>
+                        <option value="real-estate">Real Estate</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="symbol"><i class="fas fa-tag"></i> Symbol</label>
+                        <input type="text" id="symbol" name="symbol" placeholder="AAPL, BTC, etc." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-file-signature"></i> Name</label>
+                        <input type="text" id="name" name="name" placeholder="Asset name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="shares"><i class="fas fa-hashtag"></i> Shares/Units</label>
+                        <input type="number" id="shares" name="shares" step="0.00000001" min="0" placeholder="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="avgCost"><i class="fas fa-dollar-sign"></i> Average Cost</label>
+                        <input type="number" id="avgCost" name="avgCost" step="0.01" min="0" placeholder="0.00" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="purchaseDate"><i class="fas fa-calendar"></i> Purchase Date</label>
+                    <input type="date" id="purchaseDate" name="purchaseDate" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeAddInvestmentModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Holding</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/shared-nav.js"></script>
+    <script src="../js/investments.js"></script>
+    <script>
+        // Initialize unified navigation
+        initializeNavigation('investments');
+    </script>
+</body>
+</html>
