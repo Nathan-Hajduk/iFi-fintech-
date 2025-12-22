@@ -460,20 +460,57 @@ body {
 }
 
 /* ============================================
-   FOOTER - LIGHT THEME
+   FOOTER - LIGHT BLUE GRADIENT WITH GLOW
    ============================================ */
+.modern-footer,
 .footer {
-  background: var(--light-bg-secondary) !important;
-  border-top: 1px solid var(--light-border-subtle);
-  color: var(--light-text-secondary) !important;
+  background: linear-gradient(135deg, #4dd0e1 0%, #00d4ff 50%, #5c8df6 100%) !important;
+  border-top: none !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 60px rgba(0, 212, 255, 0.4) !important;
 }
 
+.modern-footer p,
+.footer p,
+.footer {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.modern-footer a,
 .footer a {
-  color: var(--light-text-secondary) !important;
+  color: #ffffff !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+.modern-footer a:hover,
 .footer a:hover {
-  color: var(--ifi-cyan-primary) !important;
+  color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  text-decoration: none !important;
+}
+
+/* ============================================
+   CTA SECTION - LIGHT BLUE GRADIENT WITH GLOW
+   ============================================ */
+.cta-section {
+  background: linear-gradient(135deg, #4dd0e1 0%, #00d4ff 50%, #5c8df6 100%) !important;
+  box-shadow: 0 0 80px rgba(0, 212, 255, 0.5), inset 0 0 60px rgba(255, 255, 255, 0.1) !important;
+}
+
+.cta-section::before {
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent 70%) !important;
+}
+
+.cta-content h2 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cta-content p {
+  color: #ffffff !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* ============================================
