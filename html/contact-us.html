@@ -34,119 +34,109 @@
         </div>
     </header>
 
-    <main class="contact-container">
-        <!-- Hero Section -->
-        <section class="contact-hero">
-            <div class="hero-content">
-                <h1>How Can We Help You?</h1>
-                <p class="hero-subtitle">Find answers to common questions or reach out to our support team</p>
-            </div>
-        </section>
-
-        <!-- Contact Methods Section -->
-        <section class="contact-methods">
-            <div class="methods-container">
-                <h2 class="section-title">Get in Touch</h2>
-                <p class="section-subtitle">Our team is here to help you manage your financial future</p>
+    <div class="contact-page">
+        <div class="contact-container">
+            <!-- Contact Info Panel -->
+            <div class="contact-info">
+                <h2>Get In Touch</h2>
+                <p>Our team is here to help you navigate your financial journey. Reach out through any of these channels.</p>
                 
-                <div class="contact-cards">
-                    <div class="contact-card">
-                        <div class="contact-icon phone-icon">
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="method-icon">
                             <i class="fas fa-phone"></i>
                         </div>
-                        <h3>Call Us</h3>
-                        <p class="contact-detail">(800) 555-0123</p>
-                        <p class="contact-hours">Monday - Friday: 8:00 AM - 8:00 PM ET<br>Saturday: 9:00 AM - 5:00 PM ET</p>
+                        <div class="method-details">
+                            <h3>Call Us</h3>
+                            <p>(800) 555-0123</p>
+                            <p>Mon-Fri: 8AM-8PM ET</p>
+                        </div>
                     </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon email-icon">
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <h3>Email Us</h3>
-                        <p class="contact-detail">support@ifi-finance.com</p>
-                        <p class="contact-hours">Response within 24-48 hours</p>
+                        <div class="method-details">
+                            <h3>Email Us</h3>
+                            <p>support@ifi-finance.com</p>
+                            <p>Response within 24 hours</p>
+                        </div>
                     </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="method-details">
+                            <h3>Live Chat</h3>
+                            <p>Available 24/7</p>
+                            <p>Average wait: 2 minutes</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="response-badge">
+                    <p><i class="fas fa-clock"></i> Typical response within 24 hours</p>
                 </div>
             </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="faq-section">
-            <div class="faq-container">
-                <h2 class="section-title">Frequently Asked Questions</h2>
-                <p class="section-subtitle">Quick answers to common questions about iFi</p>
-
-                <!-- Account & Security -->
-                <div class="faq-category">
-                    <h3 class="category-title"><i class="fas fa-shield-alt"></i> Account & Security</h3>
+            
+            <!-- Contact Form Section -->
+            <div class="contact-form-section">
+                <h2>Send Us a Message</h2>
+                <p>Fill out the form below and we'll get back to you as soon as possible.</p>
+                
+                <form class="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+                        </div>
+                    </div>
                     
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>How do I create an iFi account?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Creating an iFi account is simple and takes just a few minutes. Click the "Sign Up" button in the header, provide your email address, create a secure password, and verify your email. You can then connect your bank accounts and start managing your finances immediately.</p>
-                        </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
                     </div>
-
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Is my financial data secure with iFi?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Absolutely. iFi uses bank-level 256-bit encryption to protect your data. We employ multi-factor authentication, and your financial information is stored using the same security standards as major financial institutions. We never sell your data to third parties, and we're SOC 2 Type II certified.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>How do I reset my password?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Click the "Forgot Password?" link on the login page. Enter your registered email address, and we'll send you a secure link to reset your password. The link expires after 1 hour for security purposes. If you don't receive the email, check your spam folder or contact support.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Features & Functionality -->
-                <div class="faq-category">
-                    <h3 class="category-title"><i class="fas fa-star"></i> Features & Functionality</h3>
                     
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>How does the AI-powered budgeting work?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="faq-answer">
-                            <p>iFi's AI analyzes your spending patterns, income, and financial goals to create personalized budgets. It learns from your behavior, identifies trends, and suggests optimizations. The AI considers factors like seasonal expenses, inflation rates, and your risk tolerance to provide actionable recommendations that adapt as your life changes.</p>
-                        </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a topic</option>
+                            <option value="account">Account & Login Issues</option>
+                            <option value="billing">Billing & Subscription</option>
+                            <option value="features">Features & Functionality</option>
+                            <option value="technical">Technical Support</option>
+                            <option value="feedback">Feedback & Suggestions</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
-
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Can I track multiple investment accounts?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Yes! iFi's Investment Portfolio Tracker supports multiple accounts across different platforms. You can track stocks, ETFs, crypto, bonds, 401(k)s, IRAs, and alternative investments all in one place. Our system aggregates real-time prices, calculates performance metrics, and provides AI-driven rebalancing recommendations.</p>
-                        </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us how we can help..." required></textarea>
                     </div>
+                    
+                    <button type="submit" class="btn-send">
+                        Send Message
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>What is Transaction Intelligence?</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Transaction Intelligence automatically categorizes your purchases, tracks subscriptions, flags lingering debts, and reminds you of upcoming payments. It helps you understand where your money goes, identifies duplicate subscriptions, and creates payment calendars for monthly and annual expenses.</p>
-                        </div>
-                    </div>
+    <footer class="footer">
+        <p>&copy; 2025 iFi. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="contact-us.html">Contact</a></p>
+    </footer>
 
-                    <div class="faq-item">
+    <script src="../js/site.js"></script>
+</body>
+</html>
                         <button class="faq-question">
                             <span>How does iFi's AI Assistant help with financial planning?</span>
                             <i class="fas fa-chevron-down"></i>

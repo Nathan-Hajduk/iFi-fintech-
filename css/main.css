@@ -701,8 +701,9 @@ a:focus-visible {
   margin: 0 auto;
   padding: 0 3rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 3rem;
 }
 
 .logo-brand {
@@ -711,6 +712,7 @@ a:focus-visible {
   gap: 0.875rem;
   text-decoration: none;
   transition: opacity 0.2s ease;
+  flex-shrink: 0;
 }
 
 .logo-brand:hover {
@@ -733,9 +735,10 @@ a:focus-visible {
 
 .header-nav {
   display: flex;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: center;
   flex-wrap: wrap;
+  flex: 1;
 }
 
 .nav-link {
