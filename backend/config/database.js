@@ -116,9 +116,16 @@ async function initializeTables() {
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
-        password_hash VARCHAR(255) NOT NULL,
-        first_name VARCHAR(100),
-        last_name VARCHAR(100),
+        password VARCHAR(255) NOT NULL,
+        first_name VARCHAR(100) NOT NULL,
+        last_name VARCHAR(100) NOT NULL,
+        phone_number VARCHAR(20),
+        role VARCHAR(50) DEFAULT 'free' CHECK (role IN ('free', 'premium', 'enterprise', 'admin')),
+        subscription_tier VARCHAR(50) DEFAULT 'free',
+        stripe_customer_id VARCHAR(255),
+        is_active BOOLEAN DEFAULT TRUE,
+        email_verified BOOLEAN DEFAULT FALSE,
+        last_login TIMESTAMP,
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );

@@ -26,6 +26,7 @@ const {
 
 // Import routes
 const plaidRoutes = require('./routes/plaidRoutes');
+const authRoutes = require('./routes/auth');
 
 // Import database
 const db = require('./config/database');
@@ -78,6 +79,9 @@ app.get('/api/health', healthCheck);
 // Apply rate limiting to all API routes
 app.use('/api', apiLimiter);
 
+// Authentication routes (public)
+app.use('/api/auth', authRoutes);
+
 // Plaid routes with specific rate limiting
 app.use('/api/plaid', plaidLimiter, plaidRoutes);
 
@@ -90,6 +94,7 @@ app.get('/', (req, res) => {
     status: 'running',
     endpoints: {
       health: '/health',
+      auth: '/api/auth',
       plaid: '/api/plaid',
     },
     documentation: 'See PLAID_INTEGRATION_GUIDE.md',
@@ -137,6 +142,13 @@ async function startServer() {
       console.log(`   API URL: http://localhost:${PORT}/api`);
       console.log(`   Health Check: http://localhost:${PORT}/health`);
       console.log(`   Plaid Environment: ${process.env.PLAID_ENV}`);
+      console.log(`\n   Authentication:`);
+      console.log(`   POST   /api/auth/register`);
+      console.log(`   POST   /api/auth/login`);
+      console.log(`   POST   /api/auth/refresh`);
+      console.log(`   POST   /api/auth/logout`);
+      console.log(`   GET    /api/auth/me`);
+      console.log(`\n   Plaid Integration:`);
       console.log(`\n📚 API Endpoints:`);
       console.log(`   POST   /api/plaid/create_link_token`);
       console.log(`   POST   /api/plaid/exchange_public_token`);
