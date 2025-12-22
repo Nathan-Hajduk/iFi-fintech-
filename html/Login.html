@@ -218,6 +218,7 @@
     <footer class="modern-footer">
         <p>&copy; 2025 iFi. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
     </footer>
+    <script src="../js/auth-manager.js"></script>
     <script src="../js/login-validation.js"></script>
     <script>
         // Toast helpers (scoped to this page)
@@ -249,26 +250,33 @@
             toast.addEventListener('click', () => { clearTimeout(timeout); remove(); });
         }
 
-        // Use Core API (same-origin when served via http://localhost:3000)
+        // Check if already authenticated and redirect
+        if (authManager.isAuthenticated()) {
+            const onboardingComplete = localStorage.getItem('ifi_onboarding_complete');
+            const redirectUrl = onboardingComplete === 'true' ? './dashboard.html' : './onboarding.html';
+            window.location.href = redirectUrl;
+        }
+
+        // JWT Authentication with authManager
         (function() {
             const form = document.getElementById('loginForm');
             const messageEl = document.getElementById('loginMessage');
             if (!form) return;
             const submitBtn = form.querySelector('button[type="submit"]');
 
-            // Determine API base: prefer same-origin; fallback to localhost:3000
-            const API_BASE = (location.protocol.startsWith('http')) ? `${location.origin}` : 'http://localhost:3000';
-
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 messageEl.textContent = '';
-                const username = document.getElementById('username').value.trim();
+                
+                const email = document.getElementById('username').value.trim();
                 const password = document.getElementById('password').value;
-                if (!username || !password) {
-                    messageEl.textContent = 'Please enter your username/email and password.';
+                
+                if (!email || !password) {
+                    messageEl.textContent = 'Please enter your email and password.';
                     messageEl.style.color = '#d33';
                     return;
                 }
+                
                 try {
                     // Spinner on
                     if (submitBtn) {
@@ -276,38 +284,32 @@
                         submitBtn.classList.add('loading');
                         submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Signing In';
                     }
-                    const resp = await fetch(`${API_BASE}/api/login`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username, password })
-                    });
-                    const data = await resp.json().catch(() => ({ success: false, message: 'Invalid server response' }));
-                    if (!resp.ok || !data.success) {
-                        messageEl.textContent = data.message || 'Login failed';
-                        messageEl.style.color = '#d33';
-                        if (submitBtn) {
-                            submitBtn.disabled = false;
-                            submitBtn.classList.remove('loading');
-                            submitBtn.innerHTML = 'Sign In <i class="fas fa-arrow-right"></i>';
-                        }
-                        return;
-                    }
-                    // Persist session
-                    if (data.user) {
-                        localStorage.setItem('ifi_current_user', JSON.stringify(data.user));
-                    }
+                    
+                    // Use JWT authentication
+                    const result = await authManager.login(email, password);
+                    
+                    // Success
                     messageEl.textContent = 'Login successful. Redirecting…';
                     messageEl.style.color = '#2a7';
-                    showToast('success', 'Welcome back! Redirecting…');
+                    showToast('success', `Welcome back, ${result.user.firstName || 'User'}!`);
+                    
+                    // Check for redirect parameter or use default
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirectTo = urlParams.get('redirect');
+                    
                     // Check if user has completed onboarding
                     const onboardingComplete = localStorage.getItem('ifi_onboarding_complete');
-                    const redirectUrl = onboardingComplete === 'true' ? '../html/dashboard.html' : '../html/onboarding.html';
+                    const defaultRedirect = onboardingComplete === 'true' ? './dashboard.html' : './onboarding.html';
+                    
                     setTimeout(() => {
-                        window.location.href = redirectUrl;
+                        window.location.href = redirectTo || defaultRedirect;
                     }, 700);
+                    
                 } catch (err) {
-                    messageEl.textContent = 'Network error. Is the server running on http://localhost:3000?';
+                    console.error('Login error:', err);
+                    messageEl.textContent = err.message || 'Login failed. Please try again.';
                     messageEl.style.color = '#d33';
+                    showToast('error', err.message || 'Login failed');
                 } finally {
                     if (submitBtn) {
                         submitBtn.disabled = false;
