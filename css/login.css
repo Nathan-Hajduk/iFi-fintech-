@@ -98,7 +98,7 @@ html {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(10, 14, 26, 0.75);
+  background: rgba(0, 0, 0, 0.55);
   z-index: 0;
   pointer-events: none;
 }
@@ -107,7 +107,7 @@ html {
 .hero-image {
   position: absolute;
   inset: 0;
-  opacity: 0.85;
+  opacity: 1;
   z-index: 0;
   mix-blend-mode: normal;
 }
@@ -116,7 +116,7 @@ html {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.6);
+  filter: brightness(0.5);
 }
 
 /* Value Proposition Content */
@@ -142,7 +142,8 @@ html {
 /* Headline - Authority & Loss Aversion */
 .text-box h2 {
   font-size: 3.25rem;
-  font-weight: 700;
+  font-weight: 800;
+  color: #ffffff;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9), 0 2px 10px rgba(0, 0, 0, 0.7);
   margin-bottom: 1.25rem;
   line-height: 1.15;
@@ -157,10 +158,10 @@ html {
 .lead-text {
   font-size: 1.375rem;
   margin-bottom: 3rem;
-  opacity: 0.88;
+  opacity: 1;
   line-height: 1.5;
-  color: var(--ifi-gray-200);
-  font-weight: 400;
+  color: #ffffff;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
@@ -177,7 +178,8 @@ html {
   align-items: center;
   gap: 1.125rem;
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: #ffffff;
   padding: 1rem 1.25rem;
   background: rgba(0, 212, 255, 0.04);
   border-left: 3px solid var(--ifi-cyan-primary);
@@ -279,7 +281,7 @@ html {
   width: 80px;
   height: 80px;
   margin: 0 auto 1rem;
-  background-image: url('data:image/svg+xml,%3Csvg width="80" height="80" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"%3E%3Crect x="6" y="30" width="10" height="14" fill="%235dade2" rx="2"/%3E%3Crect x="20" y="18" width="10" height="26" fill="%233498db" rx="2"/%3E%3Crect x="34" y="6" width="10" height="38" fill="%232980b9" rx="2"/%3E%3C/svg%3E');
+  background-image: url('data:image/svg+xml,%3Csvg width="80" height="80" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"%3E%3Crect x="6" y="30" width="10" height="14" fill="%2300d4ff" rx="2"/%3E%3Crect x="20" y="18" width="10" height="26" fill="%2326c6da" rx="2"/%3E%3Crect x="34" y="6" width="10" height="38" fill="%234dd0e1" rx="2"/%3E%3C/svg%3E');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -292,7 +294,7 @@ html {
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
+  background: linear-gradient(135deg, #4dd0e1 0%, #26c6da 50%, #00d4ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -500,7 +502,7 @@ html {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #4dd0e1 0%, #00d4ff 50%, #5c8df6 100%);
+  background: linear-gradient(135deg, #4dd0e1 0%, #26c6da 50%, #00d4ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
