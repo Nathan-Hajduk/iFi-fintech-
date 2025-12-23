@@ -90,7 +90,7 @@ body {
 }
 
 .value-proposition::after {
-  background: rgba(255, 255, 255, 0.4) !important;
+  background: transparent !important;
 }
 
 .text-box h2 {
