@@ -318,17 +318,34 @@
             });
         })();
 
-        // Smooth scroll for Learn how iFi helps button
+        // Smooth scroll for Learn how iFi helps button with controlled speed
         document.querySelector('.cta-learn-more').addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector('#features');
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - 80;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 2000; // 2 seconds for smoother, slower scroll
+            let start = null;
             
-            // Modern smooth scroll with smooth behavior
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-                inline: 'nearest'
-            });
+            function animation(currentTime) {
+                if (start === null) start = currentTime;
+                const timeElapsed = currentTime - start;
+                const progress = Math.min(timeElapsed / duration, 1);
+                
+                // Cubic ease-in-out for smooth, natural feeling
+                const ease = progress < 0.5 
+                    ? 4 * progress * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                
+                window.scrollTo(0, startPosition + distance * ease);
+                
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+            
+            requestAnimationFrame(animation);
         });
     </script>
 </body>

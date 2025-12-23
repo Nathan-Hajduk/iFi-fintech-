@@ -15,6 +15,13 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  scroll-padding-top: 2rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 :root {
@@ -125,13 +132,15 @@ html {
   z-index: 2;
   max-width: 650px;
   animation: fadeSlideUp var(--ifi-duration-slow) var(--ifi-easing-decelerate);
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(8px);
   padding: 3rem;
   border-radius: 24px;
   border: 1px solid rgba(0, 212, 255, 0.4);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 212, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   text-shadow: none;
+  will-change: auto;
+  transform: translateZ(0);
 }
 
 @keyframes fadeSlideUp {
@@ -218,7 +227,7 @@ html {
   gap: 0.75rem;
   padding: 1rem 2rem;
   background: rgba(0, 212, 255, 0.08);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(4px);
   border: 1.5px solid rgba(0, 212, 255, 0.3);
   border-radius: 12px;
   color: var(--ifi-cyan-primary);
