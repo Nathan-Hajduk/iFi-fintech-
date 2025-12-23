@@ -278,6 +278,33 @@ body {
   background: var(--ifi-gradient-primary) !important;
 }
 
+.feature-detail-card {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border-medium) !important;
+  box-shadow: var(--light-shadow-md) !important;
+}
+
+.feature-detail-card:hover {
+  box-shadow: var(--light-shadow-lg), 0 0 0 2px rgba(0, 212, 255, 0.08) !important;
+}
+
+.feature-detail-card .tier-header {
+  background: var(--light-bg-secondary) !important;
+  border-bottom: 1px solid var(--light-border-medium) !important;
+}
+
+.feature-detail-card .tier-header h3 {
+  color: var(--light-text-primary) !important;
+}
+
+.feature-detail-card.premium-tier .tier-header {
+  background: linear-gradient(135deg, #0a0e1a 0%, #141b2b 100%) !important;
+}
+
+.feature-detail-card.premium-tier .tier-header h3 {
+  color: #ffffff !important;
+}
+
 .step-content h4 {
   color: var(--light-text-primary) !important;
 }

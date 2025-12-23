@@ -959,6 +959,55 @@
 }
 
 /* ============================================
+   FEATURE DETAIL CARDS
+   ============================================ */
+.feature-detail-card {
+  min-height: auto;
+}
+
+.feature-icon-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon-large i {
+  font-size: 2.5rem;
+  color: #ffffff;
+}
+
+.feature-detail-card .tier-header {
+  padding: 2.5rem 2rem 2rem;
+}
+
+.feature-detail-card .tier-header h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+}
+
+.feature-badge-large {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #00d4ff, #26c6da);
+  color: #ffffff;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.feature-detail-card.premium-tier .feature-badge-large {
+  background: linear-gradient(135deg, #5c8df6, #7b1fa2);
+}
+
+/* ============================================
    RESPONSIVE DESIGN
    ============================================ */
 @media (max-width: 768px) {
