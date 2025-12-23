@@ -322,29 +322,13 @@
         document.querySelector('.cta-learn-more').addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector('#features');
-            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-            const startPosition = window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            const duration = 1500; // 1.5 seconds for smooth, slow scroll
-            let start = null;
             
-            function animation(currentTime) {
-                if (start === null) start = currentTime;
-                const timeElapsed = currentTime - start;
-                const run = ease(timeElapsed, startPosition, distance, duration);
-                window.scrollTo(0, run);
-                if (timeElapsed < duration) requestAnimationFrame(animation);
-            }
-            
-            // Easing function for smooth scroll
-            function ease(t, b, c, d) {
-                t /= d / 2;
-                if (t < 1) return c / 2 * t * t + b;
-                t--;
-                return -c / 2 * (t * (t - 2) - 1) + b;
-            }
-            
-            requestAnimationFrame(animation);
+            // Modern smooth scroll with smooth behavior
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'nearest'
+            });
         });
     </script>
 </body>
