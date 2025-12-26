@@ -106,91 +106,10 @@ async function testConnection() {
  * @returns {Promise<void>}
  */
 async function initializeTables() {
-  const client = await getClient();
-  
-  try {
-    await client.query('BEGIN');
-    
-    // Create users table (if not exists)
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        first_name VARCHAR(100) NOT NULL,
-        last_name VARCHAR(100) NOT NULL,
-        phone_number VARCHAR(20),
-        role VARCHAR(50) DEFAULT 'free' CHECK (role IN ('free', 'premium', 'enterprise', 'admin')),
-        subscription_tier VARCHAR(50) DEFAULT 'free',
-        stripe_customer_id VARCHAR(255),
-        is_active BOOLEAN DEFAULT TRUE,
-        email_verified BOOLEAN DEFAULT FALSE,
-        last_login TIMESTAMP,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-    `);
-    
-    // Create plaid_connections table
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS plaid_connections (
-        id SERIAL PRIMARY KEY,
-        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-        item_id VARCHAR(255) UNIQUE NOT NULL,
-        access_token TEXT NOT NULL,
-        institution_id VARCHAR(255),
-        institution_name VARCHAR(255),
-        accounts JSONB DEFAULT '[]'::jsonb,
-        status VARCHAR(50) DEFAULT 'active' CHECK (status IN ('active', 'reauth_required', 'disconnected')),
-        last_synced_at TIMESTAMP,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-    `);
-    
-    // Create transactions table
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS transactions (
-        id SERIAL PRIMARY KEY,
-        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-        plaid_connection_id INTEGER REFERENCES plaid_connections(id) ON DELETE CASCADE,
-        transaction_id VARCHAR(255) UNIQUE NOT NULL,
-        account_id VARCHAR(255),
-        amount DECIMAL(10, 2) NOT NULL,
-        date DATE NOT NULL,
-        name VARCHAR(255) NOT NULL,
-        merchant_name VARCHAR(255),
-        category VARCHAR(100),
-        subcategory VARCHAR(100),
-        pending BOOLEAN DEFAULT FALSE,
-        payment_channel VARCHAR(50),
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-    `);
-    
-    // Create indexes for performance
-    await client.query(`
-      CREATE INDEX IF NOT EXISTS idx_plaid_user_id ON plaid_connections(user_id);
-      CREATE INDEX IF NOT EXISTS idx_plaid_item_id ON plaid_connections(item_id);
-      CREATE INDEX IF NOT EXISTS idx_plaid_status ON plaid_connections(status);
-      
-      CREATE INDEX IF NOT EXISTS idx_transaction_user_id ON transactions(user_id);
-      CREATE INDEX IF NOT EXISTS idx_transaction_date ON transactions(date DESC);
-      CREATE INDEX IF NOT EXISTS idx_transaction_category ON transactions(category);
-      CREATE INDEX IF NOT EXISTS idx_transaction_pending ON transactions(pending);
-      CREATE INDEX IF NOT EXISTS idx_transaction_account_id ON transactions(account_id);
-    `);
-    
-    await client.query('COMMIT');
-    console.log('Database tables initialized successfully');
-  } catch (error) {
-    await client.query('ROLLBACK');
-    console.error('Failed to initialize tables:', error.message);
-    throw error;
-  } finally {
-    client.release();
-  }
+  // Tables are already initialized by scripts/init-database.js
+  // This function is kept for compatibility but does nothing
+  console.log('✓ Database tables already initialized');
+  return Promise.resolve();
 }
 
 /**

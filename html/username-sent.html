@@ -5,35 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Username recovery email sent">
     <title>Username Sent | iFi - Your Intelligent Financial Future</title>
-    <link rel="stylesheet" href="../css/confirmation-pages.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/light-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .success-container {
+            min-height: calc(100vh - 80px);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+        }
+        .success-content {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+            animation: scaleIn 0.5s ease-out;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .success-icon i { font-size: 3.5rem; color: white; }
+        .success-content h1 {
+            font-size: 2.3rem;
+            color: #1a4f7a;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        .success-message, .success-note {
+            font-size: 1.15rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .success-note { font-size: 1rem; color: #666; margin-bottom: 2.5rem; }
+        .action-buttons { margin-bottom: 2rem; }
+        .help-text {
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        .help-text p { font-size: 0.95rem; color: #666; margin: 0; }
+        .help-text a { color: #2980b9; text-decoration: none; font-weight: 500; }
+        .help-text a:hover { text-decoration: underline; }
+        @media (max-width: 768px) {
+            .success-content h1 { font-size: 2rem; }
+            .success-content { padding: 2.5rem 2rem; }
+            .success-icon { width: 80px; height: 80px; }
+            .success-icon i { font-size: 3rem; }
+        }
+    </style>
 </head>
 <body>
     <header class="modern-header">
         <div class="header-inner">
-            <div class="logo-brand">
+            <a href="Login.html" class="logo-brand">
                 <svg class="logo" width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
                     <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
                     <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
                     <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
                 </svg>
                 <span class="brand-name">iFi</span>
-            </div>
+            </a>
             <nav class="header-nav">
+                <a href="how-it-works.html" class="nav-link">How It Works</a>
+                <a href="features.html" class="nav-link">Features</a>
+                <a href="pricing.html" class="nav-link">Pricing</a>
                 <a href="contact-us.html" class="nav-link">Contact Us</a>
-                <a href="Login.html" class="nav-link signup-cta">Login</a>
+                <a href="Login.html" class="cta-button">Login</a>
             </nav>
         </div>
     </header>
 
-    <main class="confirmation-container">
-        <div class="confirmation-content">
+    <main class="success-container">
+        <div class="success-content">
             <div class="success-icon">
                 <i class="fas fa-check-circle"></i>
             </div>
             <h1>Username Recovery Email Sent</h1>
-            <p class="confirmation-message">We have sent an email to the address you provided containing your username.</p>
-            <p class="confirmation-note">Please check your inbox (and spam folder) for the email.</p>
+            <p class="success-message">We have sent an email to the address you provided containing your username.</p>
+            <p class="success-note">Please check your inbox (and spam folder) for the email.</p>
             
             <div class="action-buttons">
                 <a href="Login.html" class="btn-modern btn-primary">

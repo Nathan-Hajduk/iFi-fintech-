@@ -12,10 +12,10 @@
 @import url('login.css');
 
 /* ============================================
-   HERO SECTION
+   HERO SECTION - Light Theme with Glowing Blue Accents
    ============================================ */
 .hero-section {
-  background: linear-gradient(165deg, #0a0e1a 0%, #141b2b 50%, #1a2332 100%);
+  background: linear-gradient(165deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%);
   padding: 6rem 3rem 5rem;
   text-align: center;
   position: relative;
@@ -30,10 +30,16 @@
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 212, 255, 0.02) 2px,
-    rgba(0, 212, 255, 0.02) 4px
+    rgba(56, 189, 248, 0.05) 2px,
+    rgba(56, 189, 248, 0.05) 4px
   );
   pointer-events: none;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
 }
 
 .hero-content {
@@ -60,27 +66,41 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
-  background: rgba(0, 212, 255, 0.1);
-  border: 1px solid rgba(0, 212, 255, 0.2);
+  background: rgba(56, 189, 248, 0.2);
+  border: 2px solid rgba(56, 189, 248, 0.4);
   border-radius: 50px;
-  color: #00d4ff;
+  color: #0369a1;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 1.5rem;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+  animation: glow 2s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.ai-badge:hover {
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
+  transform: scale(1.05);
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(56, 189, 248, 0.5); }
 }
 
 .hero-content h1 {
   font-size: 3.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #0f172a;
   margin-bottom: 1.25rem;
   letter-spacing: -0.02em;
   line-height: 1.15;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .hero-content p {
   font-size: 1.375rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: #475569;
   line-height: 1.6;
   max-width: 750px;
   margin: 0 auto;
@@ -128,18 +148,18 @@
   border-color: #00d4ff;
 }
 
-/* Premium Tier - Visual Prominence */
+/* Premium Tier - Visual Prominence with Light Theme */
 .comparison-card.highlight {
-  background: linear-gradient(165deg, #0a0e1a 0%, #141b2b 100%);
-  color: #ffffff;
-  border: 3px solid #00d4ff;
-  box-shadow: 0 12px 48px rgba(0, 212, 255, 0.2);
+  background: linear-gradient(165deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #0f172a;
+  border: 3px solid #38bdf8;
+  box-shadow: 0 12px 48px rgba(56, 189, 248, 0.3), 0 0 30px rgba(56, 189, 248, 0.2);
   transform: scale(1.05);
 }
 
 .comparison-card.highlight:hover {
   transform: scale(1.05) translateY(-8px);
-  box-shadow: 0 16px 56px rgba(0, 212, 255, 0.3);
+  box-shadow: 0 16px 56px rgba(56, 189, 248, 0.4), 0 0 40px rgba(56, 189, 248, 0.3);
 }
 
 /* Popular Badge - Social Proof */
@@ -227,8 +247,9 @@
   color: #00d4ff;
 }
 
-/* CTA Buttons */
-.cta-button {
+/* CTA Buttons - only for pricing card buttons, not nav */
+.comparison-card .cta-button,
+.pricing-card .cta-button {
   padding: 1rem 2rem;
   background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
   color: #ffffff;
@@ -244,7 +265,8 @@
   box-shadow: 0 4px 16px rgba(0, 212, 255, 0.2);
 }
 
-.cta-button:hover {
+.comparison-card .cta-button:hover,
+.pricing-card .cta-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 212, 255, 0.35);
 }

@@ -1,6 +1,10 @@
 /**
  * Client-Side Authentication Manager
  * Handles JWT tokens, login/logout, and protected route access
+ * 
+ * NOTE: Tokens are now stored in PostgreSQL database on the backend for security.
+ * localStorage is still used for client-side session persistence and quick access,
+ * but the backend validates all tokens against the database (user_sessions table).
  */
 
 class AuthManager {
@@ -10,12 +14,34 @@ class AuthManager {
     this.user = null;
     this.tokenRefreshTimer = null;
     
-    // Load tokens from localStorage on init
+    // API Base URL - use environment or default to localhost:3000
+    this.API_BASE_URL = this.getApiBaseUrl();
+    
+    // Load tokens from localStorage on init (for client-side persistence)
     this.loadFromStorage();
   }
   
   /**
+   * Determine the API base URL
+   * @returns {string} API base URL
+   */
+  getApiBaseUrl() {
+    // Check if we're running on the same origin as the backend
+    const origin = window.location.origin;
+    
+    // If on localhost:3000, use relative URLs
+    if (origin.includes(':3000')) {
+      return '';
+    }
+    
+    // Otherwise, use explicit backend URL
+    return 'http://localhost:3000';
+  }
+  
+  /**
    * Load tokens and user data from localStorage
+   * NOTE: localStorage is used for client-side persistence only.
+   * Backend validates all tokens against the database.
    */
   loadFromStorage() {
     try {
@@ -39,6 +65,7 @@ class AuthManager {
   
   /**
    * Save tokens and user data to localStorage
+   * NOTE: For client-side persistence only. Backend stores tokens in database.
    */
   saveToStorage() {
     try {
@@ -57,7 +84,8 @@ class AuthManager {
   }
   
   /**
-   * Clear authentication data
+   * Clear authentication data from memory and localStorage
+   * Backend session will also be invalidated on logout
    */
   clearAuth() {
     this.accessToken = null;
@@ -81,7 +109,7 @@ class AuthManager {
    */
   async register(userData) {
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(`${this.API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -89,15 +117,23 @@ class AuthManager {
         body: JSON.stringify(userData)
       });
       
-      const data = await response.json();
-      
       if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+        // Try to parse error message
+        let errorMessage = 'Registration failed';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          // If JSON parsing fails, use default message
+        }
+        throw new Error(errorMessage);
       }
       
-      // Store tokens and user data
-      this.accessToken = data.accessToken;
-      this.refreshToken = data.refreshToken;
+      const data = await response.json();
+      
+      // Store tokens and user data (backend returns tokens nested in tokens object)
+      this.accessToken = data.tokens?.accessToken || data.accessToken;
+      this.refreshToken = data.tokens?.refreshToken || data.refreshToken;
       this.user = data.user;
       this.saveToStorage();
       this.scheduleTokenRefresh();
@@ -117,7 +153,7 @@ class AuthManager {
    */
   async login(email, password) {
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${this.API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -125,20 +161,32 @@ class AuthManager {
         body: JSON.stringify({ email, password })
       });
       
-      const data = await response.json();
-      
       if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
+        // Try to parse error message
+        let errorMessage = 'Login failed';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          // If JSON parsing fails, use default message
+        }
+        throw new Error(errorMessage);
       }
       
-      // Store tokens and user data
-      this.accessToken = data.accessToken;
-      this.refreshToken = data.refreshToken;
+      const data = await response.json();
+      
+      // Store tokens and user data (backend returns tokens nested in tokens object)
+      this.accessToken = data.tokens?.accessToken || data.accessToken;
+      this.refreshToken = data.tokens?.refreshToken || data.refreshToken;
       this.user = data.user;
       this.saveToStorage();
       this.scheduleTokenRefresh();
       
-      return { success: true, user: data.user };
+      return { 
+        success: true, 
+        user: data.user,
+        onboardingCompleted: data.onboardingCompleted || false
+      };
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -152,7 +200,7 @@ class AuthManager {
   async logout() {
     try {
       if (this.accessToken) {
-        await fetch('/api/auth/logout', {
+        await fetch(`${this.API_BASE_URL}/api/auth/logout`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${this.accessToken}`,
@@ -178,7 +226,7 @@ class AuthManager {
         throw new Error('No refresh token available');
       }
       
-      const response = await fetch('/api/auth/refresh', {
+      const response = await fetch(`${this.API_BASE_URL}/api/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -213,12 +261,15 @@ class AuthManager {
       clearTimeout(this.tokenRefreshTimer);
     }
     
-    // Refresh token 1 minute before it expires (15min - 1min = 14min)
-    const refreshIn = 14 * 60 * 1000; // 14 minutes
+    // Refresh token 5 minutes before it expires (1 hour - 5 min = 55 min)
+    const refreshIn = 55 * 60 * 1000; // 55 minutes
     
     this.tokenRefreshTimer = setTimeout(async () => {
+      console.log('🔄 Auto-refreshing access token...');
       await this.refreshAccessToken();
     }, refreshIn);
+    
+    console.log(`⏰ Token will auto-refresh in ${refreshIn / 60000} minutes`);
   }
   
   /**
@@ -261,7 +312,7 @@ class AuthManager {
    */
   async getCurrentUser() {
     try {
-      const response = await this.fetch('/api/auth/me');
+      const response = await this.fetch(`${this.API_BASE_URL}/api/auth/me`);
       const data = await response.json();
       
       if (response.ok) {

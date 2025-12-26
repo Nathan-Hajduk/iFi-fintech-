@@ -36,12 +36,12 @@
 
     <main class="signup-container">
         <div class="signup-content">
-            <div class="signup-header">
+            <div class="signup-header scroll-reveal">
                 <h1>Create Your Account</h1>
                 <p class="subtitle">Join thousands of users taking control of their financial future</p>
             </div>
 
-            <div class="signup-card">
+            <div class="signup-card scroll-reveal">
                 <form class="signup-form">
                     <div class="form-row">
                         <div class="form-group">
@@ -78,12 +78,18 @@
 
                     <div class="form-group">
                         <label for="password"><i class="fas fa-lock"></i> Password</label>
-                        <input type="password" 
-                               id="password" 
-                               name="password" 
-                               pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{9,}$"
-                               placeholder="Create a strong password"
-                               required>
+                        <div style="position: relative;">
+                            <input type="password" 
+                                   id="password" 
+                                   name="password" 
+                                   pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{9,}$"
+                                   placeholder="Create a strong password"
+                                   required
+                                   style="padding-right: 45px;">
+                            <i class="fas fa-eye" id="togglePassword" 
+                               style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; z-index: 10;"
+                               aria-label="Toggle password visibility"></i>
+                        </div>
                         <div class="password-requirements">
                             <p class="requirements-title"><i class="fas fa-info-circle"></i> Password must contain:</p>
                             <ul>
@@ -97,7 +103,12 @@
 
                     <div class="form-group">
                         <label for="reenter-password"><i class="fas fa-lock"></i> Confirm Password</label>
-                        <input type="password" id="reenter-password" name="reenter-password" placeholder="Re-enter your password" required>
+                        <div style="position: relative;">
+                            <input type="password" id="reenter-password" name="reenter-password" placeholder="Re-enter your password" required style="padding-right: 45px;">
+                            <i class="fas fa-eye" id="toggleReenterPassword" 
+                               style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; z-index: 10;"
+                               aria-label="Toggle confirm password visibility"></i>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -244,5 +255,32 @@
     </footer>
 
     <script src="../js/signup-validation.js"></script>
+    <script>
+        // Password visibility toggles
+        const togglePassword = document.querySelector('#togglePassword');
+        const passwordField = document.querySelector('#password');
+        
+        if (togglePassword && passwordField) {
+            togglePassword.addEventListener('click', function() {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+
+        const toggleReenterPassword = document.querySelector('#toggleReenterPassword');
+        const reenterPasswordField = document.querySelector('#reenter-password');
+        
+        if (toggleReenterPassword && reenterPasswordField) {
+            toggleReenterPassword.addEventListener('click', function() {
+                const type = reenterPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                reenterPasswordField.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+    </script>
+    <script src="../js/scroll-animations.js"></script>
 </body>
 </html>

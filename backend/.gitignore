@@ -10,6 +10,9 @@ yarn-error.log*
 .env.production
 .env.test
 
+# Security - Protected database viewer
+scripts/VIEW_DATABASE.bat
+
 # Logs
 logs/
 *.log

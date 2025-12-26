@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iFi Database Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 100px auto;
+        }
+
+        .login-container h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .error-message {
+            background: #ffe0e0;
+            color: #d32f2f;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 36px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .table-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .table-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .table-card h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .table-card .meta {
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .table-viewer {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .table-viewer.active {
+            display: block;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .table-header h2 {
+            color: #667eea;
+        }
+
+        .btn-back {
+            background: #f0f0f0;
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background: #e0e0e0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+        }
+
+        .data-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <h2>🔒 Database Viewer</h2>
+        <div id="loginError" class="error-message" style="display: none;"></div>
+        <input 
+            type="password" 
+            id="passwordInput" 
+            class="password-input" 
+            placeholder="Enter database viewer password"
+            onkeypress="if(event.key === 'Enter') login()"
+        >
+        <button class="btn btn-primary" onclick="login()">Access Database</button>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" style="display: none;">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <h1>📊 iFi Database Viewer</h1>
+                <p>Real-time PostgreSQL database monitoring and data exploration</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="totalTables">-</h3>
+                    <p>Total Tables</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalRows">-</h3>
+                    <p>Total Rows</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalColumns">-</h3>
+                    <p>Total Columns</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="dbStatus">🟢</h3>
+                    <p>Database Status</p>
+                </div>
+            </div>
+
+            <!-- Tables List -->
+            <div id="tablesListView">
+                <input 
+                    type="text" 
+                    id="tableSearch" 
+                    class="search-box" 
+                    placeholder="🔍 Search tables..."
+                    oninput="filterTables()"
+                >
+                <div id="tablesGrid" class="tables-grid">
+                    <div class="loading">Loading tables...</div>
+                </div>
+            </div>
+
+            <!-- Table Viewer -->
+            <div id="tableViewerView" class="table-viewer">
+                <div class="table-header">
+                    <h2 id="currentTableName"></h2>
+                    <button class="btn-back" onclick="showTablesList()">← Back to Tables</button>
+                </div>
+                <div id="tableContent">
+                    <div class="loading">Loading data...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let password = '';
+        let allTables = [];
+        let currentTable = '';
+        let currentOffset = 0;
+        const LIMIT = 50;
+
+        // Login
+        async function login() {
+            password = document.getElementById('passwordInput').value;
+            const loginError = document.getElementById('loginError');
+            
+            console.log('Login attempt with password:', password);
+            
+            try {
+                console.log('Fetching from:', `http://localhost:3000/api/database/health?password=${password}`);
+                const response = await fetch(`http://localhost:3000/api/database/health?password=${password}`);
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    console.log('Login successful!');
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('mainApp').style.display = 'block';
+                    loadDashboard();
+                } else {
+                    console.error('Login failed:', data.message);
+                    loginError.textContent = '❌ Incorrect password';
+                    loginError.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Connection error:', error);
+                loginError.textContent = '❌ Cannot connect to server: ' + error.message;
+                loginError.style.display = 'block';
+            }
+        }
+
+        // Load Dashboard
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`http://localhost:3000/api/database/tables?password=${password}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    allTables = data.tables;
+                    displayStats(data.tables);
+                    displayTables(data.tables);
+                }
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Display Stats
+        function displayStats(tables) {
+            const totalRows = tables.reduce((sum, t) => sum + t.rows, 0);
+            const totalColumns = tables.reduce((sum, t) => sum + t.columns, 0);
+            
+            document.getElementById('totalTables').textContent = tables.length;
+            document.getElementById('totalRows').textContent = totalRows.toLocaleString();
+            document.getElementById('totalColumns').textContent = totalColumns.toLocaleString();
+        }
+
+        // Display Tables
+        function displayTables(tables) {
+            const grid = document.getElementById('tablesGrid');
+            
+            if (tables.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <h3>No tables found</h3>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = tables.map(table => `
+                <div class="table-card" onclick="viewTable('${table.name}')">
+                    <h3>${table.name}</h3>
+                    <div class="meta">
+                        <span>${table.rows} rows</span>
+                        <span>${table.columns} columns</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Tables
+        function filterTables() {
+            const search = document.getElementById('tableSearch').value.toLowerCase();
+            const filtered = allTables.filter(t => t.name.toLowerCase().includes(search));
+            displayTables(filtered);
+        }
+
+        // View Table
+        async function viewTable(tableName, offset = 0) {
+            currentTable = tableName;
+            currentOffset = offset;
+            
+            document.getElementById('tablesListView').style.display = 'none';
+            document.getElementById('tableViewerView').classList.add('active');
+            document.getElementById('currentTableName').textContent = tableName;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/database/table/${tableName}?password=${password}&limit=${LIMIT}&offset=${offset}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayTableData(data);
+                }
+            } catch (error) {
+                console.error('Error loading table:', error);
+            }
+        }
+
+        // Display Table Data
+        function displayTableData(data) {
+            const content = document.getElementById('tableContent');
+            
+            if (data.data.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <h3>No data in this table</h3>
+                    </div>
+                `;
+                return;
+            }
+            
+            const columns = data.columns.map(c => c.column_name);
+            
+            content.innerHTML = `
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                ${columns.map(col => `<th>${col}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.data.map(row => `
+                                <tr>
+                                    ${columns.map(col => {
+                                        let value = row[col];
+                                        if (value === null) return '<td style="color: #999;">NULL</td>';
+                                        if (typeof value === 'object') value = JSON.stringify(value);
+                                        if (typeof value === 'string' && value.length > 100) {
+                                            value = value.substring(0, 100) + '...';
+                                        }
+                                        return `<td>${value}</td>`;
+                                    }).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <button ${currentOffset === 0 ? 'disabled' : ''} onclick="viewTable('${currentTable}', ${currentOffset - LIMIT})">
+                        ← Previous
+                    </button>
+                    <span>Showing ${currentOffset + 1}-${Math.min(currentOffset + LIMIT, data.total)} of ${data.total}</span>
+                    <button ${currentOffset + LIMIT >= data.total ? 'disabled' : ''} onclick="viewTable('${currentTable}', ${currentOffset + LIMIT})">
+                        Next →
+                    </button>
+                </div>
+            `;
+        }
+
+        // Show Tables List
+        function showTablesList() {
+            document.getElementById('tableViewerView').classList.remove('active');
+            document.getElementById('tablesListView').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

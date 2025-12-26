@@ -6,12 +6,19 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const sessionManager = require('./session-manager');
 
 // Environment configuration
 const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex');
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || crypto.randomBytes(64).toString('hex');
-const JWT_EXPIRES_IN = '15m'; // Access token expires in 15 minutes
+const JWT_EXPIRES_IN = '1h'; // Access token expires in 1 hour (was 15m)
 const JWT_REFRESH_EXPIRES_IN = '7d'; // Refresh token expires in 7 days
+
+// Log if using generated secrets (security warning)
+if (!process.env.JWT_SECRET || !process.env.JWT_REFRESH_SECRET) {
+  console.warn('⚠️  WARNING: Using randomly generated JWT secrets. Tokens will be invalidated on server restart!');
+  console.warn('⚠️  Set JWT_SECRET and JWT_REFRESH_SECRET in .env file for production.');
+}
 
 /**
  * Generate JWT access token
@@ -111,12 +118,12 @@ async function comparePassword(password, hash) {
 }
 
 /**
- * Authentication middleware - Verify JWT token
+ * Authentication middleware - Verify JWT token and validate against database
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Function} next - Express next middleware
  */
-function authenticate(req, res, next) {
+async function authenticate(req, res, next) {
   try {
     // Get token from Authorization header
     const authHeader = req.headers.authorization;
@@ -130,7 +137,7 @@ function authenticate(req, res, next) {
     
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
     
-    // Verify token
+    // Verify JWT signature and expiration
     const decoded = verifyToken(token, 'access');
     
     if (!decoded) {
@@ -140,12 +147,24 @@ function authenticate(req, res, next) {
       });
     }
     
+    // Validate token exists in database and is not revoked
+    const session = await sessionManager.validateSession(token);
+    
+    if (!session) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid or expired token. Please login again.'
+      });
+    }
+    
     // Attach user info to request
     req.user = {
       id: decoded.userId,
+      userId: decoded.userId,  // Add for compatibility
       email: decoded.email,
       role: decoded.role
     };
+    req.sessionId = session.session_id;
     
     next();
   } catch (error) {
@@ -232,12 +251,13 @@ function requirePremium(req, res, next) {
     });
   }
   
-  const premiumRoles = ['premium', 'admin'];
+  // Support both old 'premium' and new 'ifi_plus' subscription types
+  const premiumRoles = ['premium', 'ifi_plus', 'admin'];
   
   if (!premiumRoles.includes(req.user.role)) {
     return res.status(403).json({
       success: false,
-      message: 'Premium subscription required to access this feature.',
+      message: 'iFi+ subscription required to access this feature.',
       upgradeRequired: true,
       userRole: req.user.role
     });

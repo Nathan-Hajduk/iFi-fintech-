@@ -28,6 +28,9 @@ const {
 const plaidRoutes = require('./routes/plaidRoutes');
 const authRoutes = require('./routes/auth');
 const ifiAIRoutes = require('./routes/ifi-ai');
+const userRoutes = require('./routes/user');
+const paymentRoutes = require('./routes/payments');
+const databaseViewerRoutes = require('./routes/database-viewer');
 
 // Import database
 const db = require('./config/database');
@@ -83,11 +86,27 @@ app.use('/api', apiLimiter);
 // Authentication routes (public)
 app.use('/api/auth', authRoutes);
 
+// User data routes (requires authentication)
+app.use('/api/user', userRoutes);
+
+// Payment routes (requires authentication)
+app.use('/api/payments', paymentRoutes);
+
 // iFi AI routes (requires authentication + premium)
 app.use('/api/ifi-ai', ifiAIRoutes);
 
 // Plaid routes with specific rate limiting
 app.use('/api/plaid', plaidLimiter, plaidRoutes);
+
+// Database viewer routes (development/admin only)
+app.use('/api/database', databaseViewerRoutes);
+
+// Serve database viewer HTML (development/admin only)
+// Disable CSP for this route to allow inline scripts
+app.get('/database-viewer', (req, res) => {
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:3000");
+  res.sendFile('html/database-viewer.html', { root: __dirname + '/..' });
+});
 
 // Root endpoint
 app.get('/', (req, res) => {

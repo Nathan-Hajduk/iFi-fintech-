@@ -44,7 +44,7 @@
 
             <div class="text-box" role="region" aria-label="iFi value proposition">
                 <h2>The Future of Finance is Here</h2>
-                <p class="lead-text">Take your personal finances to the next level with iFi's cutting-edge tools and insights.</p>
+                <p class="lead-text"> iFi helps people learn to manage their own finances with confidence using our cutting-edge tools and AI insights. Hence the name.</p>
                 <div class="feature-list">
                     <div class="feature-item">
                         <i class="fas fa-chart-line" aria-hidden="true"></i>
@@ -84,12 +84,15 @@
 
                     <div class="form-group">
                         <label for="password"><i class="fas fa-lock"></i> Password</label>
-                        <input type="password" 
-                               id="password" 
-                               name="password"
-                               required 
-                               autocomplete="password"
-                               aria-required="true">
+                        <div class="password-input-wrapper">
+                            <input type="password" 
+                                   id="password" 
+                                   name="password"
+                                   required 
+                                   autocomplete="current-password"
+                                   aria-required="true">
+                            <i class="fas fa-eye" id="togglePassword" aria-label="Toggle password visibility"></i>
+                        </div>
                         <a href="forgot-password.html" class="help-link">Forgot Password?</a>
                     </div>
 
@@ -105,16 +108,78 @@
         </div>
     </main>
 
+    <!-- AI Empowerment Section -->
+    <section class="ai-empowerment-section scroll-reveal">
+        <div class="empowerment-container">
+            <div class="empowerment-content">
+                <div class="stat-callout scroll-reveal-fade">
+                    <div class="stat-number">$3,000+</div>
+                    <div class="stat-label">Average Annual Cost of a Financial Advisor</div>
+                </div>
+                
+                <h2 class="empowerment-title scroll-reveal">
+                    Why Pay Thousands When You Can <span class="gradient-text">Learn & Earn</span>?
+                </h2>
+                
+                <p class="empowerment-description scroll-reveal">
+                    Traditional financial advisors charge 1-2% of your assets annually—that's thousands of dollars for advice you could learn yourself. 
+                    With iFi's AI-powered guidance, you gain financial intelligence, not just recommendations. Take control, build knowledge, and keep more of your money.
+                </p>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-card traditional scroll-reveal-left">
+                        <div class="comparison-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3>Traditional Advisor</h3>
+                        <ul class="comparison-list">
+                            <li><i class="fas fa-times"></i> $3,000-$10,000+ per year</li>
+                            <li><i class="fas fa-times"></i> Limited availability</li>
+                            <li><i class="fas fa-times"></i> Advice without education</li>
+                            <li><i class="fas fa-times"></i> One-size-fits-all strategies</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="vs-divider scroll-reveal-fade">
+                        <span>VS</span>
+                    </div>
+                    
+                    <div class="comparison-card ifi-way scroll-reveal-right">
+                        <div class="comparison-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>iFi AI Assistant</h3>
+                        <ul class="comparison-list">
+                            <li><i class="fas fa-check"></i> $14.99/month or FREE</li>
+                            <li><i class="fas fa-check"></i> 24/7 instant guidance</li>
+                            <li><i class="fas fa-check"></i> Learn while you grow</li>
+                            <li><i class="fas fa-check"></i> Personalized to your goals</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="empowerment-cta scroll-reveal">\n                    <p class="cta-text">
+                        <i class="fas fa-lightbulb"></i>
+                        <strong>Financial intelligence is the real wealth.</strong> Our AI teaches you the "why" behind every decision, 
+                        so you become your own expert.
+                    </p>
+                    <a href="signup.html" class="btn-modern btn-primary btn-large">
+                        Start Your Journey Free <i class="fas fa-rocket"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Features Section -->
-    <section id="features" class="features-section">
-        <div class="section-header">
+    <section id="features" class="features-section scroll-reveal">\n        <div class="section-header scroll-reveal">
             <h2 class="section-title">Why <span class="gradient-text">iFi</span>?</h2>
             <p class="section-subtitle">  iFi Enables users to manage their finances effortlessly </p>
         </div>
 
         <div class="features-grid">
             <!-- Budgeting Feature -->
-            <article class="feature-card">
+            <article class="feature-card scroll-reveal">
                 <div class="feature-icon budget-icon">
                     <i class="fas fa-wallet"></i>
                 </div>
@@ -171,7 +236,10 @@
                     <li><i class="fas fa-check"></i> Recurring payment calendar</li>
                 </ul>
             </article>
+        </div>
 
+        <!-- Second Row - Investment and Economy Cards -->
+        <div class="features-grid" style="margin-top: 2rem;">
             <!-- Investments Feature -->
             <article class="feature-card">
                 <div class="feature-icon investments-icon">
@@ -201,6 +269,91 @@
                     <li><i class="fas fa-check"></i> Company earnings & reports</li>
                 </ul>
             </article>
+        </div>
+    </section>
+
+    <!-- Debt Crisis Awareness Section -->
+    <section class="debt-awareness-section">
+        <div class="awareness-container">
+            <div class="awareness-content">
+                <div class="urgent-stats">
+                    <div class="stat-box debt-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="stat-number">$104,215</div>
+                        <div class="stat-label">Average American Household Debt</div>
+                    </div>
+                    <div class="stat-box interest-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-number">22.8%</div>
+                        <div class="stat-label">Average Credit Card APR</div>
+                    </div>
+                    <div class="stat-box crisis-stat">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-number">77%</div>
+                        <div class="stat-label">Of Americans Living Paycheck to Paycheck</div>
+                    </div>
+                </div>
+                
+                <h2 class="awareness-title">
+                    The Debt Crisis is Real. <span class="gradient-text-alert">Your Future Doesn't Have to Be.</span>
+                </h2>
+                
+                <p class="awareness-description">
+                    Every day you wait, compound interest works against you. Credit card debt at 22.8% APR doubles in just 3 years. 
+                    Student loans, mortgages, car payments—they pile up while financial literacy remains absent from our education system. 
+                    <strong>The time to act is now, not tomorrow.</strong>
+                </p>
+                
+                <div class="literacy-importance">
+                    <div class="importance-card">
+                        <div class="card-icon warning">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Time is Your Biggest Asset</h3>
+                        <p>Starting your financial journey today vs. 5 years from now can mean the difference of hundreds of thousands in lifetime wealth. Compound interest works both ways—use it to your advantage.</p>
+                    </div>
+                    
+                    <div class="importance-card">
+                        <div class="card-icon education">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Knowledge is Financial Power</h3>
+                        <p>Financial literacy isn't taught in schools, but it determines your quality of life. Understanding budgeting, investing, and debt management isn't optional—it's essential survival in modern America.</p>
+                    </div>
+                    
+                    <div class="importance-card">
+                        <div class="card-icon freedom">
+                            <i class="fas fa-dove"></i>
+                        </div>
+                        <h3>Break the Cycle</h3>
+                        <p>You don't have to follow the statistics. With the right tools and education, you can escape the paycheck-to-paycheck cycle, eliminate debt, and build generational wealth.</p>
+                    </div>
+                </div>
+                
+                <div class="urgency-cta">
+                    <div class="urgency-message">
+                        <i class="fas fa-bolt"></i>
+                        <div>
+                            <h3>Every Month Counts</h3>
+                            <p>A $5,000 credit card balance at 22.8% APR costs you <strong>$95/month in interest alone</strong>. That's $1,140/year going nowhere. 
+                            iFi helps you see these hidden costs and create an action plan to eliminate them.</p>
+                        </div>
+                    </div>
+                    <a href="signup.html" class="btn-modern btn-urgent btn-large">
+                        Take Control Today <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <p class="urgency-subtext">
+                        <i class="fas fa-shield-alt"></i>
+                        Free to start. No credit card required. Begin your financial transformation now.
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -248,12 +401,8 @@
             toast.addEventListener('click', () => { clearTimeout(timeout); remove(); });
         }
 
-        // Check if already authenticated and redirect
-        if (authManager.isAuthenticated()) {
-            const onboardingComplete = localStorage.getItem('ifi_onboarding_complete');
-            const redirectUrl = onboardingComplete === 'true' ? './dashboard.html' : './onboarding.html';
-            window.location.href = redirectUrl;
-        }
+        // NOTE: Removed automatic redirect check to prevent redirect loops
+        // Login redirect is handled only after successful login below
 
         // JWT Authentication with authManager
         (function() {
@@ -295,9 +444,9 @@
                     const urlParams = new URLSearchParams(window.location.search);
                     const redirectTo = urlParams.get('redirect');
                     
-                    // Check if user has completed onboarding
-                    const onboardingComplete = localStorage.getItem('ifi_onboarding_complete');
-                    const defaultRedirect = onboardingComplete === 'true' ? './dashboard.html' : './onboarding.html';
+                    // Check if user has completed onboarding from API response
+                    const onboardingComplete = result.onboardingCompleted;
+                    const defaultRedirect = onboardingComplete ? './dashboard.html' : './onboarding.html';
                     
                     setTimeout(() => {
                         window.location.href = redirectTo || defaultRedirect;
@@ -318,34 +467,57 @@
             });
         })();
 
-        // Smooth scroll for Learn how iFi helps button with controlled speed
+        // Smooth scroll for Learn how iFi helps button with no delay and smooth animation
         document.querySelector('.cta-learn-more').addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector('#features');
-            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - 80;
-            const startPosition = window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            const duration = 2000; // 2 seconds for smoother, slower scroll
-            let start = null;
-            
-            function animation(currentTime) {
-                if (start === null) start = currentTime;
-                const timeElapsed = currentTime - start;
-                const progress = Math.min(timeElapsed / duration, 1);
+            target.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start'
+            });
+        });
+
+        // Password visibility toggle
+        const togglePassword = document.querySelector('#togglePassword');
+        const passwordField = document.querySelector('#password');
+        
+        if (togglePassword && passwordField) {
+            togglePassword.addEventListener('click', function() {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+
+        // Scroll Reveal Animations
+        const scrollRevealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-fade');
+        
+        const revealOnScroll = () => {
+            scrollRevealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementBottom = element.getBoundingClientRect().bottom;
+                const windowHeight = window.innerHeight;
                 
-                // Cubic ease-in-out for smooth, natural feeling
-                const ease = progress < 0.5 
-                    ? 4 * progress * progress * progress
-                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-                
-                window.scrollTo(0, startPosition + distance * ease);
-                
-                if (timeElapsed < duration) {
-                    requestAnimationFrame(animation);
+                // Reveal when element is 20% into viewport
+                if (elementTop < windowHeight * 0.8 && elementBottom > 0) {
+                    element.classList.add('revealed');
                 }
+            });
+        };
+        
+        // Check on page load
+        revealOnScroll();
+        
+        // Check on scroll with throttle for performance
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            if (scrollTimeout) {
+                window.cancelAnimationFrame(scrollTimeout);
             }
-            
-            requestAnimationFrame(animation);
+            scrollTimeout = window.requestAnimationFrame(() => {
+                revealOnScroll();
+            });
         });
     </script>
 </body>

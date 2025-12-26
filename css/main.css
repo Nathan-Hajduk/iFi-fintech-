@@ -4,6 +4,51 @@
  */
 
 /* ============================================
+   SCROLL REVEAL ANIMATIONS
+   ============================================ */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-reveal-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-reveal-fade {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
+
+.scroll-reveal-fade.revealed {
+  opacity: 1;
+}
+
+/* ============================================
    GLOBAL RESET & BASE STYLES
    ============================================ */
 * {
@@ -687,7 +732,7 @@ a:focus-visible {
    ============================================ */
 .modern-header {
   background: linear-gradient(135deg, #0a0e1a 0%, #141b2b 100%);
-  padding: 1rem 0;
+  padding: 2rem 0;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
   position: sticky;
   top: 0;
@@ -709,7 +754,7 @@ a:focus-visible {
 .logo-brand {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
+  gap: 1rem;
   text-decoration: none;
   transition: opacity 0.2s ease;
   flex-shrink: 0;
@@ -720,14 +765,14 @@ a:focus-visible {
 }
 
 .logo {
-  height: 42px;
-  width: 42px;
+  height: 60px;
+  width: 60px;
   flex-shrink: 0;
   filter: drop-shadow(0 2px 8px rgba(0, 212, 255, 0.3));
 }
 
 .brand-name {
-  font-size: 1.625rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: -0.01em;
@@ -735,7 +780,7 @@ a:focus-visible {
 
 .header-nav {
   display: flex;
-  gap: 2rem;
+  gap: 3rem;
   align-items: center;
   flex-wrap: wrap;
   flex: 1;
@@ -744,8 +789,8 @@ a:focus-visible {
 .nav-link {
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9375rem;
+  font-weight: 700;
+  font-size: 1.3rem;
   transition: all 0.2s ease;
   letter-spacing: -0.01em;
   position: relative;
@@ -781,11 +826,11 @@ a:focus-visible {
 .cta-button {
   background: linear-gradient(135deg, #00d4ff 0%, #5c8df6 100%);
   color: #ffffff;
-  padding: 0.625rem 1.5rem;
-  border-radius: 10px;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.9375rem;
+  font-size: 1.3rem;
   transition: all 0.25s ease;
   box-shadow: 0 4px 12px rgba(0, 212, 255, 0.25);
   letter-spacing: -0.01em;

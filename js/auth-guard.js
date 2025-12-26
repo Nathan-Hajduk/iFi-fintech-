@@ -3,10 +3,39 @@
  * Include this script at the top of all protected pages
  */
 
-// Redirect to login if not authenticated
-if (!window.authManager || !authManager.isAuthenticated()) {
-  const currentPath = window.location.pathname;
-  window.location.href = `/html/Login.html?redirect=${encodeURIComponent(currentPath)}`;
+// Wait for authManager to be fully loaded
+if (typeof authManager === 'undefined') {
+  console.error('authManager not loaded. Check script loading order.');
+}
+
+// Check if we're on specific pages
+const isLoginPage = window.location.pathname.includes('Login.html');
+const isOnboardingPage = window.location.pathname.includes('onboarding.html');
+
+// Special handling for onboarding - skip auth guard, let onboarding.js handle it
+if (isOnboardingPage) {
+  // Onboarding page will do its own auth check after authManager loads
+  console.log('Onboarding page - skipping auth guard');
+} else if (!isLoginPage) {
+  // For other protected pages, do full auth check
+  if (!window.authManager || !authManager.isAuthenticated()) {
+    const currentPath = window.location.pathname;
+    const redirectCount = parseInt(sessionStorage.getItem('redirect_count') || '0');
+    
+    if (redirectCount < 2) {
+      sessionStorage.setItem('redirect_count', String(redirectCount + 1));
+      window.location.href = `/html/Login.html?redirect=${encodeURIComponent(currentPath)}`;
+    } else {
+      console.error('Redirect loop detected. Clearing storage and redirecting to login.');
+      sessionStorage.removeItem('redirect_count');
+      localStorage.clear();
+      window.location.href = '/html/Login.html';
+    }
+  } else {
+    // Clear redirect count on successful authentication check
+    sessionStorage.removeItem('redirect_count');
+    sessionStorage.removeItem('login_redirect_check');
+  }
 }
 
 // Initialize user profile display

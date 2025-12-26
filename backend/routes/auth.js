@@ -1,21 +1,77 @@
 /**
- * Authentication Routes
+ * Authentication Routes (PostgreSQL Version)
  * Handles user registration, login, token refresh, and password management
  */
 
 const express = require('express');
 const router = express.Router();
-const {
-  generateTokenPair,
-  hashPassword,
-  comparePassword,
-  verifyToken,
-  authenticate,
-  checkRateLimit,
-  clearRateLimit,
-  sanitizeUser
-} = require('../middleware/auth');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { authenticate } = require('../middleware/auth');
+const sessionManager = require('../middleware/session-manager');
 const db = require('../config/database');
+
+// Rate limiting store (in-memory, consider Redis for production)
+const rateLimitStore = new Map();
+
+/**
+ * Check rate limit
+ */
+function checkRateLimit(key, maxAttempts, windowMs) {
+  const now = Date.now();
+  const record = rateLimitStore.get(key);
+  
+  if (!record) {
+    rateLimitStore.set(key, { count: 1, resetTime: now + windowMs });
+    return { blocked: false, remaining: maxAttempts - 1 };
+  }
+  
+  if (now > record.resetTime) {
+    rateLimitStore.set(key, { count: 1, resetTime: now + windowMs });
+    return { blocked: false, remaining: maxAttempts - 1 };
+  }
+  
+  if (record.count >= maxAttempts) {
+    return { blocked: true, resetTime: record.resetTime };
+  }
+  
+  record.count++;
+  return { blocked: false, remaining: maxAttempts - record.count };
+}
+
+/**
+ * Clear rate limit
+ */
+function clearRateLimit(key) {
+  rateLimitStore.delete(key);
+}
+
+/**
+ * Generate JWT token pair
+ */
+function generateTokenPair(payload) {
+  const accessToken = jwt.sign(
+    { userId: payload.user_id, email: payload.email, role: payload.role },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }
+  );
+  
+  const refreshToken = jwt.sign(
+    { userId: payload.user_id },
+    process.env.JWT_REFRESH_SECRET,
+    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' }
+  );
+  
+  return { accessToken, refreshToken };
+}
+
+/**
+ * Sanitize user object (remove sensitive data)
+ */
+function sanitizeUser(user) {
+  const { password, ...safeUser } = user;
+  return safeUser;
+}
 
 /**
  * POST /api/auth/register
@@ -23,7 +79,7 @@ const db = require('../config/database');
  */
 router.post('/register', async (req, res) => {
   try {
-    const { email, password, firstName, lastName } = req.body;
+    const { email, password, firstName, lastName, username } = req.body;
     
     // Validation
     if (!email || !password || !firstName || !lastName) {
@@ -51,62 +107,69 @@ router.post('/register', async (req, res) => {
     }
     
     // Check rate limit
-    const rateLimit = checkRateLimit(`register:${req.ip}`, 5, 60 * 60 * 1000); // 5 attempts per hour
+    const rateLimit = checkRateLimit(`register:${req.ip}`, 5, 60 * 60 * 1000);
     if (rateLimit.blocked) {
       return res.status(429).json({
         success: false,
-        message: 'Too many registration attempts. Please try again later.',
-        resetTime: rateLimit.resetTime
+        message: 'Too many registration attempts. Please try again later.'
       });
     }
     
-    // Check if user already exists
-    const existingUser = await new Promise((resolve, reject) => {
-      db.get('SELECT id FROM users WHERE email = ?', [email.toLowerCase()], (err, row) => {
-        if (err) reject(err);
-        else resolve(row);
-      });
-    });
+    // Generate username if not provided
+    const generatedUsername = username || email.split('@')[0] + Math.floor(Math.random() * 1000);
     
-    if (existingUser) {
+    // Check if user already exists
+    const existingUser = await db.query(
+      'SELECT user_id FROM users WHERE email = $1 OR username = $2',
+      [email.toLowerCase(), generatedUsername]
+    );
+    
+    if (existingUser.rows.length > 0) {
       return res.status(409).json({
         success: false,
-        message: 'An account with this email already exists'
+        message: 'An account with this email or username already exists'
       });
     }
     
     // Hash password
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await bcrypt.hash(password, 12);
     
     // Create user
-    const userId = await new Promise((resolve, reject) => {
-      db.run(
-        `INSERT INTO users (email, password, first_name, last_name, role, created_at)
-         VALUES (?, ?, ?, ?, ?, ?)`,
-        [email.toLowerCase(), hashedPassword, firstName, lastName, 'free', new Date().toISOString()],
-        function(err) {
-          if (err) reject(err);
-          else resolve(this.lastID);
-        }
-      );
-    });
+    const result = await db.query(
+      `INSERT INTO users (
+        email, 
+        username,
+        password, 
+        first_name, 
+        last_name, 
+        subscription_type,
+        role,
+        email_verified,
+        is_active
+      ) VALUES ($1, $2, $3, $4, $5, 'free', 'free', FALSE, TRUE)
+      RETURNING user_id, email, username, first_name, last_name, subscription_type, role, created_at`,
+      [email.toLowerCase(), generatedUsername, hashedPassword, firstName, lastName]
+    );
     
-    // Get created user
-    const user = await new Promise((resolve, reject) => {
-      db.get('SELECT * FROM users WHERE id = ?', [userId], (err, row) => {
-        if (err) reject(err);
-        else resolve(row);
-      });
-    });
+    const user = result.rows[0];
+    
+    // Create initial user analytics record
+    await db.query(
+      `INSERT INTO user_analytics (user_id) VALUES ($1)`,
+      [user.user_id]
+    );
     
     // Generate tokens
-    const tokens = generateTokenPair({ 
-      id: user.id, 
-      email: user.email, 
-      role: user.role 
-    });
+    const tokens = generateTokenPair(user);
     
-    // Clear rate limit on successful registration
+    // Store refresh token
+    await db.query(
+      `INSERT INTO session_tokens (user_id, refresh_token, expires_at, ip_address, user_agent)
+       VALUES ($1, $2, NOW() + INTERVAL '7 days', $3, $4)`,
+      [user.user_id, tokens.refreshToken, req.ip, req.headers['user-agent']]
+    );
+    
+    // Clear rate limit
     clearRateLimit(`register:${req.ip}`);
     
     res.status(201).json({
@@ -120,89 +183,109 @@ router.post('/register', async (req, res) => {
     console.error('Registration error:', error);
     res.status(500).json({
       success: false,
-      message: 'An error occurred during registration'
+      message: 'An error occurred during registration',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });
 
 /**
  * POST /api/auth/login
- * Login with email and password
+ * Login with email/username and password
  */
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, username, password } = req.body;
     
     // Validation
-    if (!email || !password) {
+    if ((!email && !username) || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Email and password are required'
+        message: 'Email/username and password are required'
       });
     }
     
+    const loginIdentifier = email || username;
+    
     // Check rate limit
-    const rateLimit = checkRateLimit(`login:${email}:${req.ip}`, 5, 15 * 60 * 1000); // 5 attempts per 15 minutes
+    const rateLimit = checkRateLimit(`login:${loginIdentifier}:${req.ip}`, 5, 15 * 60 * 1000);
     if (rateLimit.blocked) {
       return res.status(429).json({
         success: false,
-        message: 'Too many login attempts. Please try again later.',
-        resetTime: rateLimit.resetTime
+        message: 'Too many login attempts. Please try again later.'
       });
     }
     
-    // Find user
-    const user = await new Promise((resolve, reject) => {
-      db.get('SELECT * FROM users WHERE email = ?', [email.toLowerCase()], (err, row) => {
-        if (err) reject(err);
-        else resolve(row);
-      });
-    });
+    // Find user by email or username
+    const result = await db.query(
+      `SELECT * FROM users 
+       WHERE (email = $1 OR username = $1) 
+       AND is_active = TRUE`,
+      [loginIdentifier.toLowerCase()]
+    );
     
-    if (!user) {
+    if (result.rows.length === 0) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: 'Invalid email/username or password'
       });
     }
     
+    const user = result.rows[0];
+    
     // Verify password
-    const isPasswordValid = await comparePassword(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password',
-        remaining: rateLimit.remaining
+        message: 'Invalid email/username or password'
       });
     }
     
     // Update last login
-    await new Promise((resolve, reject) => {
-      db.run(
-        'UPDATE users SET last_login = ? WHERE id = ?',
-        [new Date().toISOString(), user.id],
-        (err) => {
-          if (err) reject(err);
-          else resolve();
-        }
-      );
-    });
+    await db.query(
+      'UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE user_id = $1',
+      [user.user_id]
+    );
     
     // Generate tokens
-    const tokens = generateTokenPair({ 
-      id: user.id, 
-      email: user.email, 
-      role: user.role 
-    });
+    const tokens = generateTokenPair(user);
     
-    // Clear rate limit on successful login
-    clearRateLimit(`login:${email}:${req.ip}`);
+    // Calculate expiration date (1 hour from now)
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+    
+    // Store session in new user_sessions table
+    await sessionManager.createSession(
+      user.user_id, 
+      tokens.accessToken, 
+      tokens.refreshToken, 
+      req,
+      expiresAt
+    );
+    
+    // Store refresh token in legacy session_tokens table (for compatibility)
+    await db.query(
+      `INSERT INTO session_tokens (user_id, refresh_token, expires_at, ip_address, user_agent)
+       VALUES ($1, $2, NOW() + INTERVAL '7 days', $3, $4)`,
+      [user.user_id, tokens.refreshToken, req.ip, req.headers['user-agent']]
+    );
+    
+    // Log audit event
+    await db.query(
+      `INSERT INTO audit_log (user_id, action, details, ip_address, user_agent)
+       VALUES ($1, 'login', $2, $3, $4)`,
+      [user.user_id, JSON.stringify({ method: 'password' }), req.ip, req.headers['user-agent']]
+    );
+    
+    // Clear rate limit
+    clearRateLimit(`login:${loginIdentifier}:${req.ip}`);
     
     res.json({
       success: true,
       message: 'Login successful',
       user: sanitizeUser(user),
+      onboardingCompleted: user.onboarding_completed || false,
       tokens
     });
     
@@ -210,7 +293,8 @@ router.post('/login', async (req, res) => {
     console.error('Login error:', error);
     res.status(500).json({
       success: false,
-      message: 'An error occurred during login'
+      message: 'An error occurred during login',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });
@@ -231,77 +315,136 @@ router.post('/refresh', async (req, res) => {
     }
     
     // Verify refresh token
-    const decoded = verifyToken(refreshToken, 'refresh');
-    
-    if (!decoded) {
+    let decoded;
+    try {
+      decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    } catch (error) {
       return res.status(401).json({
         success: false,
         message: 'Invalid or expired refresh token'
       });
     }
     
-    // Get user
-    const user = await new Promise((resolve, reject) => {
-      db.get('SELECT * FROM users WHERE id = ?', [decoded.userId], (err, row) => {
-        if (err) reject(err);
-        else resolve(row);
-      });
-    });
+    // Check if refresh token exists in database and is not expired
+    const tokenResult = await db.query(
+      `SELECT * FROM session_tokens 
+       WHERE refresh_token = $1 
+       AND user_id = $2 
+       AND expires_at > NOW()`,
+      [refreshToken, decoded.userId]
+    );
     
-    if (!user) {
-      return res.status(404).json({
+    if (tokenResult.rows.length === 0) {
+      return res.status(401).json({
         success: false,
-        message: 'User not found'
+        message: 'Refresh token not found or expired'
       });
     }
     
-    // Generate new token pair
-    const tokens = generateTokenPair({ 
-      id: user.id, 
-      email: user.email, 
-      role: user.role 
-    });
+    // Get user
+    const userResult = await db.query(
+      'SELECT * FROM users WHERE user_id = $1 AND is_active = TRUE',
+      [decoded.userId]
+    );
+    
+    if (userResult.rows.length === 0) {
+      return res.status(401).json({
+        success: false,
+        message: 'User not found or inactive'
+      });
+    }
+    
+    const user = userResult.rows[0];
+    
+    // Generate new access token
+    const accessToken = jwt.sign(
+      { userId: user.user_id, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }
+    );
     
     res.json({
       success: true,
-      message: 'Tokens refreshed successfully',
-      tokens
+      accessToken
     });
     
   } catch (error) {
     console.error('Token refresh error:', error);
     res.status(500).json({
       success: false,
-      message: 'An error occurred during token refresh'
+      message: 'An error occurred while refreshing token'
     });
   }
 });
 
 /**
  * POST /api/auth/logout
- * Logout user (client-side token removal)
+ * Logout user and invalidate refresh token
  */
-router.post('/logout', authenticate, (req, res) => {
-  res.json({
-    success: true,
-    message: 'Logout successful'
-  });
+router.post('/logout', authenticate, async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+    
+    if (refreshToken) {
+      // Delete the specific refresh token
+      await db.query(
+        'DELETE FROM session_tokens WHERE refresh_token = $1 AND user_id = $2',
+        [refreshToken, req.user.userId]
+      );
+    } else {
+      // Delete all refresh tokens for this user (logout from all devices)
+      await db.query(
+        'DELETE FROM session_tokens WHERE user_id = $1',
+        [req.user.userId]
+      );
+    }
+    
+    // Log audit event
+    await db.query(
+      `INSERT INTO audit_log (user_id, action, details, ip_address, user_agent)
+       VALUES ($1, 'logout', $2, $3, $4)`,
+      [req.user.userId, JSON.stringify({}), req.ip, req.headers['user-agent']]
+    );
+    
+    res.json({
+      success: true,
+      message: 'Logged out successfully'
+    });
+    
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'An error occurred during logout'
+    });
+  }
 });
 
 /**
  * GET /api/auth/me
- * Get current authenticated user
+ * Get current user information
  */
 router.get('/me', authenticate, async (req, res) => {
   try {
-    const user = await new Promise((resolve, reject) => {
-      db.get('SELECT * FROM users WHERE id = ?', [req.user.id], (err, row) => {
-        if (err) reject(err);
-        else resolve(row);
-      });
-    });
+    const result = await db.query(
+      `SELECT 
+        user_id,
+        email,
+        username,
+        first_name,
+        last_name,
+        subscription_type,
+        role,
+        email_verified,
+        phone_number,
+        created_at,
+        last_login
+      FROM users 
+      WHERE user_id = $1`,
+      [req.user.userId]
+    );
     
-    if (!user) {
+    if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'User not found'
@@ -310,14 +453,14 @@ router.get('/me', authenticate, async (req, res) => {
     
     res.json({
       success: true,
-      user: sanitizeUser(user)
+      user: result.rows[0]
     });
     
   } catch (error) {
     console.error('Get user error:', error);
     res.status(500).json({
       success: false,
-      message: 'An error occurred retrieving user data'
+      message: 'An error occurred while fetching user data'
     });
   }
 });
@@ -337,109 +480,138 @@ router.post('/forgot-password', async (req, res) => {
       });
     }
     
-    // Check rate limit
-    const rateLimit = checkRateLimit(`forgot:${email}`, 3, 60 * 60 * 1000); // 3 attempts per hour
-    if (rateLimit.blocked) {
-      return res.status(429).json({
-        success: false,
-        message: 'Too many password reset attempts. Please try again later.'
+    // Find user
+    const result = await db.query(
+      'SELECT user_id, email, first_name FROM users WHERE email = $1',
+      [email.toLowerCase()]
+    );
+    
+    // Always return success to prevent email enumeration
+    if (result.rows.length === 0) {
+      return res.json({
+        success: true,
+        message: 'If an account with that email exists, a password reset link has been sent'
       });
     }
     
-    // Find user
-    const user = await new Promise((resolve, reject) => {
-      db.get('SELECT * FROM users WHERE email = ?', [email.toLowerCase()], (err, row) => {
-        if (err) reject(err);
-        else resolve(row);
-      });
-    });
+    const user = result.rows[0];
     
-    // Always return success (security best practice - don't reveal if email exists)
+    // Generate reset token
+    const resetToken = jwt.sign(
+      { userId: user.user_id, purpose: 'password-reset' },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+    
+    // Store reset token
+    await db.query(
+      `INSERT INTO password_reset_tokens (user_id, token, expires_at)
+       VALUES ($1, $2, NOW() + INTERVAL '1 hour')`,
+      [user.user_id, resetToken]
+    );
+    
+    // TODO: Send email with reset link
+    // For now, just log it (in production, use email service)
+    console.log(`Password reset token for ${email}: ${resetToken}`);
+    console.log(`Reset link: http://localhost:3000/reset-password?token=${resetToken}`);
+    
     res.json({
       success: true,
-      message: 'If an account with that email exists, a password reset link has been sent.'
+      message: 'If an account with that email exists, a password reset link has been sent',
+      // Remove this in production
+      resetToken: process.env.NODE_ENV === 'development' ? resetToken : undefined
     });
-    
-    if (user) {
-      // TODO: Generate reset token and send email
-      // This would integrate with email service (Phase 7)
-      console.log(`Password reset requested for user: ${user.email}`);
-    }
     
   } catch (error) {
     console.error('Forgot password error:', error);
     res.status(500).json({
       success: false,
-      message: 'An error occurred processing your request'
+      message: 'An error occurred while processing your request'
     });
   }
 });
 
 /**
- * POST /api/auth/change-password
- * Change password for authenticated user
+ * POST /api/auth/reset-password
+ * Reset password using token
  */
-router.post('/change-password', authenticate, async (req, res) => {
+router.post('/reset-password', async (req, res) => {
   try {
-    const { currentPassword, newPassword } = req.body;
+    const { token, newPassword } = req.body;
     
-    if (!currentPassword || !newPassword) {
+    if (!token || !newPassword) {
       return res.status(400).json({
         success: false,
-        message: 'Current password and new password are required'
+        message: 'Token and new password are required'
       });
     }
     
     if (newPassword.length < 8) {
       return res.status(400).json({
         success: false,
-        message: 'New password must be at least 8 characters long'
+        message: 'Password must be at least 8 characters long'
       });
     }
     
-    // Get user
-    const user = await new Promise((resolve, reject) => {
-      db.get('SELECT * FROM users WHERE id = ?', [req.user.id], (err, row) => {
-        if (err) reject(err);
-        else resolve(row);
-      });
-    });
-    
-    // Verify current password
-    const isPasswordValid = await comparePassword(currentPassword, user.password);
-    
-    if (!isPasswordValid) {
+    // Verify token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
       return res.status(401).json({
         success: false,
-        message: 'Current password is incorrect'
+        message: 'Invalid or expired reset token'
+      });
+    }
+    
+    // Check if token exists and is not used
+    const tokenResult = await db.query(
+      `SELECT * FROM password_reset_tokens 
+       WHERE token = $1 
+       AND user_id = $2 
+       AND used = FALSE 
+       AND expires_at > NOW()`,
+      [token, decoded.userId]
+    );
+    
+    if (tokenResult.rows.length === 0) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid or expired reset token'
       });
     }
     
     // Hash new password
-    const hashedPassword = await hashPassword(newPassword);
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
     
     // Update password
-    await new Promise((resolve, reject) => {
-      db.run(
-        'UPDATE users SET password = ? WHERE id = ?',
-        [hashedPassword, user.id],
-        (err) => {
-          if (err) reject(err);
-          else resolve();
-        }
-      );
-    });
+    await db.query(
+      'UPDATE users SET password = $1, updated_at = CURRENT_TIMESTAMP WHERE user_id = $2',
+      [hashedPassword, decoded.userId]
+    );
+    
+    // Mark token as used
+    await db.query(
+      'UPDATE password_reset_tokens SET used = TRUE WHERE token = $1',
+      [token]
+    );
+    
+    // Invalidate all sessions
+    await db.query(
+      'DELETE FROM session_tokens WHERE user_id = $1',
+      [decoded.userId]
+    );
     
     res.json({
       success: true,
-      message: 'Password changed successfully'
+      message: 'Password reset successfully. Please log in with your new password.'
     });
     
   } catch (error) {
-    console.error('Change password error:', error);
+    console.error('Reset password error:', error);
     res.status(500).json({
       success: false,
-      message: 'An error occurred changing your password'
+      message: 'An error occurred while resetting password'
     });
   }
 });

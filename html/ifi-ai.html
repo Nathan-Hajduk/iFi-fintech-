@@ -76,48 +76,8 @@
     </main>
 
     <script src="../js/shared-nav.js"></script>
-    <script>
-        initializeNavigation('ifi-ai');
-
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            if (!message) return;
-
-            // Add user message to chat
-            const messagesContainer = document.getElementById('chatMessages');
-            const userMessage = document.createElement('div');
-            userMessage.className = 'message user-message';
-            userMessage.innerHTML = `
-                <div class="message-content"><p>${message}</p></div>
-                <div class="message-avatar"><i class="fas fa-user"></i></div>
-            `;
-            messagesContainer.appendChild(userMessage);
-
-            // Clear input
-            input.value = '';
-
-            // Simulate AI response (replace with actual API call)
-            setTimeout(() => {
-                const aiMessage = document.createElement('div');
-                aiMessage.className = 'message ai-message';
-                aiMessage.innerHTML = `
-                    <div class="message-avatar"><i class="fas fa-robot"></i></div>
-                    <div class="message-content">
-                        <p>I'm analyzing your request. This feature will be fully integrated soon with advanced AI capabilities!</p>
-                    </div>
-                `;
-                messagesContainer.appendChild(aiMessage);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 1000);
-        }
-
-        // Allow Enter key to send message
-        document.getElementById('chatInput')?.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-    </script>
     <script src="../js/auth-manager.js"></script>
     <script src="../js/auth-guard.js"></script>
+    <script src="../js/ifi-ai-chat.js"></script>
 </body>
 </html>

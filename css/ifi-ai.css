@@ -594,3 +594,269 @@
     grid-template-columns: 1fr;
   }
 }
+/* ============================================
+   PREMIUM GATE & FAQ STYLES
+   ============================================ */
+.premium-gate {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 16px;
+  margin: 2rem auto;
+  max-width: 600px;
+  border: 2px solid #38bdf8;
+}
+
+.premium-gate .gate-icon {
+  font-size: 3rem;
+  color: #38bdf8;
+  margin-bottom: 1rem;
+}
+
+.premium-gate h3 {
+  color: #0f172a;
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.premium-gate p {
+  color: #475569;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.premium-gate-message {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px solid #38bdf8;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.2);
+}
+
+.premium-gate-content {
+  text-align: center;
+}
+
+.premium-gate-content .gate-icon {
+  font-size: 3rem;
+  color: #f59e0b;
+  margin-bottom: 1rem;
+}
+
+.premium-gate-content h3 {
+  color: #0f172a;
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.premium-gate-content p {
+  color: #475569;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.faq-prompts {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid rgba(56, 189, 248, 0.3);
+}
+
+.faq-prompts h4 {
+  color: #0f172a;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.faq-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 1rem 1.5rem;
+  margin-bottom: 0.75rem;
+  background: white;
+  color: #0f172a;
+  border: 2px solid #38bdf8;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.faq-btn:hover {
+  background: #38bdf8;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+}
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.typing-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #38bdf8;
+  animation: bounce 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Upgrade Modal */
+.upgrade-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.upgrade-modal .modal-content {
+  position: relative;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  max-width: 550px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  z-index: 10000;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #475569;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #0f172a;
+}
+
+.modal-icon {
+  font-size: 4rem;
+  color: #f59e0b;
+  margin-bottom: 1rem;
+}
+
+.upgrade-modal h3 {
+  color: #0f172a;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.upgrade-modal p {
+  color: #475569;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.upgrade-modal ul {
+  list-style: none;
+  padding: 0;
+}
+
+.upgrade-modal ul li {
+  color: #334155;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.upgrade-modal ul li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #10b981;
+  font-weight: 700;
+}
+
+.text-button {
+  background: transparent;
+  border: none;
+  color: #475569;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0.5rem 1rem;
+}
+
+.text-button:hover {
+  color: #0f172a;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

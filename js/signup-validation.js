@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             };
 
-            const response = await fetch(`${API_URL}/signup`, {
+            const response = await fetch(`${API_URL}/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -156,12 +156,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (response.ok) {
+                // Store tokens
+                if (result.tokens) {
+                    localStorage.setItem('ifi_access_token', result.tokens.accessToken);
+                    localStorage.setItem('ifi_refresh_token', result.tokens.refreshToken);
+                }
+                
                 // Store user session
                 localStorage.setItem('ifi_current_user', JSON.stringify({
-                    id: result.userId,
-                    firstName: userData.firstName,
-                    lastName: userData.lastName,
-                    email: userData.email
+                    id: result.user.user_id,
+                    firstName: result.user.first_name,
+                    lastName: result.user.last_name,
+                    email: result.user.email,
+                    subscriptionType: result.user.subscription_type
                 }));
                 
                 // New users: clear onboarding completion flag

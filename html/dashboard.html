@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/dark-theme.css">
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dashboard-enhanced.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
@@ -45,6 +46,19 @@
 
         <!-- Main Content Grid -->
         <div class="content-grid">
+            <!-- Expense Breakdown Chart -->
+            <div class="widget expense-chart">
+                <div class="widget-header">
+                    <h3><i class="fas fa-chart-pie"></i> Expense Breakdown</h3>
+                    <span class="widget-subtitle">Where your money goes</span>
+                </div>
+                <div class="widget-body">
+                    <div id="expenseChartContainer">
+                        <!-- Animated pie chart will be rendered here -->
+                    </div>
+                </div>
+            </div>
+            
             <!-- Financial Health Score -->
             <div class="widget health-score">
                 <div class="widget-header">
@@ -58,6 +72,19 @@
                         </div>
                     </div>
                     <div class="score-breakdown" id="scoreBreakdown">
+                        <!-- Generated dynamically -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Personalized Recommendations -->
+            <div class="widget recommendations">
+                <div class="widget-header">
+                    <h3><i class="fas fa-star"></i> Personalized Recommendations</h3>
+                    <span class="widget-subtitle">Actions to improve your finances</span>
+                </div>
+                <div class="widget-body">
+                    <div id="recommendationsContainer">
                         <!-- Generated dynamically -->
                     </div>
                 </div>
@@ -143,6 +170,7 @@
     <script src="../js/auth-guard.js"></script>
     <script src="../js/shared-nav.js"></script>
     <script src="../js/dashboard.js"></script>
+    <script src="../js/dashboard-enhanced.js"></script>
     <script>
         // Initialize unified navigation
         initializeNavigation('dashboard');

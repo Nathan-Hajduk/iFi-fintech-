@@ -186,13 +186,26 @@ function toggleUserMenu() {
 }
 
 // Logout functionality
-function logout() {
-    // Clear all user data
-    localStorage.clear();
-    sessionStorage.clear();
-    
-    // Redirect to login page
-    window.location.href = 'Login.html';
+async function logout() {
+    if (confirm('Are you sure you want to log out?')) {
+        try {
+            // Use authManager if available
+            if (typeof authManager !== 'undefined') {
+                await authManager.logout();
+            } else {
+                // Fallback: clear storage and redirect
+                localStorage.clear();
+                sessionStorage.clear();
+                window.location.href = 'Login.html';
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Clear storage even if API call fails
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = 'Login.html';
+        }
+    }
 }
 
 // Export for use in other files

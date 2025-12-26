@@ -10,35 +10,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/onboarding.css">
+    <link rel="stylesheet" href="../css/payment.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AXL8Wrz76zUyhyeZKxu6DqJh0YMXzJ62GO9Ufmobv8nmTrPPQ7q6Gm1ae9X7jkV2S5rwMIwOWderjOmB&currency=USD&intent=capture&enable-funding=venmo&disable-funding=card"></script>
 </head>
 <body>
     <div class="onboarding-container">
         <div class="progress-bar">
-            <div class="progress-step active" data-step="1">
-                <div class="step-circle">1</div>
+            <div class="progress-step active" data-step="1" onclick="navigateToStep(1)">
+                <div class="step-circle"></div>
                 <div class="step-label">Purpose</div>
             </div>
             <div class="progress-line"></div>
-            <div class="progress-step" data-step="2">
-                <div class="step-circle">2</div>
-                <div class="step-label">Connect Bank</div>
+            <div class="progress-step" data-step="2" onclick="navigateToStep(2)">
+                <div class="step-circle"></div>
+                <div class="step-label">Connect Your Bank</div>
             </div>
             <div class="progress-line"></div>
-            <div class="progress-step" data-step="3">
-                <div class="step-circle">3</div>
-                <div class="step-label">Income</div>
+            <div class="progress-step" data-step="3" onclick="navigateToStep(3)">
+                <div class="step-circle"></div>
+                <div class="step-label">General</div>
             </div>
             <div class="progress-line"></div>
-            <div class="progress-step" data-step="4">
-                <div class="step-circle">4</div>
-                <div class="step-label">Expenses</div>
+            <div class="progress-step" data-step="4" onclick="navigateToStep(4)">
+                <div class="step-circle"></div>
+                <div class="step-label">Additional</div>
             </div>
             <div class="progress-line"></div>
-            <div class="progress-step" data-step="5">
-                <div class="step-circle">5</div>
-                <div class="step-label">Investments</div>
+            <div class="progress-step" data-step="5" onclick="navigateToStep(5)">
+                <div class="step-circle"></div>
+                <div class="step-label">Plan</div>
             </div>
         </div>
 
@@ -60,66 +63,66 @@
                     <p class="question-hint">Select one that best matches your goals</p>
                     
                     <div class="option-grid">
-                        <label class="option-card">
+                        <label class="option-card" onclick="selectPurpose('personal', this)">
                             <input type="radio" name="purpose" value="personal" required>
                             <div class="card-content">
                                 <i class="fas fa-user"></i>
                                 <h3>Personal Finance</h3>
-                                <p>Manage daily expenses, budgets, and savings</p>
+                                <p>Oversee expenses, budgets, income, and savings</p>
                             </div>
                         </label>
 
-                        <label class="option-card">
-                            <input type="radio" name="purpose" value="business" required>
+                        <label class="option-card" onclick="selectPurpose('goals', this)">
+                            <input type="radio" name="purpose" value="goals" required>
                             <div class="card-content">
-                                <i class="fas fa-briefcase"></i>
-                                <h3>Business</h3>
-                                <p>Track business finances and cash flow</p>
+                                <i class="fas fa-bullseye"></i>
+                                <h3>Financial Goals</h3>
+                                <p>Set and track long-term financial objectives</p>
                             </div>
                         </label>
 
-                        <label class="option-card">
+                        <label class="option-card" onclick="selectPurpose('investing', this)">
                             <input type="radio" name="purpose" value="investing" required>
                             <div class="card-content">
                                 <i class="fas fa-chart-line"></i>
                                 <h3>Investing</h3>
-                                <p>Build and track investment portfolio</p>
+                                <p>Track investment portfolio and receive investment insights</p>
                             </div>
                         </label>
 
-                        <label class="option-card">
+                        <label class="option-card" onclick="selectPurpose('debt', this)">
                             <input type="radio" name="purpose" value="debt" required>
                             <div class="card-content">
                                 <i class="fas fa-credit-card"></i>
                                 <h3>Debt Management</h3>
-                                <p>Create payment plans and track debts</p>
+                                <p>Create payment plans to pay off debts faster</p>
                             </div>
                         </label>
                     </div>
-                </div>
 
-                <div class="step-actions">
-                    <button type="button" class="btn-secondary" onclick="window.location.href='../html/dashboard.html'">Skip Setup</button>
-                    <button type="button" class="btn-primary" onclick="nextStep(2)">Continue <i class="fas fa-arrow-right"></i></button>
+                    <div class="step-actions">
+                        <button type="button" class="btn-primary" onclick="nextStep(2)">Continue <i class="fas fa-arrow-right"></i></button>
+                    </div>
                 </div>
             </div>
 
             <!-- Step 2: Bank Connection -->
             <div class="step-content" id="step-2">
                 <div class="step-header">
-                    <h1>Connect Your Bank</h1>
-                    <p class="step-subtitle">Securely link your accounts for real-time insights</p>
+                    <h1>Plaid Integration Coming Soon!</h1>
+                    <p class="step-subtitle">Get ready for seamless bank connectivity</p>
                 </div>
 
                 <div class="question-block">
                     <div class="bank-connect-hero">
-                        <i class="fas fa-shield-halved bank-shield-icon"></i>
-                        <h2>Why connect your bank account?</h2>
+                        <i class="fas fa-rocket bank-shield-icon"></i>
+                        <h2>What Plaid will bring to iFi</h2>
                         <ul class="benefit-list">
-                            <li><i class="fas fa-check-circle"></i> <strong>Automatic transaction tracking</strong> - No manual entry needed</li>
-                            <li><i class="fas fa-check-circle"></i> <strong>Real-time balance updates</strong> - Always know where you stand</li>
-                            <li><i class="fas fa-check-circle"></i> <strong>AI-powered insights</strong> - Personalized recommendations based on actual spending</li>
-                            <li><i class="fas fa-check-circle"></i> <strong>Smarter budgeting</strong> - Automatically categorize expenses</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Real-time financial insights</strong> - Instant analysis of your spending patterns and trends</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Interactive visualizations</strong> - Beautiful charts and graphs based on your actual transactions</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Smart recommendations</strong> - AI-powered suggestions based on your everyday purchases and income</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Automatic tracking</strong> - No manual entry - all your transactions synced automatically</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Comprehensive view</strong> - See all your accounts, income, and spending in one place</li>
                         </ul>
                     </div>
 
@@ -148,348 +151,904 @@
                     </div>
 
                     <div class="bank-connect-actions">
-                        <button type="button" class="btn-primary btn-large" id="link-bank-button" onclick="initPlaidLink()">
-                            <i class="fas fa-building-columns"></i> Connect Bank Account
-                        </button>
-                        <p class="privacy-note">
-                            <i class="fas fa-info-circle"></i> We never store your bank credentials. Connection is powered by Plaid, a trusted third-party service used by leading financial apps.
+                        <p class="coming-soon-note">
+                            <i class="fas fa-calendar-plus"></i> <strong>Coming Soon!</strong> Plaid integration is currently in development. Once live, you'll be able to connect your accounts instantly and securely.
                         </p>
                     </div>
-                </div>
 
-                <div class="step-actions">
-                    <button type="button" class="btn-secondary" onclick="prevStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
-                    <button type="button" class="btn-text" onclick="skipBankConnection()">Skip for now</button>
+                    <div class="step-actions">
+                        <button type="button" class="btn-secondary" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn-primary" onclick="nextStep(3)">Continue <i class="fas fa-arrow-right"></i></button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Step 4: Purpose-specific -->
-            <div class="step-content" id="step-4">
-                <div class="step-header">
-                    <h1 id="step3-title">Annual Income</h1>
-                    <p class="step-subtitle" id="step3-subtitle">Help us understand your financial situation</p>
-                </div>
-
-                <div class="question-block">
-                    <!-- Personal (default) -->
-                    <div class="purpose-section" id="step3-personal">
-                        <h2>What's your estimated annual income?</h2>
-                        <p class="question-hint">This helps us provide relevant insights and recommendations</p>
-                        <div class="form-group">
-                            <label for="annual-income">
-                                <i class="fas fa-dollar-sign"></i> Annual Income (USD)
-                            </label>
-                            <input type="number" id="annual-income" name="annualIncome" placeholder="50000" min="0" step="1000" required>
-                            <small>Enter your estimated annual income before taxes</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="income-source">
-                                <i class="fas fa-building"></i> Primary Income Source
-                            </label>
-                            <select id="income-source" name="incomeSource" required>
-                                <option value="">Select income source</option>
-                                <option value="salary">Salary/Wages</option>
-                                <option value="self-employed">Self-Employed</option>
-                                <option value="business">Business Owner</option>
-                                <option value="investments">Investments</option>
-                                <option value="retirement">Retirement/Pension</option>
-                                <option value="multiple">Multiple Sources</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Business -->
-                    <div class="purpose-section" id="step3-business" style="display:none;">
-                        <h2>Tell us about your business income</h2>
-                        <p class="question-hint">This helps us tailor cash flow and insights</p>
-                        <div class="form-group">
-                            <label for="business-revenue">
-                                <i class="fas fa-sack-dollar"></i> Monthly Revenue (USD)
-                            </label>
-                            <input type="number" id="business-revenue" name="businessRevenue" placeholder="12000" min="0" step="500">
-                        </div>
-                        <div class="form-group">
-                            <label for="business-type">
-                                <i class="fas fa-chart-bar"></i> Business Size
-                            </label>
-                            <select id="business-type" name="businessType">
-                                <option value="">Select size</option>
-                                <option value="micro">Micro (1-9 employees)</option>
-                                <option value="small">Small (10-49 employees)</option>
-                                <option value="medium">Medium (50-249 employees)</option>
-                                <option value="large">Large (250+ employees)</option>
-                                <option value="solo">Solo/Self-Employed</option>
-                            </select>
-                        </div>
-                        <hr style="margin: 2rem 0; border: none; border-top: 2px solid rgba(255,255,255,0.08);">
-                        <h2>Business Assets</h2>
-                        <p class="question-hint">Approximate values of your business assets</p>
-                        <div class="expense-categories">
-                            <div class="form-group"><label for="asset-cash"><i class="fas fa-money-bill-wave"></i> Cash & Bank Accounts</label><input type="number" id="asset-cash" placeholder="5000" min="0" step="500"></div>
-                            <div class="form-group"><label for="asset-inventory"><i class="fas fa-boxes"></i> Inventory</label><input type="number" id="asset-inventory" placeholder="10000" min="0" step="500"></div>
-                            <div class="form-group"><label for="asset-equipment"><i class="fas fa-tools"></i> Equipment & Machinery</label><input type="number" id="asset-equipment" placeholder="15000" min="0" step="500"></div>
-                            <div class="form-group"><label for="asset-property"><i class="fas fa-building"></i> Property/Real Estate</label><input type="number" id="asset-property" placeholder="0" min="0" step="1000"></div>
-                            <div class="form-group"><label for="asset-other"><i class="fas fa-ellipsis-h"></i> Other Assets</label><input type="number" id="asset-other" placeholder="0" min="0" step="500"></div>
-                        </div>
-                        <hr style="margin: 2rem 0; border: none; border-top: 2px solid rgba(255,255,255,0.08);">
-                        <h2>Business Liabilities</h2>
-                        <p class="question-hint">Outstanding debts and obligations</p>
-                        <div class="expense-categories">
-                            <div class="form-group"><label for="liability-loan"><i class="fas fa-landmark"></i> Business Loans</label><input type="number" id="liability-loan" placeholder="20000" min="0" step="500"></div>
-                            <div class="form-group"><label for="liability-payables"><i class="fas fa-file-invoice-dollar"></i> Accounts Payable</label><input type="number" id="liability-payables" placeholder="2000" min="0" step="500"></div>
-                            <div class="form-group"><label for="liability-credit"><i class="fas fa-credit-card"></i> Credit Card Debt</label><input type="number" id="liability-credit" placeholder="1500" min="0" step="100"></div>
-                            <div class="form-group"><label for="liability-other"><i class="fas fa-ellipsis-h"></i> Other Liabilities</label><input type="number" id="liability-other" placeholder="0" min="0" step="500"></div>
-                        </div>
-                    </div>
-
-                    <!-- Investing -->
-                    <div class="purpose-section" id="step3-investing" style="display:none;">
-                        <h2>Financial Overview</h2>
-                        <p class="question-hint">Help us understand your financial situation for better investment insights</p>
-                        <div class="form-group">
-                            <label for="annual-income-investing">
-                                <i class="fas fa-dollar-sign"></i> Annual Income (USD)
-                            </label>
-                            <input type="number" id="annual-income-investing" name="annualIncomeInvesting" placeholder="50000" min="0" step="1000">
-                            <small>Enter your estimated annual income before taxes</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="income-source-investing">
-                                <i class="fas fa-building"></i> Primary Income Source
-                            </label>
-                            <select id="income-source-investing" name="incomeSourceInvesting">
-                                <option value="">Select income source</option>
-                                <option value="salary">Salary/Wages</option>
-                                <option value="self-employed">Self-Employed</option>
-                                <option value="business">Business Owner</option>
-                                <option value="investments">Investments</option>
-                                <option value="retirement">Retirement/Pension</option>
-                                <option value="multiple">Multiple Sources</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <hr style="margin: 2rem 0; border: none; border-top: 2px solid #e0e0e0;">
-                        <h2>Investment Profile</h2>
-                        <div class="form-group">
-                            <label><i class="fas fa-gauge"></i> Risk Tolerance</label>
-                            <div class="option-grid">
-                                <label class="option-card"><input type="radio" name="riskTolerance" value="conservative"><div class="card-content"><h3>Conservative</h3><p>Lower risk, stable growth</p></div></label>
-                                <label class="option-card"><input type="radio" name="riskTolerance" value="balanced"><div class="card-content"><h3>Balanced</h3><p>Moderate risk/return</p></div></label>
-                                <label class="option-card"><input type="radio" name="riskTolerance" value="aggressive"><div class="card-content"><h3>Aggressive</h3><p>Higher risk, higher growth</p></div></label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="invest-horizon"><i class="fas fa-hourglass-half"></i> Investment Span</label>
-                            <select id="invest-horizon" name="investmentHorizon">
-                                <option value="">Select Span</option>
-                                <option value="short">0-3 years</option>
-                                <option value="medium">3-7 years</option>
-                                <option value="long">7+ years</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Debt -->
-                    <div class="purpose-section" id="step3-debt" style="display:none;">
-                        <h2>Financial Overview</h2>
-                        <p class="question-hint">Help us create an effective debt payoff plan</p>
-                        <div class="form-group">
-                            <label for="annual-income-debt">
-                                <i class="fas fa-dollar-sign"></i> Annual Income (USD)
-                            </label>
-                            <input type="number" id="annual-income-debt" name="annualIncomeDebt" placeholder="50000" min="0" step="1000">
-                            <small>Enter your estimated annual income before taxes</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="income-source-debt">
-                                <i class="fas fa-building"></i> Primary Income Source
-                            </label>
-                            <select id="income-source-debt" name="incomeSourceDebt">
-                                <option value="">Select income source</option>
-                                <option value="salary">Salary/Wages</option>
-                                <option value="self-employed">Self-Employed</option>
-                                <option value="business">Business Owner</option>
-                                <option value="investments">Investments</option>
-                                <option value="retirement">Retirement/Pension</option>
-                                <option value="multiple">Multiple Sources</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <hr style="margin: 2rem 0; border: none; border-top: 2px solid #e0e0e0;">
-                        <h2>Your Current Debts</h2>
-                        <p class="question-hint">Approximate balances are fine</p>
-                        <div class="expense-categories">
-                            <div class="form-group"><label for="debt-credit"><i class="fas fa-credit-card"></i> Credit Cards</label><input type="number" id="debt-credit" placeholder="4000" min="0" step="100"></div>
-                            <div class="form-group"><label for="debt-student"><i class="fas fa-graduation-cap"></i> Student Loans</label><input type="number" id="debt-student" placeholder="12000" min="0" step="100"></div>
-                            <div class="form-group"><label for="debt-auto"><i class="fas fa-car"></i> Auto Loans</label><input type="number" id="debt-auto" placeholder="8000" min="0" step="100"></div>
-                            <div class="form-group"><label for="debt-other"><i class="fas fa-ellipsis-h"></i> Other</label><input type="number" id="debt-other" placeholder="2000" min="0" step="100"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step-actions">
-                    <button type="button" class="btn-secondary" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
-                    <button type="button" class="btn-primary" onclick="nextStep(4)">Continue <i class="fas fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-            <!-- Step 4: Purpose-specific -->
+            <!-- Step 3: General Financial Information -->
             <div class="step-content" id="step-3">
                 <div class="step-header">
-                    <h1 id="step4-title">Monthly Expenses</h1>
-                    <p class="step-subtitle" id="step4-subtitle">Let's map out your spending</p>
+                    <h1 id="step3-title">Income</h1>
+                    <p class="step-subtitle" id="step3-subtitle">Tell us about your income sources</p>
                 </div>
 
-                <div class="question-block">
-                    <!-- Personal/Business expenses -->
-                    <div class="purpose-section" id="step4-expenses">
-                        <h2 id="step4-expenses-title">What are your average monthly expenses?</h2>
-                        <p class="question-hint" id="step4-expenses-hint">Break down your typical monthly spending</p>
-                        <div class="expense-categories">
-                            <div class="form-group"><label for="housing"><i class="fas fa-home"></i> Housing (Rent/Mortgage)</label><input type="number" id="housing" name="housing" placeholder="1500" min="0" step="100"></div>
-                            <div class="form-group"><label for="utilities"><i class="fas fa-bolt"></i> Utilities (Electric, Water, Gas)</label><input type="number" id="utilities" name="utilities" placeholder="200" min="0" step="50"></div>
-                            <div class="form-group"><label for="food"><i class="fas fa-utensils"></i> Food & Groceries</label><input type="number" id="food" name="food" placeholder="500" min="0" step="50"></div>
-                            <div class="form-group"><label for="transportation"><i class="fas fa-car"></i> Transportation</label><input type="number" id="transportation" name="transportation" placeholder="300" min="0" step="50"></div>
-                            <div class="form-group"><label for="insurance"><i class="fas fa-shield-alt"></i> Insurance</label><input type="number" id="insurance" name="insurance" placeholder="200" min="0" step="50"></div>
-                            <div class="form-group"><label for="other-expenses"><i class="fas fa-ellipsis-h"></i> Other Expenses</label><input type="number" id="other-expenses" name="otherExpenses" placeholder="300" min="0" step="50"></div>
-                        </div>
-                        <div class="expense-summary"><strong>Total Monthly Expenses:</strong> <span id="total-expenses">$0</span></div>
-                    </div>
-
-                    <!-- Investing goals -->
-                    <div class="purpose-section" id="step4-investing-goals" style="display:none;">
-                        <h2>Monthly Expenses</h2>
-                        <p class="question-hint">Understanding your spending helps with investment planning</p>
-                        <div class="expense-categories">
-                            <div class="form-group"><label for="housing-investing"><i class="fas fa-home"></i> Housing (Rent/Mortgage)</label><input type="number" id="housing-investing" name="housingInvesting" placeholder="1500" min="0" step="100"></div>
-                            <div class="form-group"><label for="utilities-investing"><i class="fas fa-bolt"></i> Utilities (Electric, Water, Gas)</label><input type="number" id="utilities-investing" name="utilitiesInvesting" placeholder="200" min="0" step="50"></div>
-                            <div class="form-group"><label for="food-investing"><i class="fas fa-utensils"></i> Food & Groceries</label><input type="number" id="food-investing" name="foodInvesting" placeholder="500" min="0" step="50"></div>
-                            <div class="form-group"><label for="transportation-investing"><i class="fas fa-car"></i> Transportation</label><input type="number" id="transportation-investing" name="transportationInvesting" placeholder="300" min="0" step="50"></div>
-                            <div class="form-group"><label for="insurance-investing"><i class="fas fa-shield-alt"></i> Insurance</label><input type="number" id="insurance-investing" name="insuranceInvesting" placeholder="200" min="0" step="50"></div>
-                            <div class="form-group"><label for="other-expenses-investing"><i class="fas fa-ellipsis-h"></i> Other Expenses</label><input type="number" id="other-expenses-investing" name="otherExpensesInvesting" placeholder="300" min="0" step="50"></div>
-                        </div>
-                        <div class="expense-summary"><strong>Total Monthly Expenses:</strong> <span id="total-expenses-investing">$0</span></div>
-                        <hr style="margin: 2rem 0; border: none; border-top: 2px solid #e0e0e0;">
-                        <h2>Your Investing Goals</h2>
-                        <p class="question-hint">Choose what you want to prioritize</p>
-                        <div class="option-grid">
-                            <label class="option-card"><input type="checkbox" name="investGoals" value="build-wealth"><div class="card-content"><h3>Build Wealth</h3><p>Long-term growth focus</p></div></label>
-                            <label class="option-card"><input type="checkbox" name="investGoals" value="income"><div class="card-content"><h3>Income</h3><p>Dividends/interest focus</p></div></label>
-                            <label class="option-card"><input type="checkbox" name="investGoals" value="preservation"><div class="card-content"><h3>Preservation</h3><p>Minimize volatility</p></div></label>
-                        </div>
-                    </div>
-
-                    <!-- Debt strategy -->
-                    <div class="purpose-section" id="step4-debt-strategy" style="display:none;">
-                        <h2>Monthly Expenses</h2>
-                        <p class="question-hint">Understanding your spending helps create a realistic payoff plan</p>
-                        <div class="expense-categories">
-                            <div class="form-group"><label for="housing-debt"><i class="fas fa-home"></i> Housing (Rent/Mortgage)</label><input type="number" id="housing-debt" name="housingDebt" placeholder="1500" min="0" step="100"></div>
-                            <div class="form-group"><label for="utilities-debt"><i class="fas fa-bolt"></i> Utilities (Electric, Water, Gas)</label><input type="number" id="utilities-debt" name="utilitiesDebt" placeholder="200" min="0" step="50"></div>
-                            <div class="form-group"><label for="food-debt"><i class="fas fa-utensils"></i> Food & Groceries</label><input type="number" id="food-debt" name="foodDebt" placeholder="500" min="0" step="50"></div>
-                            <div class="form-group"><label for="transportation-debt"><i class="fas fa-car"></i> Transportation</label><input type="number" id="transportation-debt" name="transportationDebt" placeholder="300" min="0" step="50"></div>
-                            <div class="form-group"><label for="insurance-debt"><i class="fas fa-shield-alt"></i> Insurance</label><input type="number" id="insurance-debt" name="insuranceDebt" placeholder="200" min="0" step="50"></div>
-                            <div class="form-group"><label for="other-expenses-debt"><i class="fas fa-ellipsis-h"></i> Other Expenses</label><input type="number" id="other-expenses-debt" name="otherExpensesDebt" placeholder="300" min="0" step="50"></div>
-                        </div>
-                        <div class="expense-summary"><strong>Total Monthly Expenses:</strong> <span id="total-expenses-debt">$0</span></div>
-                        <hr style="margin: 2rem 0; border: none; border-top: 2px solid #e0e0e0;">
-                        <h2>Choose a Payoff Strategy</h2>
-                        <p class="question-hint">Pick the method that fits you best</p>
-                        <div class="option-grid">
-                            <label class="option-card"><input type="radio" name="debtStrategy" value="avalanche"><div class="card-content"><h3>Avalanche</h3><p>Highest interest first</p></div></label>
-                            <label class="option-card"><input type="radio" name="debtStrategy" value="snowball"><div class="card-content"><h3>Snowball</h3><p>Smallest balance first</p></div></label>
-                            <label class="option-card"><input type="radio" name="debtStrategy" value="hybrid"><div class="card-content"><h3>Hybrid</h3><p>Balanced approach</p></div></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step-actions">
-                    <button type="button" class="btn-secondary" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Back</button>
-                    <button type="button" class="btn-primary" onclick="nextStep(5)">Continue <i class="fas fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-            <!-- Step 5: Investments -->
-            <div class="step-content" id="step-5">
-                <div class="step-header">
-                    <h1>Current Investments</h1>
-                    <p class="step-subtitle">Tell us about your portfolio</p>
-                </div>
-
-                <div class="question-block">
-                    <h2>What are you currently invested in?</h2>
-                    <p class="question-hint">Select all that apply (you can skip this if you're not investing yet)</p>
+                <div class="question-block" style="max-width: 900px; margin: 0 auto;">
+                    <!-- Income Section - Always Visible -->
+                    <div class="financial-section active-subsection" id="income-section" data-section="income" style="display: block;">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;"><i class="fas fa-dollar-sign"></i> Income</h3>
                     
-                    <div class="checkbox-grid">
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="investments" value="stocks">
-                            <div class="card-content">
-                                <i class="fas fa-chart-line"></i>
-                                <h3>Stocks</h3>
-                            </div>
-                        </label>
-
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="investments" value="etf">
-                            <div class="card-content">
-                                <i class="fas fa-layer-group"></i>
-                                <h3>ETFs</h3>
-                            </div>
-                        </label>
-
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="investments" value="crypto">
-                            <div class="card-content">
-                                <i class="fab fa-bitcoin"></i>
-                                <h3>Cryptocurrency</h3>
-                            </div>
-                        </label>
-
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="investments" value="bonds">
-                            <div class="card-content">
-                                <i class="fas fa-file-contract"></i>
-                                <h3>Bonds</h3>
-                            </div>
-                        </label>
-
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="investments" value="real-estate">
-                            <div class="card-content">
-                                <i class="fas fa-building"></i>
-                                <h3>Real Estate</h3>
-                            </div>
-                        </label>
-
-                        <label class="checkbox-card">
-                            <input type="checkbox" name="investments" value="retirement">
-                            <div class="card-content">
-                                <i class="fas fa-piggy-bank"></i>
-                                <h3>401k/IRA</h3>
-                            </div>
-                        </label>
+                    <div class="form-group">
+                        <label for="income-source">Primary Source of Income *</label>
+                        <select id="income-source" name="incomeSource" required>
+                            <option value="">Select your primary income source...</option>
+                            <option value="fulltime-employment">Full-Time Employment</option>
+                            <option value="parttime-employment">Part-Time Employment</option>
+                            <option value="self-employed">Self-Employed/Freelance</option>
+                            <option value="business-owner">Business Owner</option>
+                            <option value="investments">Investment Income</option>
+                            <option value="retirement">Retirement/Pension</option>
+                            <option value="government-benefits">Government Benefits</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <small style="color: rgba(139, 192, 223, 0.85);">Helps us understand your income stability</small>
                     </div>
 
                     <div class="form-group">
-                        <label for="portfolio-value">
-                            <i class="fas fa-wallet"></i> Total Portfolio Value (Optional)
-                        </label>
-                        <input type="number" id="portfolio-value" name="portfolioValue" placeholder="10000" min="0" step="1000">
-                        <small>Estimated total value of all investments</small>
+                        <label for="monthly-takehome">Monthly Take-Home Income *</label>
+                        <input type="number" id="monthly-takehome" name="monthlyTakehome" min="0" step="1" required>
+                        <small style="color: rgba(139, 192, 223, 0.85);">Your net income after taxes and deductions</small>
+                    </div>
+
+                    <div class="form-group" id="additional-income-container">
+                        <label for="has-additional-income">Do you have additional sources of income?</label>
+                        <div id="additional-income-buttons" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <button type="button" class="btn-secondary" style="flex: 1; padding: 0.75rem;" onclick="showAdditionalIncomeFields()">
+                                <i class="fas fa-plus"></i> Yes, add details
+                            </button>
+                            <button type="button" class="btn-text" style="flex: 1; padding: 0.75rem;" onclick="skipAdditionalIncome()">
+                                <i class="fas fa-forward"></i> Skip
+                            </button>
+                        </div>
+                        
+                        <div id="additional-income-fields" style="display: none; margin-top: 1rem; padding: 1.5rem; background: rgba(0, 212, 255, 0.05); border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="color: #00d4ff; margin: 0; font-size: 1rem;">Additional Income Sources</h4>
+                                <button type="button" class="btn-text" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="cancelAdditionalIncome()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                            
+                            <div id="additional-income-entries"></div>
+                            
+                            <button type="button" class="btn-secondary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;" onclick="addIncomeEntry()">
+                                <i class="fas fa-plus-circle"></i> Add Another Income Source
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-nav-buttons" style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
+                        <button type="button" class="btn-primary" id="income-next-btn" onclick="navigateToSection('expenses')" style="padding: 0.875rem 2.5rem;">
+                            Next: Expenses <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    </div>
+
+                    <!-- Expenses Section - Hidden Initially -->
+                    <div class="financial-section" id="expenses-section" data-section="expenses" style="display: none;">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;"><i class="fas fa-receipt"></i> Expenses</h3>
+                    
+                    <div class="form-group">
+                        <label>Track your monthly expenses by category</label>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <button type="button" class="btn-secondary" style="flex: 1; padding: 0.75rem;" onclick="showExpenseFields()">
+                                <i class="fas fa-plus"></i> Add Expense Categories
+                            </button>
+                            <button type="button" class="btn-text" style="flex: 1; padding: 0.75rem;" onclick="skipExpenses()">
+                                <i class="fas fa-forward"></i> Skip
+                            </button>
+                        </div>
+                        
+                        <div id="expense-fields" style="display: none; margin-top: 1rem; padding: 1.5rem; background: rgba(0, 212, 255, 0.05); border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="color: #00d4ff; margin: 0; font-size: 1rem;">Monthly Expense Breakdown</h4>
+                                <button type="button" class="btn-text" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="cancelExpenses()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                            
+                            <div id="expense-entries"></div>
+                            
+                            <div id="expense-total-display" style="margin-top: 1rem; padding: 1rem; background: rgba(93, 173, 226, 0.1); border-radius: 8px; display: none;">
+                                <strong style="color: #00d4ff;">Total Monthly Expenses: $<span id="expense-total">0</span></strong>
+                            </div>
+                            
+                            <button type="button" class="btn-secondary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;" onclick="addExpenseEntry()">
+                                <i class="fas fa-plus-circle"></i> Add Another Expense Category
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Subscriptions Sub-section within Expenses -->
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0, 212, 255, 0.03); border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.15);">
+                        <h4 style="color: #00d4ff; margin-bottom: 0.5rem;"><i class="fas fa-sync-alt"></i> Subscriptions</h4>
+                        <p style="color: rgba(139, 192, 223, 0.85); margin-bottom: 1rem; font-size: 0.9rem;">Track your recurring subscriptions separately</p>
+                        
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <button type="button" class="btn-secondary" style="flex: 1; padding: 0.75rem;" onclick="showSubscriptionFields()">
+                                <i class="fas fa-plus"></i> Add Subscriptions
+                            </button>
+                            <button type="button" class="btn-text" style="flex: 1; padding: 0.75rem;" onclick="skipSubscriptions()">
+                                <i class="fas fa-forward"></i> Skip
+                            </button>
+                        </div>
+                        
+                        <div id="subscription-fields" style="display: none; margin-top: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <span style="color: #00d4ff; font-size: 0.95rem; font-weight: 500;">Your Subscriptions</span>
+                                <button type="button" class="btn-text" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="cancelSubscriptions()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><i class="fas fa-search"></i> Search for Subscriptions</label>
+                                <div style="position: relative;">
+                                    <input type="text" id="subscription-search" placeholder="(e.g., Netflix, Spotify)..." autocomplete="off">
+                                    <div id="subscription-results" class="autocomplete-results" style="display: none;"></div>
+                                </div>
+                                <small style="color: rgba(139, 192, 223, 0.85);">We'll calculate your total monthly subscription costs automatically</small>
+                            </div>
+                            
+                            <div id="subscription-list" style="margin-top: 1rem;"></div>
+                            
+                            <div id="subscription-total-display" style="margin-top: 1rem; padding: 1rem; background: rgba(93, 173, 226, 0.1); border-radius: 8px; display: none;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 600; color: #00d4ff;"><i class="fas fa-calculator"></i> Total Monthly Subscriptions:</span>
+                                    <span id="subscription-total-amount" style="font-size: 1.25rem; font-weight: 700; color: #00d4ff;">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-nav-buttons" style="margin-top: 2rem; display: flex; justify-content: space-between; gap: 1rem;">
+                        <button type="button" class="btn-secondary" onclick="navigateToSection('income')" style="padding: 0.875rem 2rem;">
+                            <i class="fas fa-arrow-left"></i> Previous: Income
+                        </button>
+                        <button type="button" class="btn-primary" id="expenses-next-btn" onclick="navigateToSection('assets')" style="padding: 0.875rem 2rem;">
+                            Next: Assets <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    </div>
+
+                    <!-- Assets/Investments Section - Hidden Initially -->
+                    <div class="financial-section" id="assets-section" data-section="assets" style="display: none;">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;"><i class="fas fa-piggy-bank"></i> Assets/Investments</h3>
+                    
+                    <div class="form-group">
+                        <label>Track your assets and savings</label>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <button type="button" class="btn-secondary" style="flex: 1; padding: 0.75rem;" onclick="showAssetFields()">
+                                <i class="fas fa-plus"></i> Add Assets
+                            </button>
+                            <button type="button" class="btn-text" style="flex: 1; padding: 0.75rem;" onclick="skipAssets()">
+                                <i class="fas fa-forward"></i> Skip
+                            </button>
+                        </div>
+                        
+                        <div id="asset-fields" style="display: none; margin-top: 1rem; padding: 1.5rem; background: rgba(0, 212, 255, 0.05); border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="color: #00d4ff; margin: 0; font-size: 1rem;">Asset Breakdown</h4>
+                                <button type="button" class="btn-text" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="cancelAssets()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                            
+                            <div id="asset-entries"></div>
+                            
+                            <div id="asset-total-display" style="margin-top: 1rem; padding: 1rem; background: rgba(93, 173, 226, 0.1); border-radius: 8px; display: none;">
+                                <strong style="color: #00d4ff;">Total Assets Value: $<span id="asset-total">0</span></strong>
+                            </div>
+                            
+                            <button type="button" class="btn-secondary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;" onclick="addAssetEntry()">
+                                <i class="fas fa-plus-circle"></i> Add Another Asset
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Investments Sub-section within Assets -->
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0, 212, 255, 0.03); border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.15);">
+                        <h4 style="color: #00d4ff; margin-bottom: 0.5rem;"><i class="fas fa-chart-line"></i> Investment Holdings</h4>
+                        <p style="color: rgba(139, 192, 223, 0.85); margin-bottom: 1rem; font-size: 0.9rem;">Add your investment portfolio (stocks, ETFs, crypto)</p>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-search"></i> Search for Investment Holdings</label>
+                            <div style="position: relative;">
+                                <input type="text" id="investment-search" placeholder="Search stocks, ETFs, crypto (e.g., AAPL, VOO, BTC)..." autocomplete="off">
+                                <div id="investment-results" class="autocomplete-results" style="display: none;"></div>
+                            </div>
+                            <small style="color: rgba(139, 192, 223, 0.85);">We'll calculate your total portfolio value and track performance</small>
+                        </div>
+                        
+                        <div id="investment-holdings-list" style="margin-top: 1rem;"></div>
+                        
+                        <div id="portfolio-total-display" style="margin-top: 1rem; padding: 1rem; background: rgba(93, 173, 226, 0.1); border-radius: 8px; display: none;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 600; color: #00d4ff;"><i class="fas fa-calculator"></i> Total Portfolio Value:</span>
+                                <span id="portfolio-total-amount" style="font-size: 1.25rem; font-weight: 700; color: #00d4ff;">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-nav-buttons" style="margin-top: 2rem; display: flex; justify-content: space-between; gap: 1rem;">
+                        <button type="button" class="btn-secondary" onclick="navigateToSection('expenses')" style="padding: 0.875rem 2rem;">
+                            <i class="fas fa-arrow-left"></i> Previous: Expenses
+                        </button>
+                        <button type="button" class="btn-primary" id="assets-next-btn" onclick="navigateToSection('debt')" style="padding: 0.875rem 2rem;">
+                            Next: Debt <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    </div>
+
+                    <!-- Debt Section - Hidden Initially -->
+                    <div class="financial-section" id="debt-section" data-section="debt" style="display: none;">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;"><i class="fas fa-credit-card"></i> Debt</h3>
+                    
+                    <div class="form-group">
+                        <label>Track your debts and payment obligations</label>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <button type="button" class="btn-secondary" style="flex: 1; padding: 0.75rem;" onclick="showDebtFields()">
+                                <i class="fas fa-plus"></i> Add Debts
+                            </button>
+                            <button type="button" class="btn-text" style="flex: 1; padding: 0.75rem;" onclick="skipDebt()">
+                                <i class="fas fa-forward"></i> Skip
+                            </button>
+                        </div>
+                        
+                        <div id="debt-fields" style="display: none; margin-top: 1rem; padding: 1.5rem; background: rgba(0, 212, 255, 0.05); border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="color: #00d4ff; margin: 0; font-size: 1rem;">Debt Breakdown</h4>
+                                <button type="button" class="btn-text" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="cancelDebt()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                            
+                            <div id="debt-entries"></div>
+                            
+                            <div id="debt-total-display" style="margin-top: 1rem; padding: 1rem; background: rgba(93, 173, 226, 0.1); border-radius: 8px; display: none;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <strong style="color: #00d4ff;">Total Outstanding Debt: $<span id="debt-total">0</span></strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <strong style="color: #00d4ff;">Total Monthly Payments: $<span id="debt-payment-total">0</span></strong>
+                                </div>
+                            </div>
+                            
+                            <button type="button" class="btn-secondary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;" onclick="addDebtEntry()">
+                                <i class="fas fa-plus-circle"></i> Add Another Debt
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-nav-buttons" style="margin-top: 2rem; display: flex; justify-content: space-between; gap: 1rem;">
+                        <button type="button" class="btn-secondary" onclick="navigateToSection('assets')" style="padding: 0.875rem 2rem;">
+                            <i class="fas fa-arrow-left"></i> Previous: Assets
+                        </button>
+                        <button type="button" class="btn-primary" onclick="completeStep3AndProceed()" style="padding: 0.875rem 2rem;">
+                            Continue to Personalized Questions <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    </div>
+
+                    <!-- Investments Section - Hidden Initially -->
+                    <div class="financial-section" id="investments-section" data-section="investments" style="display: none;">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;"><i class="fas fa-chart-line"></i> Investments</h3>
+                    <div class="form-group">
+                        <label for="monthly-contributions">Monthly Investment Contributions</label>
+                        <input type="number" id="monthly-contributions" name="monthlyContributions" min="0" step="1">
+                        <small style="color: rgba(139, 192, 223, 0.85);">Projects future portfolio value</small>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-search"></i> Add Your Investment Holdings</label>
+                        <div style="position: relative;">
+                            <input type="text" id="investment-search" placeholder="Search stocks, ETFs, crypto (e.g., AAPL, VOO, BTC)..." autocomplete="off">
+                            <div id="investment-results" class="autocomplete-results" style="display: none;"></div>
+                        </div>
+                        <small style="color: rgba(139, 192, 223, 0.85);">We'll calculate your total portfolio value and track performance</small>
+                    </div>
+                    <div id="investment-holdings-list" style="margin-top: 1rem;"></div>
+                    <div id="portfolio-total-display" style="margin-top: 1rem; padding: 1rem; background: rgba(93, 173, 226, 0.1); border-radius: 8px; display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 600; color: #00d4ff;"><i class="fas fa-calculator"></i> Total Portfolio Value:</span>
+                            <span id="portfolio-total-amount" style="font-size: 1.25rem; font-weight: 700; color: #00d4ff;">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="section-nav-buttons" style="margin-top: 2rem; display: flex; justify-content: space-between; gap: 1rem;">
+                        <button type="button" class="btn-secondary" onclick="navigateToSection('debt')" style="padding: 0.875rem 2rem;">
+                            <i class="fas fa-arrow-left"></i> Previous: Debt
+                        </button>
+                        <button type="button" class="btn-primary" onclick="navigateToSection('additional')" style="padding: 0.875rem 2rem;">
+                            Next: Additional Details <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    </div>
+
+
+
+                    <!-- Additional Details Section from old Step 4 - Hidden Initially -->
+                    <div class="financial-section" id="additional-details-section" data-section="additional" style="display: none;">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;"><i class="fas fa-clipboard-list"></i> Additional Details</h3>
+                    <p class="step-subtitle" style="color: rgba(139, 192, 223, 0.9); margin-bottom: 1.5rem;">Help us understand your spending patterns better</p>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="monthly-housing"><i class="fas fa-home"></i> Monthly Housing Cost</label>
+                            <input type="number" id="monthly-housing" name="monthlyHousing" min="0" step="1">
+                            <small style="color: rgba(139, 192, 223, 0.85);">Rent or mortgage payment</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="monthly-utilities"><i class="fas fa-bolt"></i> Monthly Utilities</label>
+                            <input type="number" id="monthly-utilities" name="monthlyUtilities" min="0" step="1">
+                            <small style="color: rgba(139, 192, 223, 0.85);">Electric, water, gas, internet</small>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="monthly-food"><i class="fas fa-utensils"></i> Monthly Food & Groceries</label>
+                            <input type="number" id="monthly-food" name="monthlyFood" min="0" step="1">
+                            <small style="color: rgba(139, 192, 223, 0.85);">Groceries and dining out</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="monthly-transportation"><i class="fas fa-car"></i> Monthly Transportation</label>
+                            <input type="number" id="monthly-transportation" name="monthlyTransportation" min="0" step="1">
+                            <small style="color: rgba(139, 192, 223, 0.85);">Gas, car payment, public transit</small>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="monthly-insurance"><i class="fas fa-shield-alt"></i> Monthly Insurance</label>
+                            <input type="number" id="monthly-insurance" name="monthlyInsurance" min="0" step="1">
+                            <small style="color: rgba(139, 192, 223, 0.85);">Health, auto, life insurance</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="monthly-discretionary"><i class="fas fa-shopping-bag"></i> Monthly Discretionary</label>
+                            <input type="number" id="monthly-discretionary" name="monthlyDiscretionary" min="0" step="1">
+                            <small style="color: rgba(139, 192, 223, 0.85);">Shopping, entertainment, hobbies</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthly-savings-goal"><i class="fas fa-piggy-bank"></i> Monthly Savings Goal</label>
+                        <input type="number" id="monthly-savings-goal" name="monthlySavingsGoal" min="0" step="1">
+                        <small style="color: rgba(139, 192, 223, 0.85);">Target amount to save each month</small>
+                    </div>
+
+                    <div class="section-nav-buttons" style="margin-top: 2rem; display: flex; justify-content: space-between; gap: 1rem;">
+                        <button type="button" class="btn-secondary" onclick="navigateToSection('subscriptions')" style="padding: 0.875rem 2rem;">
+                            <i class="fas fa-arrow-left"></i> Previous: Subscriptions
+                        </button>
+                        <button type="button" class="btn-primary" onclick="completeStep3()" style="padding: 0.875rem 2rem;">
+                            Complete & Continue to Step 4 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="step-actions">
-                    <button type="button" class="btn-secondary" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> Back</button>
-                    <button type="button" class="btn-primary" onclick="completeOnboarding()">Complete Setup <i class="fas fa-check"></i></button>
+            <!-- Step 4: Spending Behavior & Lifestyle -->
+            <!-- Step 4: Purpose-Specific Questions -->
+            <div class="step-content" id="step-4">
+                <div class="step-header">
+                    <h1 id="step4-title">Tell Us More</h1>
+                    <p class="step-subtitle" id="step4-subtitle">Answer a few questions based on your goals</p>
+                </div>
+
+                <div class="question-block">
+                    <!-- Personal Finance Purpose -->
+                    <div class="purpose-section" id="step4-personal" style="display:none;">
+                        <h3 style="color: #00d4ff; margin-bottom: 1.5rem;"><i class="fas fa-user-circle"></i> Personal Finance</h3>
+                        <p style="color: rgba(139, 192, 223, 0.85); margin-bottom: 1.5rem;">Oversee expenses, budgets, income, and savings</p>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-chart-line"></i> How confident do you currently feel about tracking your monthly expenses?</label>
+                            <select id="personal-confidence" name="personalConfidence">
+                                <option value="">Select level...</option>
+                                <option value="very-confident">Very confident - I track everything</option>
+                                <option value="somewhat-confident">Somewhat confident - I track most things</option>
+                                <option value="not-confident">Not very confident - I track occasionally</option>
+                                <option value="not-tracking">Not confident - I don't track at all</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-exclamation-circle"></i> What is your biggest challenge with managing day-to-day finances?</label>
+                            <select id="personal-challenge" name="personalChallenge">
+                                <option value="">Select challenge...</option>
+                                <option value="overspending">Overspending on non-essentials</option>
+                                <option value="no-visibility">Lack of visibility into spending</option>
+                                <option value="irregular-income">Irregular income</option>
+                                <option value="unexpected-expenses">Unexpected expenses</option>
+                                <option value="staying-organized">Staying organized</option>
+                                <option value="no-challenge">No major challenges</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-clipboard-list"></i> Do you prefer a strict budget, a flexible budget, or automated recommendations?</label>
+                            <select id="personal-budget-style" name="personalBudgetStyle">
+                                <option value="">Select preference...</option>
+                                <option value="strict">Strict budget - fixed categories and limits</option>
+                                <option value="flexible">Flexible budget - general guidelines</option>
+                                <option value="automated">Automated recommendations - let iFi suggest</option>
+                                <option value="not-sure">Not sure - help me decide</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar-check"></i> How often do you review your spending?</label>
+                            <select id="personal-review-frequency" name="personalReviewFrequency">
+                                <option value="">Select frequency...</option>
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="rarely">Rarely</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-bullseye"></i> Are you trying to increase savings, reduce spending, or simply gain visibility?</label>
+                            <select id="personal-primary-goal" name="personalPrimaryGoal">
+                                <option value="">Select goal...</option>
+                                <option value="increase-savings">Increase savings</option>
+                                <option value="reduce-spending">Reduce spending</option>
+                                <option value="gain-visibility">Gain visibility</option>
+                                <option value="all-three">All of the above</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-robot"></i> Would you like iFi to automatically categorize your transactions?</label>
+                            <select id="personal-auto-categorize" name="personalAutoCategorize">
+                                <option value="">Select preference...</option>
+                                <option value="yes">Yes, automatically categorize everything</option>
+                                <option value="review">Yes, but let me review first</option>
+                                <option value="no">No, I'll categorize manually</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Financial Goals Purpose -->
+                    <div class="purpose-section" id="step4-goals" style="display:none;">
+                        <h3 style="color: #00d4ff; margin-bottom: 1.5rem;"><i class="fas fa-bullseye"></i> Financial Goals</h3>
+                        <p style="color: rgba(139, 192, 223, 0.85); margin-bottom: 1.5rem;">Set and track long-term financial objectives</p>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-flag"></i> What financial goals are you currently working toward?</label>
+                            <select id="goals-primary" name="goalsPrimary">
+                                <option value="">Select goal...</option>
+                                <option value="emergency-fund">Emergency fund</option>
+                                <option value="home-purchase">Home purchase</option>
+                                <option value="travel">Travel</option>
+                                <option value="retirement">Retirement</option>
+                                <option value="education">Education savings</option>
+                                <option value="major-purchase">Major purchase (car, wedding, etc.)</option>
+                                <option value="multiple">Multiple goals</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar-alt"></i> What is your target timeline for achieving your primary goal?</label>
+                            <select id="goals-timeline" name="goalsTimeline">
+                                <option value="">Select timeline...</option>
+                                <option value="6-months">Within 6 months</option>
+                                <option value="1-year">Within 1 year</option>
+                                <option value="2-3-years">2-3 years</option>
+                                <option value="5-years">5 years</option>
+                                <option value="10-years">10+ years</option>
+                                <option value="ongoing">Ongoing/No specific timeline</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-dollar-sign"></i> How much can you comfortably contribute toward this goal each month?</label>
+                            <select id="goals-monthly-contribution" name="goalsMonthlyContribution">
+                                <option value="">Select amount...</option>
+                                <option value="0-50">$0-50</option>
+                                <option value="50-100">$50-100</option>
+                                <option value="100-250">$100-250</option>
+                                <option value="250-500">$250-500</option>
+                                <option value="500-1000">$500-1,000</option>
+                                <option value="1000-plus">$1,000+</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-chart-line"></i> Do you prefer conservative, moderate, or aggressive progress plans?</label>
+                            <select id="goals-strategy" name="goalsStrategy">
+                                <option value="">Select preference...</option>
+                                <option value="conservative">Conservative - slow and steady</option>
+                                <option value="moderate">Moderate - balanced approach</option>
+                                <option value="aggressive">Aggressive - accelerated savings</option>
+                                <option value="flexible">Flexible - adjust as needed</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-exchange-alt"></i> Are your goals fixed, or do you expect them to change over time?</label>
+                            <select id="goals-flexibility" name="goalsFlexibility">
+                                <option value="">Select...</option>
+                                <option value="fixed">Fixed - clear goals that won't change</option>
+                                <option value="evolving">Evolving - priorities may shift</option>
+                                <option value="not-sure">Not sure yet</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-lightbulb"></i> Would you like iFi to suggest goal amounts based on your income and expenses?</label>
+                            <select id="goals-suggestions" name="goalsSuggestions">
+                                <option value="">Select preference...</option>
+                                <option value="yes">Yes, suggest recommended amounts</option>
+                                <option value="guide">Yes, but only as guidance</option>
+                                <option value="no">No, I'll set my own targets</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Investing Purpose -->
+                    <div class="purpose-section" id="step4-investing" style="display:none;">
+                        <h3 style="color: #00d4ff; margin-bottom: 1.5rem;"><i class="fas fa-chart-line"></i> Investing</h3>
+                        <p style="color: rgba(139, 192, 223, 0.85); margin-bottom: 1.5rem;">Track investment portfolio and receive investment insights</p>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-graduation-cap"></i> How would you describe your investing experience?</label>
+                            <select id="investing-experience" name="investingExperience">
+                                <option value="">Select level...</option>
+                                <option value="beginner">Beginner - just starting to invest</option>
+                                <option value="intermediate">Intermediate - have some experience</option>
+                                <option value="advanced">Advanced - experienced investor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-bullseye"></i> What is your primary investing objective?</label>
+                            <select id="investing-objective" name="investingObjective">
+                                <option value="">Select objective...</option>
+                                <option value="growth">Growth - maximize returns</option>
+                                <option value="income">Income - generate regular income</option>
+                                <option value="diversification">Diversification - spread risk</option>
+                                <option value="long-term-wealth">Long-term wealth building</option>
+                                <option value="retirement">Retirement savings</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-heartbeat"></i> How comfortable are you with market volatility?</label>
+                            <select id="investing-volatility" name="investingVolatility">
+                                <option value="">Select comfort level...</option>
+                                <option value="very-comfortable">Very comfortable - I can handle major swings</option>
+                                <option value="somewhat-comfortable">Somewhat comfortable - some volatility is okay</option>
+                                <option value="not-comfortable">Not very comfortable - prefer stability</option>
+                                <option value="risk-averse">Risk averse - minimal volatility only</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-briefcase"></i> What types of investments do you currently hold or plan to hold?</label>
+                            <p style="font-size: 0.9rem; color: rgba(139, 192, 223, 0.7); margin-bottom: 1rem;">Select all that apply</p>
+                            <div class="investment-types-grid">
+                                <label class="investment-type-card" onclick="toggleInvestmentType('stocks', this)">
+                                    <input type="checkbox" name="investmentTypes" value="stocks">
+                                    <div class="card-content">
+                                        <i class="fas fa-chart-line"></i>
+                                        <h4>Individual Stocks</h4>
+                                    </div>
+                                </label>
+                                <label class="investment-type-card" onclick="toggleInvestmentType('etfs', this)">
+                                    <input type="checkbox" name="investmentTypes" value="etfs">
+                                    <div class="card-content">
+                                        <i class="fas fa-layer-group"></i>
+                                        <h4>ETFs</h4>
+                                        <p>Exchange-Traded Funds</p>
+                                    </div>
+                                </label>
+                                <label class="investment-type-card" onclick="toggleInvestmentType('crypto', this)">
+                                    <input type="checkbox" name="investmentTypes" value="crypto">
+                                    <div class="card-content">
+                                        <i class="fab fa-bitcoin"></i>
+                                        <h4>Cryptocurrency</h4>
+                                    </div>
+                                </label>
+                                <label class="investment-type-card" onclick="toggleInvestmentType('retirement', this)">
+                                    <input type="checkbox" name="investmentTypes" value="retirement">
+                                    <div class="card-content">
+                                        <i class="fas fa-umbrella"></i>
+                                        <h4>Retirement Accounts</h4>
+                                        <p>401k, IRA</p>
+                                    </div>
+                                </label>
+                                <label class="investment-type-card" onclick="toggleInvestmentType('bonds', this)">
+                                    <input type="checkbox" name="investmentTypes" value="bonds">
+                                    <div class="card-content">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                        <h4>Bonds</h4>
+                                    </div>
+                                </label>
+                                <label class="investment-type-card" onclick="toggleInvestmentType('real-estate', this)">
+                                    <input type="checkbox" name="investmentTypes" value="real-estate">
+                                    <div class="card-content">
+                                        <i class="fas fa-home"></i>
+                                        <h4>Real Estate</h4>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-clock"></i> How often do you want portfolio insights?</label>
+                            <select id="investing-insights-frequency" name="investingInsightsFrequency">
+                                <option value="">Select frequency...</option>
+                                <option value="realtime">Real-time - instant updates</option>
+                                <option value="daily">Daily summaries</option>
+                                <option value="weekly">Weekly reports</option>
+                                <option value="monthly">Monthly overview</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-chart-pie"></i> Would you like iFi to suggest diversification strategies based on your risk profile?</label>
+                            <select id="investing-diversification" name="investingDiversification">
+                                <option value="">Select preference...</option>
+                                <option value="yes">Yes, suggest optimal diversification</option>
+                                <option value="review">Yes, but let me review suggestions</option>
+                                <option value="no">No, I'll manage my own allocation</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Debt Management Purpose -->
+                    <div class="purpose-section" id="step4-debt" style="display:none;">
+                        <h3 style="color: #00d4ff; margin-bottom: 1.5rem;"><i class="fas fa-credit-card"></i> Debt Management</h3>
+                        <p style="color: rgba(139, 192, 223, 0.85); margin-bottom: 1.5rem;">Create payment plans to pay off debts faster</p>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-focus"></i> What type of debt are you most focused on paying down?</label>
+                            <select id="debt-focus" name="debtFocus">
+                                <option value="">Select type...</option>
+                                <option value="credit-cards">Credit cards</option>
+                                <option value="student-loans">Student loans</option>
+                                <option value="auto-loans">Auto loans</option>
+                                <option value="medical">Medical debt</option>
+                                <option value="personal-loans">Personal loans</option>
+                                <option value="other">Other debt</option>
+                                <option value="multiple">Multiple types</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-exclamation-triangle"></i> How urgent is your goal to become debt-free?</label>
+                            <select id="debt-urgency" name="debtUrgency">
+                                <option value="">Select urgency...</option>
+                                <option value="critical">Critical - causing major stress</option>
+                                <option value="high">High priority - want to address soon</option>
+                                <option value="moderate">Moderate - steady progress is fine</option>
+                                <option value="low">Low - not urgent, just being proactive</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-route"></i> Are you looking for the fastest payoff plan or the lowest-interest-cost plan?</label>
+                            <select id="debt-strategy" name="debtStrategy">
+                                <option value="">Select preference...</option>
+                                <option value="fastest">Fastest payoff - minimize time</option>
+                                <option value="lowest-cost">Lowest cost - minimize interest paid</option>
+                                <option value="balanced">Balanced approach</option>
+                                <option value="recommend">Not sure - recommend best option</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-dollar-sign"></i> How much can you realistically put toward debt each month?</label>
+                            <select id="debt-monthly-payment" name="debtMonthlyPayment">
+                                <option value="">Select amount...</option>
+                                <option value="minimums">Just minimums</option>
+                                <option value="50-100">$50-100 extra</option>
+                                <option value="100-250">$100-250 extra</option>
+                                <option value="250-500">$250-500 extra</option>
+                                <option value="500-plus">$500+ extra</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-robot"></i> Do you want iFi to automatically prioritize which debts to pay first?</label>
+                            <select id="debt-auto-prioritize" name="debtAutoPrioritize">
+                                <option value="">Select preference...</option>
+                                <option value="yes">Yes, optimize my payment strategy</option>
+                                <option value="suggest">Show suggestions but let me decide</option>
+                                <option value="no">No, I'll prioritize manually</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar-times"></i> Have you missed any payments in the last 6 months?</label>
+                            <select id="debt-missed-payments" name="debtMissedPayments">
+                                <option value="">Select...</option>
+                                <option value="yes-multiple">Yes, multiple times</option>
+                                <option value="yes-once">Yes, once or twice</option>
+                                <option value="no">No, all payments on time</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button type="button" class="btn-secondary" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn-primary" onclick="nextStep(5)">Continue to Plan Selection <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Plan Selection -->
+            <div class="step-content" id="step-5">
+                <div class="step5-logo-container">
+                    <svg class="step5-logo" width="80" height="80" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
+                        <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
+                        <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
+                    </svg>
+                    <h1 class="step5-brand">iFi</h1>
+                </div>
+                
+                <div class="step-header">
+                    <h1>Choose Your iFi Plan</h1>
+                    <p class="step-subtitle">Select the plan that best fits your financial goals</p>
+                </div>
+
+                <div class="question-block">
+                    <div class="pricing-options">
+                        <!-- Free Plan -->
+                        <div class="pricing-card" onclick="selectPlan('free', this)">
+                            <input type="radio" name="plan" value="free" id="plan-free" required>
+                            <div class="pricing-card-content">
+                                <div class="plan-header">
+                                    <h3>iFi Free</h3>
+                                    <div class="plan-price">
+                                        <span class="price-amount">$0</span>
+                                        <span class="price-period">/month</span>
+                                    </div>
+                                </div>
+                                <div class="plan-features">
+                                    <div class="feature-item">
+                                        <i class="fas fa-check"></i>
+                                        <span>Basic expense tracking</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-check"></i>
+                                        <span>Budget creation tools</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-check"></i>
+                                        <span>Transaction categorization</span>
+                                    </div>
+                                    <div class="feature-item limited">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        <span>Limited iFi AI requests (5/month)</span>
+                                    </div>
+                                    <div class="feature-item limited">
+                                        <i class="fas fa-times"></i>
+                                        <span>No economy page access</span>
+                                    </div>
+                                    <div class="feature-item limited">
+                                        <i class="fas fa-times"></i>
+                                        <span>Basic suggestions only</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Monthly Plan -->
+                        <div class="pricing-card recommended" onclick="selectPlan('monthly', this)">
+                            <input type="radio" name="plan" value="monthly" id="plan-monthly" required>
+                            <div class="recommended-badge">Most Popular</div>
+                            <div class="pricing-card-content">
+                                <div class="plan-header">
+                                    <h3>iFi+ Monthly</h3>
+                                    <div class="plan-price">
+                                        <span class="price-amount">$9.99</span>
+                                        <span class="price-period">/month</span>
+                                    </div>
+                                </div>
+                                <div class="plan-features">
+                                    <div class="feature-item">
+                                        <i class="fas fa-check"></i>
+                                        <span>Everything in Free</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-check"></i>
+                                        <span>Unlimited iFi AI requests</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-check"></i>
+                                        <span>Full economy page access</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-check"></i>
+                                        <span>Personalized financial insights</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-check"></i>
+                                        <span>Advanced investment tracking</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-check"></i>
+                                        <span>Priority customer support</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Annual Plan -->
+                        <div class="pricing-card" onclick="selectPlan('annual', this)">
+                            <input type="radio" name="plan" value="annual" id="plan-annual" required>
+                            <div class="savings-badge">Save 20%</div>
+                            <div class="pricing-card-content">
+                                <div class="plan-header">
+                                    <h3>iFi+ Annual</h3>
+                                    <div class="plan-price">
+                                        <span class="price-amount">$96</span>
+                                        <span class="price-period">/year</span>
+                                    </div>
+                                    <p class="price-note">$8/month billed annually</p>
+                                </div>
+                                <div class="plan-features">
+                                    <div class="feature-item">
+                                        <i class="fas fa-check"></i>
+                                        <span>Everything in iFi+ Monthly</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-check"></i>
+                                        <span>Unlimited iFi AI requests</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-check"></i>
+                                        <span>Full economy page access</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-check"></i>
+                                        <span>Personalized financial insights</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-check"></i>
+                                        <span>Advanced investment tracking</span>
+                                    </div>
+                                    <div class="feature-item premium">
+                                        <i class="fas fa-star"></i>
+                                        <span>Best value - 2 months free!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plan-note">
+                        <i class="fas fa-info-circle"></i>
+                        <p>You can upgrade, downgrade, or cancel your plan at any time from your account settings. Once you commit to a plan, you will be responsible to pay it until the end of the billing cycle.</p>
+                    </div>
+
+                    <div class="step-actions">
+                        <button type="button" class="btn-secondary" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn-primary" onclick="completeOnboarding()">Complete Setup <i class="fas fa-check"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="../js/onboarding.js"></script>
     <script src="../js/auth-manager.js"></script>
     <script src="../js/auth-guard.js"></script>
+    <script src="../js/data/subscriptions-database.js"></script>
+    <script src="../js/data/stocks-database.js"></script>
+    <script src="../js/onboarding-step3.js"></script>
+    <script src="../js/payment.js"></script>
+    <script src="../js/onboarding.js"></script>
 </body>
 </html>
