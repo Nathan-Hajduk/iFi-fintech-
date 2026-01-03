@@ -51,15 +51,31 @@ function clearRateLimit(key) {
  */
 function generateTokenPair(payload) {
   const accessToken = jwt.sign(
-    { userId: payload.user_id, email: payload.email, role: payload.role },
+    { 
+      userId: payload.user_id, 
+      email: payload.email, 
+      role: payload.role || 'free',
+      type: 'access'
+    },
     process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }
+    { 
+      expiresIn: process.env.JWT_EXPIRES_IN || '1h',
+      issuer: 'iFi',
+      audience: 'iFi-users'
+    }
   );
   
   const refreshToken = jwt.sign(
-    { userId: payload.user_id },
+    { 
+      userId: payload.user_id,
+      type: 'refresh'
+    },
     process.env.JWT_REFRESH_SECRET,
-    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' }
+    { 
+      expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
+      issuer: 'iFi',
+      audience: 'iFi-users'
+    }
   );
   
   return { accessToken, refreshToken };
@@ -72,6 +88,76 @@ function sanitizeUser(user) {
   const { password, ...safeUser } = user;
   return safeUser;
 }
+
+/**
+ * GET /api/check-email
+ * Check if email already exists
+ */
+router.get('/check-email', async (req, res) => {
+  try {
+    const { email } = req.query;
+    
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email parameter is required'
+      });
+    }
+    
+    const result = await db.query(
+      'SELECT user_id FROM users WHERE email = $1',
+      [email.toLowerCase()]
+    );
+    
+    res.json({
+      success: true,
+      exists: result.rows.length > 0
+    });
+    
+  } catch (error) {
+    console.error('Check email error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error checking email',
+      exists: false
+    });
+  }
+});
+
+/**
+ * GET /api/check-phone
+ * Check if phone number already exists
+ */
+router.get('/check-phone', async (req, res) => {
+  try {
+    const { phone } = req.query;
+    
+    if (!phone) {
+      return res.status(400).json({
+        success: false,
+        message: 'Phone parameter is required'
+      });
+    }
+    
+    const result = await db.query(
+      'SELECT user_id FROM users WHERE phone_number = $1',
+      [phone]
+    );
+    
+    res.json({
+      success: true,
+      exists: result.rows.length > 0
+    });
+    
+  } catch (error) {
+    console.error('Check phone error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error checking phone',
+      exists: false
+    });
+  }
+});
 
 /**
  * POST /api/auth/register
@@ -356,12 +442,25 @@ router.post('/refresh', async (req, res) => {
     
     const user = userResult.rows[0];
     
-    // Generate new access token
+    // Generate new access token with proper format
     const accessToken = jwt.sign(
-      { userId: user.user_id, email: user.email, role: user.role },
+      { 
+        userId: user.user_id, 
+        email: user.email, 
+        role: user.role || 'free',
+        type: 'access'
+      },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }
+      { 
+        expiresIn: process.env.JWT_EXPIRES_IN || '1h',
+        issuer: 'iFi',
+        audience: 'iFi-users'
+      }
     );
+    
+    // Update session in user_sessions table with new token
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+    await sessionManager.updateSessionByRefreshToken(refreshToken, accessToken, expiresAt);
     
     res.json({
       success: true,

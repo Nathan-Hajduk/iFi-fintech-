@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Signing In';
 
         try {
-            const response = await fetch(`${API_URL}/login`, {
+            const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -60,10 +60,32 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
 
             if (response.ok && result.success) {
-                // Store user session
-                localStorage.setItem('ifi_current_user', JSON.stringify(result.user));
-                // Success - redirect to dashboard
-                window.location.href = '../html/dashboard.html';
+                console.log('✅ Login successful:', result);
+                
+                // Store tokens and user data properly
+                if (result.tokens) {
+                    localStorage.setItem('ifi_access_token', result.tokens.accessToken);
+                    localStorage.setItem('ifi_refresh_token', result.tokens.refreshToken);
+                }
+                localStorage.setItem('ifi_user', JSON.stringify(result.user));
+                localStorage.setItem('ifi_current_user', JSON.stringify(result.user)); // Legacy compatibility
+                
+                // Initialize authManager with the tokens
+                if (window.authManager) {
+                    authManager.accessToken = result.tokens.accessToken;
+                    authManager.refreshToken = result.tokens.refreshToken;
+                    authManager.user = result.user;
+                    authManager.scheduleTokenRefresh();
+                }
+                
+                // Check if onboarding is completed
+                if (result.onboardingCompleted === false) {
+                    console.log('🚀 Redirecting to onboarding...');
+                    window.location.href = '../html/onboarding.html';
+                } else {
+                    console.log('🚀 Redirecting to dashboard...');
+                    window.location.href = '../html/dashboard.html';
+                }
             } else {
                 // Login failed
                 showError(result.message || 'Invalid username or password.');
@@ -72,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitBtn.innerHTML = 'Sign In <i class="fas fa-arrow-right"></i>';
             }
         } catch (error) {
-            console.error('Login error:', error);
+            console.error('❌ Login error:', error);
             showError('Unable to connect to server. Please make sure the correct account information was provided.');
             submitBtn.disabled = false;
             submitBtn.classList.remove('loading');

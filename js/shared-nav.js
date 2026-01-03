@@ -109,10 +109,11 @@ function setupMobileMenu() {
     const nav = document.querySelector('.dashboard-nav');
     
     if (toggle && nav) {
-        toggle.addEventListener('click', () => {
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
             toggle.setAttribute('aria-expanded', !isExpanded);
-            nav.classList.toggle('mobile-open');
+            nav.classList.toggle('show');
             
             // Animate icon
             const icon = toggle.querySelector('i');
@@ -124,11 +125,23 @@ function setupMobileMenu() {
         document.addEventListener('click', (e) => {
             if (!toggle.contains(e.target) && !nav.contains(e.target)) {
                 toggle.setAttribute('aria-expanded', 'false');
-                nav.classList.remove('mobile-open');
+                nav.classList.remove('show');
                 const icon = toggle.querySelector('i');
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
             }
+        });
+        
+        // Close mobile menu when clicking a nav link
+        const navLinks = nav.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('show');
+                toggle.setAttribute('aria-expanded', 'false');
+                const icon = toggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
         });
     }
 }

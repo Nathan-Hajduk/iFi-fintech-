@@ -58,7 +58,7 @@ body {
 /* ============================================
    NAVIGATION (Shared with dark theme)
    ============================================ */
-.dashboard-nav,
+/* Navigation styles removed - handled by modern-nav.css */
 .sidebar {
   background: var(--surface-color);
   border-color: var(--border-color);

@@ -234,7 +234,9 @@
 /* Half width */
 .widget.health-score,
 .widget.budget-progress,
-.widget.investment-performance {
+.widget.investment-performance,
+.widget.income-breakdown,
+.widget.expenses-breakdown {
   grid-column: span 6;
 }
 

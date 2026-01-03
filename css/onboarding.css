@@ -1015,7 +1015,7 @@
 
 .autocomplete-item-price {
   font-weight: 600;
-  color: var(--primary-color);
+  color: #00d4ff;
 }
 
 /* Holdings/Subscriptions List */

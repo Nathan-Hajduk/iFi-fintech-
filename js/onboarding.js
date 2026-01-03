@@ -31,6 +31,7 @@ const onboardingData = {
     portfolioValue: null,
     debts: [],
     selectedPlan: null,
+    step4_responses: {},
     business: {
         assets: {
             cash: 0,
@@ -74,8 +75,59 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = '../html/Login.html';
                 return;
             }
+            
+            // VALIDATE TOKEN FORMAT - Check if token has correct structure
+            const accessToken = authManager.accessToken;
+            if (accessToken) {
+                try {
+                    const tokenParts = accessToken.split('.');
+                    if (tokenParts.length === 3) {
+                        const payload = JSON.parse(atob(tokenParts[1]));
+                        console.log('🔍 Token payload check:', payload);
+                        
+                        // Check if token has the required 'type' field
+                        if (!payload.type || payload.type !== 'access') {
+                            console.error('❌ OLD TOKEN FORMAT DETECTED - Missing "type" field');
+                            alert('Your session is outdated. Please log in again to continue.');
+                            // Clear old auth data
+                            authManager.clearAuth();
+                            window.location.href = '../html/Login.html';
+                            return;
+                        }
+                        console.log('✅ Token format is valid');
+                    }
+                } catch (tokenError) {
+                    console.error('❌ Error validating token format:', tokenError);
+                    alert('Session validation error. Please log in again.');
+                    authManager.clearAuth();
+                    window.location.href = '../html/Login.html';
+                    return;
+                }
+            }
 
             console.log('Authentication successful! User:', currentUser.email || currentUser.username);
+
+            // Check if continuing from dashboard to specific step and section
+            const urlParams = new URLSearchParams(window.location.search);
+            const continueMode = urlParams.get('continue');
+            const targetStep = urlParams.get('step');
+            const targetSection = urlParams.get('section');
+            
+            if (continueMode === 'true' && targetStep) {
+                console.log(`🔄 Continuing onboarding from step ${targetStep}${targetSection ? `, section: ${targetSection}` : ''}`);
+                // Load existing onboarding data first
+                loadExistingOnboardingData().then(() => {
+                    setTimeout(() => {
+                        jumpToStep(parseInt(targetStep));
+                        // If a specific section is requested, navigate to it
+                        if (targetSection && parseInt(targetStep) === 3) {
+                            setTimeout(() => {
+                                navigateToSection(targetSection);
+                            }, 800);
+                        }
+                    }, 500);
+                });
+            }
 
             // Set up event listeners
             console.log('About to call setupPurposeListeners...');
@@ -117,12 +169,16 @@ function createPlaidLinkHandler() {
         body: JSON.stringify({ userId: userId })
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
+        return response.json().then(data => ({ status: response.status, data }));
     })
-    .then(data => {
+    .then(({ status, data }) => {
+        if (status === 503 || (data.optional && !data.configured)) {
+            // Plaid is not configured - this is okay, bank connection is optional
+            console.log('ℹ️ Bank connection feature is not available (Plaid not configured)');
+            console.log('⚠️ This is optional - you can continue with manual data entry');
+            return; // Silently fail - user can skip
+        }
+        
         if (data.success && data.link_token) {
             initializePlaidHandler(data.link_token);
         } else {
@@ -130,8 +186,10 @@ function createPlaidLinkHandler() {
         }
     })
     .catch(error => {
-        console.error('Error creating Plaid link token:', error);
-        showError('Unable to initialize bank connection. Please check that the backend server is running.');
+        console.log('⚠️ Bank connection unavailable:', error.message);
+        console.log('⚠️ This feature is optional - you can skip and enter data manually');
+        // Don't show error to user - bank connection is optional
+        // The "Skip" button is already available
     });
 }
 
@@ -170,19 +228,18 @@ function initializePlaidHandler(linkToken) {
 // Called when user clicks "Connect Bank Account" button
 function initPlaidLink() {
     if (!plaidHandler) {
-        showError('Initializing bank connection. Please wait a moment...');
+        console.log('⚠️ Bank connection is not available at this time');
+        console.log('💡 Tip: You can skip this step and enter your financial data manually');
         
-        // Try to create handler if it doesn't exist
-        createPlaidLinkHandler();
+        // Show friendly message instead of error
+        const linkButton = document.getElementById('link-bank-button');
+        if (linkButton) {
+            linkButton.innerHTML = '<i class="fas fa-info-circle"></i> Feature Unavailable';
+            linkButton.disabled = true;
+            linkButton.style.opacity = '0.6';
+        }
         
-        // Retry after 2 seconds
-        setTimeout(() => {
-            if (plaidHandler) {
-                plaidHandler.open();
-            } else {
-                showError('Bank connection unavailable. Please ensure the backend server is running on port 3000.');
-            }
-        }, 2000);
+        // Don't retry - just let user skip
         return;
     }
     
@@ -685,32 +742,62 @@ function nextStep(stepNumber) {
     // Validate current step before proceeding
     const currentStep = stepNumber - 1;
     
+    // Save data from current step before moving
     if (currentStep === 1) {
         if (!onboardingData.purpose) {
             showError('Please select your primary reason for using iFi');
             return;
         }
+        // Step 1 data (purpose) is already saved in selectPurpose function
+        console.log('💾 Step 1 data saved:', { purpose: onboardingData.purpose });
     }
     
-    // Step 2 is now just the Plaid "coming soon" informational page - no validation needed
-    
-    // If leaving step 3, save all debt data
-    if (currentStep === 3) {
-        // Save debt data
-        const debts = [];
-        const debtEntries = document.querySelectorAll('.debt-entry');
-        debtEntries.forEach(entry => {
-            const type = entry.querySelector('.debt-type')?.value;
-            const amount = parseFloat(entry.querySelector('.debt-amount')?.value || 0);
-            const rate = parseFloat(entry.querySelector('.debt-rate')?.value || 0);
-            const payment = parseFloat(entry.querySelector('.debt-payment')?.value || 0);
-            
-            if (type && amount > 0) {
-                debts.push({ type, amount, rate, payment });
-            }
+    // Step 2 is now just the Plaid "coming soon" informational page - bank connection is optional
+    if (currentStep === 2) {
+        // Bank connection data is saved in exchangePublicToken or can be skipped
+        console.log('💾 Step 2 data saved:', { 
+            bankConnected: onboardingData.bankConnected,
+            linkedAccounts: onboardingData.linkedAccounts?.length || 0 
         });
-        onboardingData.debts = debts;
-        console.log('Debt data saved:', onboardingData.debts);
+    }
+    
+    // If leaving step 3, save all financial data
+    if (currentStep === 3) {
+        // Save data from the current active section
+        const currentSection = document.querySelector('.financial-section.active-subsection');
+        if (currentSection) {
+            const currentSectionId = currentSection.id.replace('-section', '');
+            saveCurrentSectionData(currentSectionId);
+        }
+        
+        // Save all Step 3 sections
+        saveIncomeData();
+        saveExpensesData();
+        saveBudgetData();
+        saveAssetsData();
+        saveDebtsData();
+        saveInvestmentsData();
+        saveSubscriptionsData();
+        
+        
+        // Log all Step 3 data after saving
+        console.log('💾 All Step 3 data saved:', {
+            incomeSource: onboardingData.incomeSource,
+            monthlyTakehome: onboardingData.monthlyTakehome,
+            expenses: onboardingData.expenses,
+            budget: onboardingData.budget,
+            assets: onboardingData.assets?.length || 0,
+            debts: onboardingData.debts?.length || 0,
+            investments: onboardingData.investments?.length || 0,
+            subscriptions: onboardingData.subscriptions?.length || 0
+        });
+    }
+    
+    // If leaving step 4, save all responses
+    if (currentStep === 4) {
+        const step4Data = collectStep4Data();
+        onboardingData.step4_responses = step4Data;
+        console.log('💾 Step 4 data saved:', step4Data);
     }
     
     // Move to next step
@@ -720,14 +807,33 @@ function nextStep(stepNumber) {
     if (currentContent) currentContent.classList.remove('active');
     if (nextContent) nextContent.classList.add('active');
     
+    // Load and populate data when entering each step
+    if (stepNumber === 1) {
+        populateStep1Data();
+    }
+    
+    if (stepNumber === 2) {
+        populateStep2Data();
+    }
+    
     // Initialize Step 3 when entering
-    if (stepNumber === 3 && typeof initializeStep3 === 'function') {
-        initializeStep3();
+    if (stepNumber === 3) {
+        if (typeof initializeStep3 === 'function') {
+            initializeStep3();
+        }
+        populateStep3Data();
     }
     
     // Initialize Step 4 when entering - show purpose-specific questions
-    if (stepNumber === 4 && onboardingData.purpose) {
-        showPurposeSpecificQuestions(onboardingData.purpose);
+    if (stepNumber === 4) {
+        if (onboardingData.purpose) {
+            showPurposeSpecificQuestions(onboardingData.purpose);
+        }
+        populateStep4Data();
+    }
+    
+    if (stepNumber === 5) {
+        populateStep5Data();
     }
     
     // Update progress bar
@@ -746,9 +852,33 @@ function prevStep() {
     const currentStepId = currentContent.id;
     const currentStepNum = parseInt(currentStepId.split('-')[1]);
     
-    // If leaving step 3, reset the form
+    // Save data from current step before going back
     if (currentStepNum === 3) {
-        resetStep3Form();
+        // Save all Step 3 data before going back
+        const currentSection = document.querySelector('.financial-section.active-subsection');
+        if (currentSection) {
+            const currentSectionId = currentSection.id.replace('-section', '');
+            saveCurrentSectionData(currentSectionId);
+        }
+        saveIncomeData();
+        saveExpensesData();
+        saveBudgetData();
+        saveAssetsData();
+        saveDebtsData();
+        saveInvestmentsData();
+        saveSubscriptionsData();
+    }
+    
+    if (currentStepNum === 4) {
+        // Save Step 4 responses
+        const step4Data = collectStep4Data();
+        onboardingData.step4_responses = step4Data;
+        console.log('💾 Step 4 data saved when going back:', step4Data);
+    }
+    
+    if (currentStepNum === 5) {
+        // Step 5 plan selection is already saved in selectPlan function
+        console.log('💾 Step 5 data:', { selectedPlan: onboardingData.selectedPlan });
     }
     
     // Calculate previous step
@@ -762,6 +892,23 @@ function prevStep() {
     if (currentContent) currentContent.classList.remove('active');
     if (prevContent) prevContent.classList.add('active');
     
+    // Load data for the previous step
+    if (prevStepNum === 1) {
+        populateStep1Data();
+    } else if (prevStepNum === 2) {
+        populateStep2Data();
+    } else if (prevStepNum === 3) {
+        if (typeof initializeStep3 === 'function') {
+            initializeStep3();
+        }
+        populateStep3Data();
+    } else if (prevStepNum === 4) {
+        if (onboardingData.purpose) {
+            showPurposeSpecificQuestions(onboardingData.purpose);
+        }
+        populateStep4Data();
+    }
+    
     // Update progress bar
     updateProgressBar(prevStepNum);
     
@@ -769,17 +916,12 @@ function prevStep() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Reset Step 3 form to original state
+// Reset Step 3 form to original UI state (does NOT clear saved data)
 function resetStep3Form() {
-    // Reset income section
-    cancelAdditionalIncome();
-    document.getElementById('income-source').value = '';
-    document.getElementById('monthly-takehome').value = '';
+    // Note: We do NOT clear field values here - data should persist
+    // This function only resets the UI/visual state
     
-    // Reset expenses section
-    cancelExpenses();
-    
-    // Hide all sections except income
+    // Hide all sections except income to reset the flow
     const sections = ['expenses-section', 'assets-section', 'debt-section', 'investments-section', 'additional-details-section'];
     sections.forEach(sectionId => {
         const section = document.getElementById(sectionId);
@@ -806,25 +948,272 @@ function resetStep3Form() {
 
 // Navigate between sections within Step 3
 function navigateToSection(sectionName) {
-    // Hide all sections
+    console.log(`📍 Navigating to section: ${sectionName}`);
+    
+    // Save data from the current section before navigating
+    const currentSection = document.querySelector('.financial-section.active-subsection');
+    if (currentSection) {
+        const currentSectionId = currentSection.id.replace('-section', '');
+        saveCurrentSectionData(currentSectionId);
+    }
+    
+    // Hide all sections first
     const allSections = document.querySelectorAll('.financial-section');
     allSections.forEach(section => {
         section.style.display = 'none';
         section.classList.remove('active-subsection');
     });
     
-    // Show the target section
+    // Show the target section and mark it as revealed
     const targetSection = document.getElementById(`${sectionName}-section`);
     if (targetSection) {
         targetSection.style.display = 'block';
-        targetSection.classList.add('active-subsection');
+        targetSection.classList.add('active-subsection', 'revealed');
         
-        // Scroll to top of section
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Also show the income section if we're on a different section (Step 3 flow)
+        const incomeSection = document.getElementById('income-section');
+        if (incomeSection && sectionName !== 'income') {
+            incomeSection.style.display = 'block';
+            incomeSection.classList.add('revealed', 'completed');
+        }
+        
+        // Scroll to the target section
+        setTimeout(() => {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
         
         // Update header based on section
         updateStep3Header(sectionName);
+        
+        console.log(`✅ Navigated to ${sectionName} section`);
+    } else {
+        console.error(`❌ Section not found: ${sectionName}-section`);
     }
+}
+
+// Save data from current section
+function saveCurrentSectionData(sectionName) {
+    console.log(`💾 Saving data from ${sectionName} section...`);
+    
+    switch(sectionName) {
+        case 'income':
+            saveIncomeData();
+            break;
+        case 'expenses':
+            saveExpensesData();
+            break;
+        case 'budget':
+            saveBudgetData();
+            break;
+        case 'assets':
+            saveAssetsData();
+            break;
+        case 'debt':
+            saveDebtsData();
+            break;
+        case 'investments':
+            saveInvestmentsData();
+            break;
+        case 'subscriptions':
+            saveSubscriptionsData();
+            break;
+    }
+}
+
+// Save income data
+function saveIncomeData() {
+    const incomeSource = document.getElementById('income-source');
+    const monthlyTakehome = document.getElementById('monthly-takehome');
+    
+    if (incomeSource && incomeSource.value) {
+        onboardingData.incomeSource = incomeSource.value;
+    }
+    
+    if (monthlyTakehome && monthlyTakehome.value) {
+        onboardingData.monthlyTakehome = parseFloat(monthlyTakehome.value);
+        onboardingData.annualIncome = onboardingData.monthlyTakehome * 12;
+    }
+    
+    // Collect additional income entries
+    const additionalIncomes = [];
+    const incomeEntries = document.querySelectorAll('.income-entry');
+    incomeEntries.forEach(entry => {
+        const source = entry.querySelector('.additional-income-source')?.value;
+        const amount = parseFloat(entry.querySelector('.additional-income-amount')?.value || 0);
+        const frequency = entry.querySelector('.additional-income-frequency')?.value;
+        
+        if (source && amount > 0) {
+            additionalIncomes.push({ source, amount, frequency });
+        }
+    });
+    onboardingData.additionalIncome = additionalIncomes;
+    
+    console.log('💾 Income data saved:', {
+        incomeSource: onboardingData.incomeSource,
+        monthlyTakehome: onboardingData.monthlyTakehome
+    });
+}
+
+// Save expenses data
+function saveExpensesData() {
+    onboardingData.expenses = {};
+    
+    // Collect data from dynamically created expense entries
+    const expenseEntries = document.querySelectorAll('.expense-entry');
+    expenseEntries.forEach(entry => {
+        const category = entry.querySelector('.expense-category')?.value;
+        const amount = parseFloat(entry.querySelector('.expense-amount')?.value || 0);
+        const frequency = entry.querySelector('.expense-frequency')?.value;
+        
+        if (category && amount > 0) {
+            // Normalize monthly amount based on frequency
+            let monthlyAmount = amount;
+            if (frequency === 'biweekly') {
+                monthlyAmount = amount * 26 / 12; // 26 biweekly periods per year
+            } else if (frequency === 'weekly') {
+                monthlyAmount = amount * 52 / 12; // 52 weeks per year
+            } else if (frequency === 'annual') {
+                monthlyAmount = amount / 12;
+            }
+            
+            // Add or accumulate amount for this category
+            if (onboardingData.expenses[category]) {
+                onboardingData.expenses[category] += monthlyAmount;
+            } else {
+                onboardingData.expenses[category] = monthlyAmount;
+            }
+        }
+    });
+    
+    console.log('💾 Expenses data saved:', onboardingData.expenses);
+}
+
+// Save budget data
+function saveBudgetData() {
+    const budgetData = {};
+    
+    const budgetFields = [
+        'housing', 'utilities', 'food', 'transportation',
+        'insurance', 'healthcare', 'entertainment', 'shopping',
+        'debt', 'savings', 'other', 'subscriptions'
+    ];
+    
+    budgetFields.forEach(category => {
+        const input = document.getElementById(`budget-${category}`);
+        const value = parseFloat(input?.value || 0);
+        if (value > 0) {
+            budgetData[category] = value;
+        }
+    });
+    
+    // Handle investing budget
+    const skipInvestingCheckbox = document.getElementById('skip-investing-budget');
+    const investingInput = document.getElementById('budget-investing');
+    
+    if (!skipInvestingCheckbox?.checked && investingInput) {
+        const investingValue = parseFloat(investingInput.value || 0);
+        if (investingValue > 0) {
+            budgetData.investing = investingValue;
+        }
+    }
+    
+    budgetData.investingSkipped = skipInvestingCheckbox?.checked || false;
+    
+    onboardingData.budget = budgetData;
+    
+    console.log('💾 Budget data saved:', onboardingData.budget);
+}
+
+// Save assets data
+function saveAssetsData() {
+    const assets = [];
+    const assetEntries = document.querySelectorAll('.asset-entry');
+    assetEntries.forEach(entry => {
+        const type = entry.querySelector('.asset-type')?.value;
+        const value = parseFloat(entry.querySelector('.asset-value')?.value || 0);
+        
+        if (type && value > 0) {
+            assets.push({ type, value });
+        }
+    });
+    onboardingData.assets = assets;
+    
+    console.log('💾 Assets data saved:', assets);
+}
+
+// Save debts data
+function saveDebtsData() {
+    const debts = [];
+    const debtEntries = document.querySelectorAll('.debt-entry');
+    debtEntries.forEach(entry => {
+        const type = entry.querySelector('.debt-type')?.value;
+        const amount = parseFloat(entry.querySelector('.debt-amount')?.value || 0);
+        const rate = parseFloat(entry.querySelector('.debt-rate')?.value || 0);
+        
+        if (type && amount > 0) {
+            debts.push({ type, amount, rate });
+        }
+    });
+    onboardingData.debts = debts;
+    
+    console.log('💾 Debts data saved:', debts);
+}
+
+// Save investments data
+function saveInvestmentsData() {
+    // Check if step3Data exists from onboarding-step3.js
+    if (window.step3Data && window.step3Data.investments) {
+        onboardingData.investments = window.step3Data.investments;
+        if (window.step3Data.investments.length > 0) {
+            onboardingData.portfolioValue = window.step3Data.investments.reduce((sum, inv) => sum + (inv.totalValue || inv.value || 0), 0);
+        }
+        console.log('💾 Investments data saved from step3Data:', window.step3Data.investments);
+        return;
+    }
+    
+    // Fallback: look for DOM elements (legacy support)
+    const investments = [];
+    const investmentEntries = document.querySelectorAll('.investment-entry');
+    investmentEntries.forEach(entry => {
+        const type = entry.querySelector('.investment-type')?.value;
+        const value = parseFloat(entry.querySelector('.investment-value')?.value || 0);
+        
+        if (type && value > 0) {
+            investments.push({ type, value });
+        }
+    });
+    onboardingData.investments = investments;
+    
+    if (investments.length > 0) {
+        onboardingData.portfolioValue = investments.reduce((sum, inv) => sum + inv.value, 0);
+    }
+    
+    console.log('💾 Investments data saved from DOM:', investments);
+}
+
+// Save subscriptions data
+function saveSubscriptionsData() {
+    // Check if step3Data exists from onboarding-step3.js
+    if (window.step3Data && window.step3Data.subscriptions) {
+        onboardingData.subscriptions = window.step3Data.subscriptions;
+        console.log('💾 Subscriptions data saved from step3Data:', window.step3Data.subscriptions);
+        return;
+    }
+    
+    // Fallback: look for DOM elements (legacy support)
+    const subscriptions = [];
+    const subEntries = document.querySelectorAll('.subscription-entry');
+    subEntries.forEach(entry => {
+        const name = entry.querySelector('.subscription-name')?.value;
+        const cost = parseFloat(entry.querySelector('.subscription-cost')?.value || 0);
+        
+        if (name && cost > 0) {
+            subscriptions.push({ name, cost });
+        }
+    });
+    onboardingData.subscriptions = subscriptions;
+    
+    console.log('💾 Subscriptions data saved from DOM:', subscriptions);
 }
 
 // Update Step 3 header based on current section
@@ -835,9 +1224,11 @@ function updateStep3Header(sectionName) {
     const headers = {
         'income': { title: 'Income', subtitle: 'Tell us about your income sources' },
         'expenses': { title: 'Expenses', subtitle: 'Track your monthly spending' },
+        'budget': { title: 'Budget', subtitle: 'Set spending limits to reach your goals' },
         'assets': { title: 'Assets', subtitle: 'What assets and savings do you have?' },
         'debt': { title: 'Debt', subtitle: 'Tell us about any outstanding debts' },
         'investments': { title: 'Investments', subtitle: 'Track your investment portfolio' },
+        'subscriptions': { title: 'Subscriptions', subtitle: 'Track your recurring monthly subscriptions' },
         'additional': { title: 'Additional Details', subtitle: 'Help us understand your spending patterns better' }
     };
     
@@ -855,6 +1246,24 @@ function completeStep3() {
 // Complete Step 3 and proceed to Step 4 with purpose-specific questions
 function completeStep3AndProceed() {
     console.log('Completing Step 3 and moving to Step 4');
+    
+    // Save data from the current section before proceeding
+    const currentSection = document.querySelector('.financial-section.active-subsection');
+    if (currentSection) {
+        const currentSectionId = currentSection.id.replace('-section', '');
+        saveCurrentSectionData(currentSectionId);
+    }
+    
+    // Log all collected data
+    console.log('📊 All Step 3 data collected:', {
+        incomeSource: onboardingData.incomeSource,
+        monthlyTakehome: onboardingData.monthlyTakehome,
+        expenses: onboardingData.expenses,
+        assets: onboardingData.assets,
+        debts: onboardingData.debts,
+        investments: onboardingData.investments,
+        subscriptions: onboardingData.subscriptions
+    });
     
     // Hide step 3
     const step3 = document.getElementById('step-3');
@@ -995,6 +1404,111 @@ function navigateToStep(targetStep) {
     console.log(`Navigated to step ${targetStep}`);
 }
 
+/**
+ * Load existing onboarding data from backend
+ */
+async function loadExistingOnboardingData() {
+    try {
+        const token = authManager.accessToken;
+        if (!token) return;
+        
+        const response = await fetch(`${API_URL}/user/onboarding-data`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            console.log('📊 Loaded existing onboarding data:', data);
+            
+            // Populate onboardingData object with existing data
+            if (data.purpose) onboardingData.purpose = data.purpose;
+            if (data.income_source) onboardingData.incomeSource = data.income_source;
+            if (data.monthly_takehome) onboardingData.monthlyTakehome = data.monthly_takehome;
+            if (data.expenses) {
+                onboardingData.expenses = typeof data.expenses === 'string' 
+                    ? JSON.parse(data.expenses) 
+                    : data.expenses;
+            }
+            if (data.additional_income) {
+                onboardingData.additionalIncome = typeof data.additional_income === 'string'
+                    ? JSON.parse(data.additional_income)
+                    : data.additional_income;
+            }
+            if (data.subscriptions) {
+                onboardingData.subscriptions = typeof data.subscriptions === 'string'
+                    ? JSON.parse(data.subscriptions)
+                    : data.subscriptions;
+            }
+            if (data.assets) {
+                onboardingData.assets = typeof data.assets === 'string'
+                    ? JSON.parse(data.assets)
+                    : data.assets;
+            }
+            if (data.investments) {
+                onboardingData.investments = typeof data.investments === 'string'
+                    ? JSON.parse(data.investments)
+                    : data.investments;
+            }
+            if (data.debts) {
+                onboardingData.debts = typeof data.debts === 'string'
+                    ? JSON.parse(data.debts)
+                    : data.debts;
+            }
+            if (data.selected_plan) onboardingData.selectedPlan = data.selected_plan;
+        }
+    } catch (error) {
+        console.error('Error loading existing onboarding data:', error);
+    }
+}
+
+/**
+ * Jump to specific step (for continuing onboarding)
+ */
+function jumpToStep(targetStep) {
+    console.log(`🎯 Jumping to step ${targetStep}`);
+    
+    // Mark all previous steps as completed
+    for (let i = 1; i < targetStep; i++) {
+        const stepElement = document.querySelector(`.progress-step[data-step="${i}"]`);
+        if (stepElement) {
+            stepElement.classList.remove('active');
+            stepElement.classList.add('completed');
+            const circle = stepElement.querySelector('.step-circle');
+            if (circle) circle.innerHTML = '<i class="fas fa-check"></i>';
+        }
+    }
+    
+    // Mark target step as active
+    const targetStepElement = document.querySelector(`.progress-step[data-step="${targetStep}"]`);
+    if (targetStepElement) {
+        targetStepElement.classList.add('active');
+    }
+    
+    // Hide all step content
+    document.querySelectorAll('.step-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Show target step content
+    const targetContent = document.getElementById(`step-${targetStep}`);
+    if (targetContent) {
+        targetContent.classList.add('active');
+        
+        // Re-initialize step if needed
+        if (targetStep === 3 && typeof initializeStep3 === 'function') {
+            setTimeout(() => initializeStep3(), 100);
+        }
+        if (targetStep === 4 && onboardingData.purpose) {
+            setTimeout(() => showPurposeSpecificQuestions(onboardingData.purpose), 100);
+        }
+    }
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // Configure which sections are shown based on purpose
 function configureStepsForPurpose(purpose) {
     // Helper to show/hide sections
@@ -1114,6 +1628,15 @@ function collectStep4Data() {
 // Complete onboarding
 async function completeOnboarding() {
     try {
+        // Save all Step 3 data before submission
+        console.log('💾 Saving all Step 3 data before submission...');
+        saveIncomeData();
+        saveExpensesData();
+        saveAssetsData();
+        saveDebtsData();
+        saveInvestmentsData();
+        saveSubscriptionsData();
+        
         // Check if a plan has been selected
         if (!onboardingData.selectedPlan) {
             showError('Please select a plan to continue.');
@@ -1134,14 +1657,41 @@ async function completeOnboarding() {
             setTimeout(() => window.location.href = '../html/Login.html', 2000);
             return;
         }
+        
+        // Verify token format by decoding it
+        try {
+            const tokenParts = accessToken.split('.');
+            if (tokenParts.length === 3) {
+                const payload = JSON.parse(atob(tokenParts[1]));
+                console.log('Token payload:', payload);
+                
+                // Check if token has the required 'type' field
+                if (!payload.type || payload.type !== 'access') {
+                    console.error('❌ Token missing required "type" field - need to re-login');
+                    showError('Your session format is outdated. Please log out and log in again.');
+                    setTimeout(() => {
+                        authManager.clearAuth();
+                        window.location.href = '../html/Login.html';
+                    }, 2000);
+                    return;
+                }
+            }
+        } catch (tokenError) {
+            console.error('Error checking token format:', tokenError);
+        }
 
         // Collect Step 4 responses (purpose-specific questions)
         const step4Responses = collectStep4Data();
 
-        // Calculate totals
-        const totalExpenses = Object.values(onboardingData.expenses).reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
+        // Calculate totals from saved data
+        const totalExpenses = Object.values(onboardingData.expenses || {}).reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
         const totalDebts = (onboardingData.debts || []).reduce((sum, debt) => sum + (parseFloat(debt.amount) || 0), 0);
-        const totalAssets = (onboardingData.assets || []).reduce((sum, asset) => sum + (parseFloat(asset.amount) || 0), 0);
+        const totalAssets = (onboardingData.assets || []).reduce((sum, asset) => sum + (parseFloat(asset.value) || 0), 0);
+        
+        console.log('📊 Calculated Totals:');
+        console.log('   - Total Expenses:', totalExpenses, 'from', onboardingData.expenses);
+        console.log('   - Total Debts:', totalDebts, 'from', onboardingData.debts);
+        console.log('   - Total Assets:', totalAssets, 'from', onboardingData.assets);
 
         // Prepare comprehensive data for submission
         const submissionData = {
@@ -1176,15 +1726,49 @@ async function completeOnboarding() {
             linked_accounts: onboardingData.linkedAccounts || []
         };
 
-        console.log('Submitting onboarding data:', submissionData);
+        console.log('🔍 DEBUG - onboardingData object:', onboardingData);
+        console.log('🔍 DEBUG - monthlyTakehome value:', onboardingData.monthlyTakehome);
+        console.log('🔍 DEBUG - expenses value:', onboardingData.expenses);
+        console.log('📤 Submitting comprehensive onboarding data:');
+        console.log('   📊 Financial Summary:');
+        console.log('      - Monthly Takehome: $' + submissionData.monthly_takehome);
+        console.log('      - Monthly Expenses: $' + submissionData.monthly_expenses);
+        console.log('      - Total Debt: $' + submissionData.debt_amount);
+        console.log('      - Total Assets: $' + submissionData.total_assets_value);
+        console.log('      - Portfolio Value: $' + submissionData.portfolio_value);
+        console.log('   📋 Detailed Data:');
+        console.log('      - Expenses Object:', submissionData.expenses);
+        console.log('      - Subscriptions Array:', submissionData.subscriptions);
+        console.log('      - Investments Array:', submissionData.investments);
+        console.log('      - Debts Array:', submissionData.debts);
+        console.log('      - Assets Array:', submissionData.assets);
 
-        // Send to backend API
-        const response = await fetch(`${API_URL}/user/onboarding`, {
+        // Get fresh token info
+        const currentToken = authManager.accessToken;
+        console.log('📤 Sending request with token:', currentToken ? currentToken.substring(0, 50) + '...' : 'NO TOKEN');
+        
+        // Decode and log token payload for debugging
+        if (currentToken) {
+            try {
+                const parts = currentToken.split('.');
+                const payload = JSON.parse(atob(parts[1]));
+                console.log('📋 Token payload being sent:', payload);
+            } catch (e) {
+                console.error('Failed to decode token:', e);
+            }
+        }
+
+        // Try to refresh token if it might be expired (onboarding can take a while)
+        try {
+            await authManager.refreshAccessToken();
+            console.log('✅ Token refreshed successfully before submission');
+        } catch (refreshError) {
+            console.log('Token refresh not needed or failed:', refreshError.message);
+        }
+
+        // Send to backend API using authManager.fetch for automatic token refresh
+        const response = await authManager.fetch(`${API_URL}/user/onboarding`, {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            },
             body: JSON.stringify(submissionData)
         });
 
@@ -1206,7 +1790,13 @@ async function completeOnboarding() {
         }
 
         const result = errorData;
-        console.log('Onboarding saved successfully:', result);
+        console.log('✅ ============ ONBOARDING SAVED SUCCESSFULLY ============');
+        console.log('✅ Response:', result);
+        console.log('✅ Data that was saved:');
+        console.log('   - Monthly Income:', submissionData.monthly_takehome);
+        console.log('   - Expenses:', submissionData.expenses);
+        console.log('   - Subscriptions:', submissionData.subscriptions);
+        console.log('✅ ======================================================');
         
         // Save to localStorage as backup
         localStorage.setItem('ifi_onboarding_data', JSON.stringify(submissionData));
@@ -1903,6 +2493,192 @@ function cancelSubscriptions() {
 }
 
 // ============================================
+// BUDGET MANAGEMENT FUNCTIONS
+// ============================================
+
+function showBudgetFields() {
+    const fieldsContainer = document.getElementById('budget-fields');
+    const buttonsContainer = document.querySelector('#budget-section .form-group > div');
+    const budgetNextBtn = document.getElementById('budget-next-btn');
+    
+    if (fieldsContainer) {
+        fieldsContainer.style.display = 'block';
+        // Set up input listeners for all budget fields
+        setupBudgetCalculations();
+    }
+    if (buttonsContainer) {
+        buttonsContainer.style.display = 'none';
+    }
+    if (budgetNextBtn) {
+        budgetNextBtn.style.display = 'inline-flex';
+    }
+}
+
+function setupBudgetCalculations() {
+    const budgetInputs = [
+        'budget-housing', 'budget-utilities', 'budget-food', 'budget-transportation',
+        'budget-insurance', 'budget-healthcare', 'budget-entertainment', 'budget-shopping',
+        'budget-debt', 'budget-savings', 'budget-other', 'budget-subscriptions', 'budget-investing'
+    ];
+    
+    budgetInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.addEventListener('input', calculateBudgetTotal);
+            input.addEventListener('change', calculateBudgetTotal);
+        }
+    });
+    
+    // Initial calculation
+    calculateBudgetTotal();
+}
+
+function calculateBudgetTotal() {
+    const budgetInputs = [
+        'budget-housing', 'budget-utilities', 'budget-food', 'budget-transportation',
+        'budget-insurance', 'budget-healthcare', 'budget-entertainment', 'budget-shopping',
+        'budget-debt', 'budget-savings', 'budget-other', 'budget-subscriptions'
+    ];
+    
+    let total = 0;
+    
+    budgetInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            const value = parseFloat(input.value) || 0;
+            total += value;
+        }
+    });
+    
+    // Add investing budget if not skipped
+    const skipInvestingCheckbox = document.getElementById('skip-investing-budget');
+    const investingInput = document.getElementById('budget-investing');
+    if (investingInput && !skipInvestingCheckbox?.checked) {
+        total += parseFloat(investingInput.value) || 0;
+    }
+    
+    // Update total display
+    const totalElement = document.getElementById('budget-total-amount');
+    if (totalElement) {
+        totalElement.textContent = '$' + total.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+    
+    // Show comparison with income
+    updateBudgetComparison(total);
+}
+
+function updateBudgetComparison(budgetTotal) {
+    const comparisonDiv = document.getElementById('budget-comparison');
+    const incomeDisplay = document.getElementById('budget-income-display');
+    const remainingDisplay = document.getElementById('budget-remaining-display');
+    
+    // Get monthly income from Step 3
+    const monthlyIncomeInput = document.getElementById('monthly-takehome');
+    const monthlyIncome = parseFloat(monthlyIncomeInput?.value) || 0;
+    
+    if (monthlyIncome > 0 && comparisonDiv && incomeDisplay && remainingDisplay) {
+        comparisonDiv.style.display = 'block';
+        incomeDisplay.textContent = '$' + monthlyIncome.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        
+        const remaining = monthlyIncome - budgetTotal;
+        remainingDisplay.textContent = '$' + Math.abs(remaining).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        
+        if (remaining >= 0) {
+            remainingDisplay.style.color = '#4ade80'; // Green
+        } else {
+            remainingDisplay.style.color = '#ef4444'; // Red
+            remainingDisplay.textContent = '-' + remainingDisplay.textContent;
+        }
+    } else if (comparisonDiv) {
+        comparisonDiv.style.display = 'none';
+    }
+}
+
+function toggleInvestingBudget() {
+    const checkbox = document.getElementById('skip-investing-budget');
+    const container = document.getElementById('investing-budget-container');
+    const input = document.getElementById('budget-investing');
+    
+    if (checkbox && container && input) {
+        if (checkbox.checked) {
+            container.style.opacity = '0.5';
+            container.style.pointerEvents = 'none';
+            input.value = '';
+            input.disabled = true;
+        } else {
+            container.style.opacity = '1';
+            container.style.pointerEvents = 'auto';
+            input.disabled = false;
+        }
+        calculateBudgetTotal();
+    }
+}
+
+function cancelBudget() {
+    const fieldsContainer = document.getElementById('budget-fields');
+    const buttonsContainer = document.querySelector('#budget-section .form-group > div');
+    const budgetNextBtn = document.getElementById('budget-next-btn');
+    
+    if (fieldsContainer) {
+        fieldsContainer.style.display = 'none';
+    }
+    if (buttonsContainer) {
+        buttonsContainer.style.display = 'flex';
+    }
+    if (budgetNextBtn) {
+        budgetNextBtn.style.display = 'none';
+    }
+    
+    // Clear all budget inputs
+    const budgetInputs = [
+        'budget-housing', 'budget-utilities', 'budget-food', 'budget-transportation',
+        'budget-insurance', 'budget-healthcare', 'budget-entertainment', 'budget-shopping',
+        'budget-debt', 'budget-savings', 'budget-other', 'budget-subscriptions', 'budget-investing'
+    ];
+    
+    budgetInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.value = '';
+        }
+    });
+    
+    // Reset investing checkbox
+    const skipCheckbox = document.getElementById('skip-investing-budget');
+    if (skipCheckbox) {
+        skipCheckbox.checked = false;
+        toggleInvestingBudget();
+    }
+}
+
+function skipBudget() {
+    // Clear all budget fields
+    const budgetInputs = [
+        'budget-housing', 'budget-utilities', 'budget-food', 'budget-transportation',
+        'budget-insurance', 'budget-healthcare', 'budget-entertainment', 'budget-shopping',
+        'budget-debt', 'budget-savings', 'budget-other', 'budget-subscriptions', 'budget-investing'
+    ];
+    
+    budgetInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.value = '';
+        }
+    });
+    
+    // Hide the budget fields
+    const fieldsContainer = document.getElementById('budget-fields');
+    const buttonsContainer = document.querySelector('#budget-section .form-group > div');
+    
+    if (fieldsContainer) {
+        fieldsContainer.style.display = 'none';
+    }
+    if (buttonsContainer) {
+        buttonsContainer.style.display = 'flex';
+    }
+}
+
+// ============================================
 // ASSET MANAGEMENT FUNCTIONS
 // ============================================
 let assetEntryCounter = 0;
@@ -2341,5 +3117,226 @@ function cancelDebt() {
     const totalDisplay = document.getElementById('debt-total-display');
     if (totalDisplay) {
         totalDisplay.style.display = 'none';
+    }
+}
+
+// ============================================
+// DATA POPULATION FUNCTIONS
+// Populate fields when returning to steps
+// ============================================
+
+/**
+ * Populate Step 1 - Purpose Selection
+ */
+function populateStep1Data() {
+    if (onboardingData.purpose) {
+        console.log('📋 Populating Step 1 with purpose:', onboardingData.purpose);
+        
+        // Find and check the radio button
+        const purposeRadio = document.querySelector(`input[name="purpose"][value="${onboardingData.purpose}"]`);
+        if (purposeRadio) {
+            purposeRadio.checked = true;
+            
+            // Add selected class to the card
+            const parentCard = purposeRadio.closest('.option-card');
+            if (parentCard) {
+                document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+                parentCard.classList.add('selected');
+            }
+        }
+    }
+}
+
+/**
+ * Populate Step 2 - Bank Connection
+ */
+function populateStep2Data() {
+    console.log('📋 Populating Step 2 with bank connection:', onboardingData.bankConnected);
+    
+    if (onboardingData.bankConnected && onboardingData.linkedAccounts?.length > 0) {
+        const linkButton = document.getElementById('link-bank-button');
+        if (linkButton) {
+            linkButton.innerHTML = '<i class="fas fa-check-circle"></i> Bank Connected';
+            linkButton.classList.add('btn-success');
+            linkButton.disabled = true;
+        }
+    }
+}
+
+/**
+ * Populate Step 3 - Financial Details
+ */
+function populateStep3Data() {
+    console.log('📋 Populating Step 3 with saved data:', {
+        incomeSource: onboardingData.incomeSource,
+        monthlyTakehome: onboardingData.monthlyTakehome,
+        expensesCount: Object.keys(onboardingData.expenses || {}).length,
+        assetsCount: onboardingData.assets?.length || 0,
+        debtsCount: onboardingData.debts?.length || 0
+    });
+    
+    // Populate income fields
+    const incomeSourceField = document.getElementById('income-source');
+    const monthlyTakehomeField = document.getElementById('monthly-takehome');
+    
+    if (incomeSourceField && onboardingData.incomeSource) {
+        incomeSourceField.value = onboardingData.incomeSource;
+    }
+    
+    if (monthlyTakehomeField && onboardingData.monthlyTakehome) {
+        monthlyTakehomeField.value = onboardingData.monthlyTakehome;
+    }
+    
+    // Populate expense entries
+    if (onboardingData.expenses && Object.keys(onboardingData.expenses).length > 0) {
+        const expenseEntriesContainer = document.getElementById('expense-entries');
+        if (expenseEntriesContainer) {
+            // Clear existing entries
+            expenseEntriesContainer.innerHTML = '';
+            
+            // Show expense fields
+            const expenseFields = document.getElementById('expense-fields');
+            if (expenseFields) {
+                expenseFields.style.display = 'block';
+            }
+            
+            // Add an entry for each expense category
+            Object.entries(onboardingData.expenses).forEach(([category, amount]) => {
+                if (amount > 0) {
+                    addExpenseEntry();
+                    // Populate the last added entry
+                    const entries = expenseEntriesContainer.querySelectorAll('.expense-entry');
+                    const lastEntry = entries[entries.length - 1];
+                    if (lastEntry) {
+                        const categorySelect = lastEntry.querySelector('.expense-category');
+                        const amountInput = lastEntry.querySelector('.expense-amount');
+                        if (categorySelect) categorySelect.value = category;
+                        if (amountInput) amountInput.value = amount;
+                    }
+                }
+            });
+            
+            calculateExpenseTotal();
+        }
+    }
+    
+    // Populate budget data
+    if (onboardingData.budget && Object.keys(onboardingData.budget).length > 0) {
+        const budgetFields = [
+            'housing', 'utilities', 'food', 'transportation',
+            'insurance', 'healthcare', 'entertainment', 'shopping',
+            'debt', 'savings', 'other', 'subscriptions'
+        ];
+        
+        // Show budget fields if any budget data exists
+        let hasBudgetData = false;
+        budgetFields.forEach(category => {
+            const input = document.getElementById(`budget-${category}`);
+            if (input && onboardingData.budget[category]) {
+                input.value = onboardingData.budget[category];
+                hasBudgetData = true;
+            }
+        });
+        
+        // Handle investing budget
+        const investingInput = document.getElementById('budget-investing');
+        const skipInvestingCheckbox = document.getElementById('skip-investing-budget');
+        
+        if (onboardingData.budget.investingSkipped) {
+            if (skipInvestingCheckbox) {
+                skipInvestingCheckbox.checked = true;
+                toggleInvestingBudget();
+            }
+        } else if (investingInput && onboardingData.budget.investing) {
+            investingInput.value = onboardingData.budget.investing;
+            hasBudgetData = true;
+        }
+        
+        // Show budget fields container if we have data
+        if (hasBudgetData) {
+            const budgetFields = document.getElementById('budget-fields');
+            if (budgetFields) {
+                budgetFields.style.display = 'block';
+                setupBudgetCalculations();
+            }
+        }
+        
+        console.log('📋 Budget data populated:', onboardingData.budget);
+    }
+    
+    // Populate subscriptions
+    if (window.step3Data && onboardingData.subscriptions?.length > 0) {
+        window.step3Data.subscriptions = onboardingData.subscriptions;
+        if (typeof renderSubscriptionList === 'function') {
+            renderSubscriptionList();
+        }
+    }
+    
+    // Populate investments
+    if (window.step3Data && onboardingData.investments?.length > 0) {
+        window.step3Data.investments = onboardingData.investments;
+        if (typeof renderInvestmentList === 'function') {
+            renderInvestmentList();
+        }
+    }
+    
+    // Populate assets
+    if (onboardingData.assets?.length > 0) {
+        // Assets would need similar treatment - add entries for each saved asset
+        console.log('📋 Assets to populate:', onboardingData.assets);
+    }
+    
+    // Populate debts
+    if (onboardingData.debts?.length > 0) {
+        // Debts would need similar treatment - add entries for each saved debt
+        console.log('📋 Debts to populate:', onboardingData.debts);
+    }
+}
+
+/**
+ * Populate Step 4 - Purpose-Specific Questions
+ */
+function populateStep4Data() {
+    console.log('📋 Populating Step 4 with saved responses:', onboardingData.step4_responses);
+    
+    if (!onboardingData.step4_responses) return;
+    
+    const responses = onboardingData.step4_responses;
+    
+    // Populate each field based on what exists in step4_responses
+    Object.entries(responses).forEach(([key, value]) => {
+        const field = document.getElementById(key);
+        if (field) {
+            if (field.type === 'radio' || field.type === 'checkbox') {
+                const specificField = document.querySelector(`input[name="${key}"][value="${value}"]`);
+                if (specificField) {
+                    specificField.checked = true;
+                }
+            } else {
+                field.value = value;
+            }
+        }
+    });
+}
+
+/**
+ * Populate Step 5 - Plan Selection
+ */
+function populateStep5Data() {
+    if (onboardingData.selectedPlan) {
+        console.log('📋 Populating Step 5 with selected plan:', onboardingData.selectedPlan);
+        
+        // Find and check the radio button
+        const planRadio = document.querySelector(`input[name="plan"][value="${onboardingData.selectedPlan}"]`);
+        if (planRadio) {
+            planRadio.checked = true;
+            
+            // Add selected class to the card
+            const parentCard = planRadio.closest('.pricing-card');
+            if (parentCard) {
+                document.querySelectorAll('.pricing-card').forEach(card => card.classList.remove('selected'));
+                parentCard.classList.add('selected');
+            }
+        }
     }
 }

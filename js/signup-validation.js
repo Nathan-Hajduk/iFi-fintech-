@@ -162,7 +162,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem('ifi_refresh_token', result.tokens.refreshToken);
                 }
                 
-                // Store user session
+                // Store user session for auth-manager
+                localStorage.setItem('ifi_user', JSON.stringify({
+                    user_id: result.user.user_id,
+                    first_name: result.user.first_name,
+                    last_name: result.user.last_name,
+                    email: result.user.email,
+                    subscription_type: result.user.subscription_type,
+                    role: result.user.role
+                }));
+                
+                // Also store in legacy format for backward compatibility
                 localStorage.setItem('ifi_current_user', JSON.stringify({
                     id: result.user.user_id,
                     firstName: result.user.first_name,
@@ -200,17 +210,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (!health) return false;
                     // Check if email/phone now exist
                     const [emailRes, phoneRes] = await Promise.all([
-                        fetch(`${API_URL}/check-email?email=${encodeURIComponent(email.value.trim())}`).then(r => r.ok ? r.json() : { exists: false }).catch(() => ({ exists: false })),
-                        fetch(`${API_URL}/check-phone?phone=${encodeURIComponent(phone.value.trim())}`).then(r => r.ok ? r.json() : { exists: false }).catch(() => ({ exists: false }))
+                        fetch(`${API_URL}/auth/check-email?email=${encodeURIComponent(email.value.trim())}`).then(r => r.ok ? r.json() : { exists: false }).catch(() => ({ exists: false })),
+                        fetch(`${API_URL}/auth/check-phone?phone=${encodeURIComponent(phone.value.trim())}`).then(r => r.ok ? r.json() : { exists: false }).catch(() => ({ exists: false }))
                     ]);
                     if ((emailRes && emailRes.exists) || (phoneRes && phoneRes.exists)) {
                         // Assume success, persist session, redirect
+                        const userData = {
+                            first_name: firstName.value.trim(),
+                            last_name: lastName.value.trim(),
+                            email: email.value.trim()
+                        };
+                        
+                        // Store for auth-manager
+                        localStorage.setItem('ifi_user', JSON.stringify(userData));
+                        
+                        // Also store in legacy format
                         localStorage.setItem('ifi_current_user', JSON.stringify({
-                            id: undefined,
                             firstName: firstName.value.trim(),
                             lastName: lastName.value.trim(),
                             email: email.value.trim()
                         }));
+                        
                         localStorage.removeItem('ifi_onboarding_complete');
                         showToast('success', 'Account created! Redirecting...');
                         setTimeout(() => {
@@ -301,7 +321,7 @@ function validateEmail(input) {
 // Check if email already exists in database
 async function checkEmailExists(email) {
     try {
-        const response = await fetch(`${API_URL}/check-email?email=${encodeURIComponent(email)}`);
+        const response = await fetch(`${API_URL}/auth/check-email?email=${encodeURIComponent(email)}`);
         if (!response.ok) return false; // Endpoint not available on core server; ignore
         const result = await response.json();
 
@@ -392,7 +412,7 @@ function validatePhone(input) {
 // Check if phone already exists in database
 async function checkPhoneExists(phone) {
     try {
-        const response = await fetch(`${API_URL}/check-phone?phone=${encodeURIComponent(phone)}`);
+        const response = await fetch(`${API_URL}/auth/check-phone?phone=${encodeURIComponent(phone)}`);
         if (!response.ok) return false; // Endpoint not available on core server; ignore
         const result = await response.json();
 

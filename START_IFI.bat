@@ -8,6 +8,12 @@ echo.
 echo Backend API: http://localhost:3000
 echo Frontend: Opening Login page...
 echo.
+
+REM Kill any existing Node.js processes first
+echo Stopping any running servers...
+taskkill /F /IM node.exe >nul 2>&1
+timeout /t 2 /nobreak >nul
+
 echo Please wait while the server starts...
 echo.
 

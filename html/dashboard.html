@@ -9,9 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="../css/modern-nav.css">
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/dashboard-enhanced.css">
+    <link rel="stylesheet" href="../css/dashboard-animated.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <!-- Navigation loaded dynamically -->
@@ -39,41 +42,82 @@
             </div>
         </section>
 
-        <!-- Key Metrics -->
-        <section class="metrics-grid" id="metricsGrid">
-            <!-- Metrics will be dynamically generated based on onboarding data -->
-        </section>
-
         <!-- Main Content Grid -->
         <div class="content-grid">
-            <!-- Expense Breakdown Chart -->
-            <div class="widget expense-chart">
+            <!-- Income Breakdown -->
+            <div class="widget income-breakdown">
                 <div class="widget-header">
-                    <h3><i class="fas fa-chart-pie"></i> Expense Breakdown</h3>
-                    <span class="widget-subtitle">Where your money goes</span>
+                    <h3><i class="fas fa-hand-holding-usd"></i> Monthly Income</h3>
+                    <span class="widget-subtitle">All income sources</span>
                 </div>
                 <div class="widget-body">
-                    <div id="expenseChartContainer">
-                        <!-- Animated pie chart will be rendered here -->
-                    </div>
+                    <div id="incomeBreakdownContainer"></div>
+                </div>
+            </div>
+
+            <!-- Monthly Expenses Breakdown -->
+            <div class="widget expenses-breakdown">
+                <div class="widget-header">
+                    <h3><i class="fas fa-receipt"></i> Monthly Expenses</h3>
+                    <span class="widget-subtitle">Where every dollar goes</span>
+                </div>
+                <div class="widget-body">
+                    <div id="expensesListContainer"></div>
+                </div>
+            </div>
+
+            <!-- Cash Flow Visualization with Animated Money -->
+            <div class="widget cash-flow-animated">
+                <div class="widget-header">
+                    <h3><i class="fas fa-money-bill-wave"></i> Cash Flow Visualization</h3>
+                    <span class="widget-subtitle">Your money in motion</span>
+                </div>
+                <div class="widget-body">
+                    <div id="cashFlowVisualContainer"></div>
+                </div>
+            </div>
+
+            <!-- Budget Pie Chart -->
+            <div class="widget budget-pie">
+                <div class="widget-header">
+                    <h3><i class="fas fa-chart-pie"></i> Budget Distribution</h3>
+                    <span class="widget-subtitle">Spending by category</span>
+                </div>
+                <div class="widget-body">
+                    <div id="budgetPieContainer"></div>
+                </div>
+            </div>
+
+            <!-- Subscriptions List -->
+            <div class="widget subscriptions-widget">
+                <div class="widget-header">
+                    <h3><i class="fas fa-repeat"></i> Active Subscriptions</h3>
+                    <span class="widget-subtitle">Recurring expenses</span>
+                </div>
+                <div class="widget-body">
+                    <div id="subscriptionsContainer"></div>
                 </div>
             </div>
             
-            <!-- Financial Health Score -->
-            <div class="widget health-score">
+            <!-- Financial Health Score Enhanced -->
+            <div class="widget health-score-enhanced">
                 <div class="widget-header">
                     <h3><i class="fas fa-heartbeat"></i> Financial Health Score</h3>
+                    <span class="widget-subtitle">Understanding your score</span>
                 </div>
                 <div class="widget-body">
-                    <div class="score-display">
-                        <div class="score-circle" id="healthScore">
-                            <span class="score-value">--</span>
-                            <span class="score-label">Score</span>
-                        </div>
-                    </div>
-                    <div class="score-breakdown" id="scoreBreakdown">
-                        <!-- Generated dynamically -->
-                    </div>
+                    <div id="healthScoreContainer"></div>
+                </div>
+            </div>
+
+            <!-- Income vs Expenses Chart -->
+            <div class="widget cash-flow-chart-widget">
+                <div class="widget-header">
+                    <h3><i class="fas fa-chart-line"></i> Income vs Expenses</h3>
+                    <span class="widget-subtitle">6-month trend analysis</span>
+                </div>
+                <div class="widget-body" style="height: 250px;">
+                    <div id="incomeVsExpensesChart" style="height: 100%;"></div>
                 </div>
             </div>
             
@@ -86,55 +130,6 @@
                 <div class="widget-body">
                     <div id="recommendationsContainer">
                         <!-- Generated dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cash Flow Chart -->
-            <div class="widget cash-flow">
-                <div class="widget-header">
-                    <h3><i class="fas fa-chart-line"></i> Cash Flow Overview</h3>
-                    <select class="period-selector" id="cashFlowPeriod">
-                        <option value="month">This Month</option>
-                        <option value="quarter">This Quarter</option>
-                        <option value="year">This Year</option>
-                    </select>
-                </div>
-                <div class="widget-body">
-                    <div class="cash-flow-summary" id="cashFlowSummary">
-                        <!-- Generated dynamically -->
-                    </div>
-                    <div class="chart-container" id="cashFlowChart">
-                        <!-- Chart will be rendered here -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Activity -->
-            <div class="widget recent-activity">
-                <div class="widget-header">
-                    <h3><i class="fas fa-history"></i> Recent Activity</h3>
-                    <a href="transactions.html" class="view-all">View All</a>
-                </div>
-                <div class="widget-body">
-                    <div class="activity-list" id="activityList">
-                        <div class="empty-state">
-                            <i class="fas fa-inbox"></i>
-                            <p>No recent transactions</p>
-                            <button onclick="window.location.href='../html/transactions.html'" class="btn-small">Add Transaction</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Budget Progress (Conditional) -->
-            <div class="widget budget-progress" id="budgetWidget" style="display: none;">
-                <div class="widget-header">
-                    <h3><i class="fas fa-wallet"></i> Budget This Month</h3>
-                </div>
-                <div class="widget-body">
-                    <div id="budgetCategories">
-                        <!-- Generated based on expense data -->
                     </div>
                 </div>
             </div>
@@ -168,9 +163,13 @@
 
     <script src="../js/auth-manager.js"></script>
     <script src="../js/auth-guard.js"></script>
+    <script src="../js/onboarding-data-service.js"></script>
+    <script src="../js/data/subscriptions-database.js"></script>
+    <script src="../js/page-init-helper.js"></script>
     <script src="../js/shared-nav.js"></script>
     <script src="../js/dashboard.js"></script>
     <script src="../js/dashboard-enhanced.js"></script>
+    <script src="../js/dashboard-visualizations.js"></script>
     <script>
         // Initialize unified navigation
         initializeNavigation('dashboard');

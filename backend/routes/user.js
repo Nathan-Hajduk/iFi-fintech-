@@ -141,8 +141,29 @@ router.get('/onboarding', authenticate, async (req, res) => {
  * POST /api/user/onboarding
  * Save or update user onboarding data
  */
+// Helper function to safely stringify data (handles already-stringified data)
+function safeStringify(data) {
+  if (data === null || data === undefined) {
+    return null;
+  }
+  if (typeof data === 'string') {
+    // Already a string, return as-is
+    return data;
+  }
+  // It's an object/array, stringify it
+  try {
+    return JSON.stringify(data);
+  } catch (err) {
+    console.error('Error stringifying data:', err);
+    return null;
+  }
+}
+
 router.post('/onboarding', authenticate, async (req, res) => {
   try {
+    console.log('📥 Received onboarding POST request for user:', req.user.userId);
+    console.log('📥 Request body keys:', Object.keys(req.body));
+    
     const {
       // Legacy fields
       employment_status,
@@ -160,6 +181,7 @@ router.post('/onboarding', authenticate, async (req, res) => {
       additional_income,
       expenses,
       expense_categories,
+      budget,
       subscriptions,
       assets,
       total_assets_value,
@@ -173,6 +195,19 @@ router.post('/onboarding', authenticate, async (req, res) => {
       plaid_item_id,
       linked_accounts
     } = req.body;
+    
+    console.log('� Extracted Financial Data:');
+    console.log('   - monthly_takehome:', monthly_takehome, '(type:', typeof monthly_takehome, ')');
+    console.log('   - monthly_expenses:', monthly_expenses, '(type:', typeof monthly_expenses, ')');
+    console.log('   - debt_amount:', debt_amount, '(type:', typeof debt_amount, ')');
+    console.log('   - total_assets_value:', total_assets_value, '(type:', typeof total_assets_value, ')');
+    console.log('   - portfolio_value:', portfolio_value, '(type:', typeof portfolio_value, ')');
+    console.log('📋 Extracted Detail Data (types):');
+    console.log('   - expenses type:', typeof expenses, Array.isArray(expenses) ? '(array)' : '(object)');
+    console.log('   - subscriptions type:', typeof subscriptions, Array.isArray(subscriptions) ? '(array)' : '(object)');
+    console.log('   - investments type:', typeof investments, Array.isArray(investments) ? '(array)' : '(object)');
+    console.log('   - debts type:', typeof debts, Array.isArray(debts) ? '(array)' : '(object)');
+    console.log('   - assets type:', typeof assets, Array.isArray(assets) ? '(array)' : '(object)');
 
     // Check if onboarding data already exists
     const existing = await db.query(
@@ -199,24 +234,25 @@ router.post('/onboarding', authenticate, async (req, res) => {
              additional_income = $12,
              expenses = $13,
              expense_categories = $14,
-             subscriptions = $15,
-             assets = $16,
-             total_assets_value = $17,
-             investments = $18,
-             portfolio_value = $19,
-             debts = $20,
-             total_debt_amount = $21,
-             selected_plan = $22,
-             step4_responses = $23,
-             bank_connected = $24,
-             plaid_item_id = $25,
-             linked_accounts = $26,
+             budget = $15,
+             subscriptions = $16,
+             assets = $17,
+             total_assets_value = $18,
+             investments = $19,
+             portfolio_value = $20,
+             debts = $21,
+             total_debt_amount = $22,
+             selected_plan = $23,
+             step4_responses = $24,
+             bank_connected = $25,
+             plaid_item_id = $26,
+             linked_accounts = $27,
              updated_at = CURRENT_TIMESTAMP
-         WHERE user_id = $27
+         WHERE user_id = $28
          RETURNING *`,
         [
           employment_status,
-          annual_income || monthly_takehome * 12,
+          annual_income || (monthly_takehome ? monthly_takehome * 12 : null),
           monthly_expenses,
           debt_amount || total_debt_amount,
           savings_goal,
@@ -226,21 +262,22 @@ router.post('/onboarding', authenticate, async (req, res) => {
           purpose,
           income_source,
           monthly_takehome,
-          JSON.stringify(additional_income || []),
-          JSON.stringify(expenses || {}),
-          JSON.stringify(expense_categories || []),
-          JSON.stringify(subscriptions || []),
-          JSON.stringify(assets || []),
+          safeStringify(additional_income || []),
+          safeStringify(expenses || {}),
+          safeStringify(expense_categories || []),
+          safeStringify(budget || {}),
+          safeStringify(subscriptions || []),
+          safeStringify(assets || []),
           total_assets_value,
-          JSON.stringify(investments || []),
+          safeStringify(investments || []),
           portfolio_value,
-          JSON.stringify(debts || []),
+          safeStringify(debts || []),
           total_debt_amount,
           selected_plan,
-          JSON.stringify(step4_responses || {}),
+          safeStringify(step4_responses || {}),
           bank_connected || false,
           plaid_item_id,
-          JSON.stringify(linked_accounts || []),
+          safeStringify(linked_accounts || []),
           req.user.userId
         ]
       );
@@ -263,6 +300,7 @@ router.post('/onboarding', authenticate, async (req, res) => {
           additional_income,
           expenses,
           expense_categories,
+          budget,
           subscriptions,
           assets,
           total_assets_value,
@@ -275,12 +313,12 @@ router.post('/onboarding', authenticate, async (req, res) => {
           bank_connected,
           plaid_item_id,
           linked_accounts
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28)
         RETURNING *`,
         [
           req.user.userId,
           employment_status,
-          annual_income || monthly_takehome * 12,
+          annual_income || (monthly_takehome ? monthly_takehome * 12 : null),
           monthly_expenses,
           debt_amount || total_debt_amount,
           savings_goal,
@@ -290,21 +328,22 @@ router.post('/onboarding', authenticate, async (req, res) => {
           purpose,
           income_source,
           monthly_takehome,
-          JSON.stringify(additional_income || []),
-          JSON.stringify(expenses || {}),
-          JSON.stringify(expense_categories || []),
-          JSON.stringify(subscriptions || []),
-          JSON.stringify(assets || []),
+          safeStringify(additional_income || []),
+          safeStringify(expenses || {}),
+          safeStringify(expense_categories || []),
+          safeStringify(budget || {}),
+          safeStringify(subscriptions || []),
+          safeStringify(assets || []),
           total_assets_value,
-          JSON.stringify(investments || []),
+          safeStringify(investments || []),
           portfolio_value,
-          JSON.stringify(debts || []),
+          safeStringify(debts || []),
           total_debt_amount,
           selected_plan,
-          JSON.stringify(step4_responses || {}),
+          safeStringify(step4_responses || {}),
           bank_connected || false,
           plaid_item_id,
-          JSON.stringify(linked_accounts || [])
+          safeStringify(linked_accounts || [])
         ]
       );
     }
@@ -315,17 +354,48 @@ router.post('/onboarding', authenticate, async (req, res) => {
       [req.user.userId]
     );
 
+    console.log('✅ Onboarding data saved to database successfully!');
+    
+    // Helper function to safely parse and count array items
+    const safeParseCount = (field) => {
+      try {
+        if (!field) return 0;
+        const parsed = typeof field === 'string' ? JSON.parse(field) : field;
+        return Array.isArray(parsed) ? parsed.length : 0;
+      } catch (err) {
+        return 0;
+      }
+    };
+    
+    console.log('💾 Saved record:', {
+      monthly_takehome: result.rows[0].monthly_takehome,
+      monthly_expenses: result.rows[0].monthly_expenses,
+      debt_amount: result.rows[0].debt_amount,
+      total_assets_value: result.rows[0].total_assets_value,
+      portfolio_value: result.rows[0].portfolio_value,
+      expenses: typeof result.rows[0].expenses === 'string' ? 'JSON string (saved)' : 'Object (saved)',
+      subscriptions_count: safeParseCount(result.rows[0].subscriptions),
+      investments_count: safeParseCount(result.rows[0].investments),
+      debts_count: safeParseCount(result.rows[0].debts),
+      assets_count: safeParseCount(result.rows[0].assets)
+    });
+
     res.json({
       success: true,
       message: 'Onboarding data saved successfully',
       onboarding: result.rows[0]
     });
   } catch (error) {
-    console.error('Save onboarding error:', error);
+    console.error('❌ Save onboarding error:', error);
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    
     res.status(500).json({
       success: false,
       message: 'Failed to save onboarding data',
-      error: error.message
+      error: error.message,
+      errorType: error.name
     });
   }
 });
@@ -571,6 +641,221 @@ router.put('/profile', authenticate, async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to update profile'
+    });
+  }
+});
+
+/**
+ * GET /api/user/onboarding-data
+ * Get user onboarding data for dashboard visualizations
+ */
+router.get('/onboarding-data', authenticate, async (req, res) => {
+  try {
+    console.log('📊 Fetching onboarding data for user:', req.user.userId);
+    
+    const result = await db.query(
+      `SELECT 
+        purpose,
+        income_source,
+        monthly_takehome,
+        additional_income,
+        expenses,
+        expense_categories,
+        subscriptions,
+        assets,
+        total_assets_value,
+        investments,
+        portfolio_value,
+        debts,
+        total_debt_amount,
+        selected_plan
+      FROM user_onboarding 
+      WHERE user_id = $1 
+      ORDER BY created_at DESC 
+      LIMIT 1`,
+      [req.user.userId]
+    );
+
+    console.log('📊 Query result rows:', result.rows.length);
+    
+    if (result.rows.length === 0) {
+      console.log('⚠️ No onboarding data found for user:', req.user.userId);
+      console.log('🔍 Checking if user exists in database...');
+      const userCheck = await db.query('SELECT user_id FROM users WHERE user_id = $1', [req.user.userId]);
+      console.log('👤 User exists:', userCheck.rows.length > 0);
+      
+      return res.json({
+        success: true,
+        data: null,
+        message: 'No onboarding data found. Please complete the onboarding process.'
+      });
+    }
+
+    const onboardingData = result.rows[0];
+    console.log('✅ Raw data from DB:', JSON.stringify(onboardingData, null, 2));
+    console.log('✅ monthly_takehome type:', typeof onboardingData.monthly_takehome);
+    console.log('✅ expenses type:', typeof onboardingData.expenses);
+    
+    res.json(onboardingData);
+  } catch (error) {
+    console.error('❌ Get onboarding data error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve onboarding data',
+      error: error.message
+    });
+  }
+});
+
+/**
+ * GET /api/user/monthly-financials
+ * Get monthly financial data (income/expenses) for interactive chart
+ */
+router.get('/monthly-financials', authenticate, async (req, res) => {
+  try {
+    const result = await db.query(
+      `SELECT month, year, income, expenses, notes
+       FROM user_monthly_financials 
+       WHERE user_id = $1 
+       ORDER BY year DESC, month DESC
+       LIMIT 12`,
+      [req.user.userId]
+    );
+
+    res.json({
+      success: true,
+      data: result.rows
+    });
+  } catch (error) {
+    console.error('Get monthly financials error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve monthly financial data'
+    });
+  }
+});
+
+/**
+ * POST /api/user/monthly-financials
+ * Save or update monthly financial data for a specific month/year
+ */
+router.post('/monthly-financials', authenticate, async (req, res) => {
+  try {
+    const { month, year, income, expenses, notes } = req.body;
+
+    // Validate input
+    if (!month || !year || income === undefined || expenses === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: 'Month, year, income, and expenses are required'
+      });
+    }
+
+    // Upsert (insert or update if exists)
+    const result = await db.query(
+      `INSERT INTO user_monthly_financials (user_id, month, year, income, expenses, notes, updated_at)
+       VALUES ($1, $2, $3, $4, $5, $6, NOW())
+       ON CONFLICT (user_id, month, year) 
+       DO UPDATE SET 
+         income = EXCLUDED.income,
+         expenses = EXCLUDED.expenses,
+         notes = EXCLUDED.notes,
+         updated_at = NOW()
+       RETURNING *`,
+      [req.user.userId, month, year, income, expenses, notes || null]
+    );
+
+    res.json({
+      success: true,
+      data: result.rows[0],
+      message: 'Monthly financial data saved successfully'
+    });
+  } catch (error) {
+    console.error('Save monthly financials error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to save monthly financial data'
+    });
+  }
+});
+
+/**
+ * DELETE /api/user/monthly-financials/:month/:year
+ * Delete monthly financial data for a specific month/year
+ */
+router.delete('/monthly-financials/:month/:year', authenticate, async (req, res) => {
+  try {
+    const { month, year } = req.params;
+
+    const result = await db.query(
+      `DELETE FROM user_monthly_financials 
+       WHERE user_id = $1 AND month = $2 AND year = $3
+       RETURNING *`,
+      [req.user.userId, month, year]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Monthly financial data not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Monthly financial data deleted successfully'
+    });
+  } catch (error) {
+    console.error('Delete monthly financials error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete monthly financial data'
+    });
+  }
+});
+
+/**
+ * GET /api/subscriptions/search
+ * Search for subscriptions by query
+ */
+router.get('/subscriptions/search', authenticate, async (req, res) => {
+  try {
+    const query = req.query.q ? req.query.q.toLowerCase() : '';
+    
+    // Hardcoded subscription database (in production, this would be from a database)
+    const subscriptions = [
+      { name: 'Netflix', cost: 15.99, category: 'entertainment' },
+      { name: 'Spotify Premium', cost: 10.99, category: 'entertainment' },
+      { name: 'Amazon Prime', cost: 14.99, category: 'shopping' },
+      { name: 'Apple Music', cost: 10.99, category: 'entertainment' },
+      { name: 'Disney+', cost: 10.99, category: 'entertainment' },
+      { name: 'Hulu', cost: 7.99, category: 'entertainment' },
+      { name: 'HBO Max', cost: 15.99, category: 'entertainment' },
+      { name: 'YouTube Premium', cost: 11.99, category: 'entertainment' },
+      { name: 'Audible', cost: 14.95, category: 'entertainment' },
+      { name: 'Adobe Creative Cloud', cost: 52.99, category: 'other' },
+      { name: 'Microsoft 365', cost: 69.99, category: 'other' },
+      { name: 'Dropbox', cost: 9.99, category: 'other' },
+      { name: 'Evernote', cost: 7.99, category: 'other' },
+      { name: 'Grammarly', cost: 11.99, category: 'other' },
+      { name: 'Canva Pro', cost: 12.99, category: 'other' },
+      { name: 'Figma', cost: 144, category: 'other' },
+      { name: 'Slack', cost: 8.75, category: 'other' },
+      { name: 'Zoom Pro', cost: 14.99, category: 'other' },
+      { name: 'LinkedIn Premium', cost: 29.99, category: 'other' },
+      { name: 'Coursera Plus', cost: 59, category: 'other' }
+    ];
+    
+    const filtered = subscriptions.filter(sub => 
+      sub.name.toLowerCase().includes(query)
+    ).slice(0, 10); // Limit to 10 results
+    
+    res.json(filtered);
+  } catch (error) {
+    console.error('Search subscriptions error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to search subscriptions'
     });
   }
 });

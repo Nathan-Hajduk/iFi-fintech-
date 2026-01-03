@@ -129,6 +129,7 @@ async function authenticate(req, res, next) {
     const authHeader = req.headers.authorization;
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      console.log('❌ Auth failed: No authorization header');
       return res.status(401).json({
         success: false,
         message: 'Authentication required. No token provided.'
@@ -136,26 +137,33 @@ async function authenticate(req, res, next) {
     }
     
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    console.log('🔐 Authenticating token:', token.substring(0, 30) + '...');
     
     // Verify JWT signature and expiration
     const decoded = verifyToken(token, 'access');
     
     if (!decoded) {
+      console.log('❌ Token verification failed - invalid signature or expired');
       return res.status(401).json({
         success: false,
         message: 'Invalid or expired token. Please login again.'
       });
     }
+    
+    console.log('✅ Token verified, checking database session...');
     
     // Validate token exists in database and is not revoked
     const session = await sessionManager.validateSession(token);
     
     if (!session) {
+      console.log('❌ Session not found in database or expired');
       return res.status(401).json({
         success: false,
         message: 'Invalid or expired token. Please login again.'
       });
     }
+    
+    console.log('✅ Session validated for user:', decoded.userId);
     
     // Attach user info to request
     req.user = {

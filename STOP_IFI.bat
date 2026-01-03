@@ -2,16 +2,19 @@
 title Stop iFi Server
 echo.
 echo ============================================
-echo   Stopping iFi Backend Server
+echo   Stopping iFi Application
 echo ============================================
 echo.
 
-REM Kill Node.js processes running server.js
-echo Stopping backend server...
-taskkill /F /FI "WINDOWTITLE eq iFi Backend Server*" >nul 2>&1
-taskkill /F /FI "IMAGENAME eq node.exe" /FI "COMMANDLINE eq *server.js*" >nul 2>&1
+REM Kill all Node.js processes (more aggressive)
+echo Stopping all Node.js processes...
+taskkill /F /IM node.exe >nul 2>&1
+
+REM Wait for ports to be released
+timeout /t 2 /nobreak >nul
 
 echo.
-echo iFi server stopped!
+echo All iFi servers stopped!
+echo Port 3000 is now available.
 echo.
 pause

@@ -5,13 +5,14 @@
 // ============================================
 // PROGRESSIVE REVEAL SYSTEM
 // ============================================
-const sectionOrder = ['income', 'expenses', 'assets', 'debt', 'investments', 'subscriptions', 'additional'];
+const sectionOrder = ['income', 'expenses', 'budget', 'assets', 'debt', 'investments', 'subscriptions', 'additional'];
 let currentRevealedSection = 0;
 
 // Track section completion
 const sectionCompletion = {
     income: false,
     expenses: false,
+    budget: false,
     assets: false,
     debt: false,
     investments: false,
@@ -24,6 +25,7 @@ function initProgressiveReveal() {
     // Set up input listeners for all sections
     setupSectionListeners('income', ['monthly-takehome']);
     setupSectionListeners('expenses', ['fixed-expenses', 'variable-expenses']);
+    setupSectionListeners('budget', ['budget-housing', 'budget-utilities']);
     setupSectionListeners('assets', ['checking-balance']);
     setupSectionListeners('debt', ['total-debt', 'monthly-debt-payments']);
     setupSectionListeners('investments', ['monthly-contributions']);
@@ -151,7 +153,8 @@ function revealNextSection() {
 // ============================================
 // DATA STORAGE
 // ============================================
-const step3Data = {
+// Make step3Data globally accessible so onboarding.js can read it
+window.step3Data = {
     investments: [],
     subscriptions: []
 };
@@ -548,12 +551,18 @@ function calculateFinancialMetrics() {
     
     // Display metrics
     const metricsDiv = document.getElementById('calculated-metrics');
-    if (totalIncome > 0 || totalAssets > 0) {
+    if (metricsDiv && (totalIncome > 0 || totalAssets > 0)) {
         metricsDiv.style.display = 'block';
-        document.getElementById('metric-networth').textContent = formatCurrency(netWorth);
-        document.getElementById('metric-freecash').textContent = formatCurrency(freeCash);
-        document.getElementById('metric-savingsrate').textContent = savingsRate.toFixed(1) + '%';
-        document.getElementById('metric-emergency').textContent = emergencyMonths.toFixed(1) + ' months';
+        
+        const networthEl = document.getElementById('metric-networth');
+        const freecashEl = document.getElementById('metric-freecash');
+        const savingsrateEl = document.getElementById('metric-savingsrate');
+        const emergencyEl = document.getElementById('metric-emergency');
+        
+        if (networthEl) networthEl.textContent = formatCurrency(netWorth);
+        if (freecashEl) freecashEl.textContent = formatCurrency(freeCash);
+        if (savingsrateEl) savingsrateEl.textContent = savingsRate.toFixed(1) + '%';
+        if (emergencyEl) emergencyEl.textContent = emergencyMonths.toFixed(1) + ' months';
     }
 }
 

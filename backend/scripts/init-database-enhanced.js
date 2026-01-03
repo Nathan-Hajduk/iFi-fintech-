@@ -188,6 +188,24 @@ async function initializeEnhancedDatabase() {
     `);
     console.log('✓ Revenue analytics table created');
     
+    // 8.5. User monthly financials - Historical income/expense adjustments
+    console.log('Creating user_monthly_financials table...');
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS user_monthly_financials (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+        month INTEGER NOT NULL CHECK (month >= 1 AND month <= 12),
+        year INTEGER NOT NULL CHECK (year >= 2000 AND year <= 2100),
+        income DECIMAL(12, 2) NOT NULL DEFAULT 0,
+        expenses DECIMAL(12, 2) NOT NULL DEFAULT 0,
+        notes TEXT,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(user_id, month, year)
+      )
+    `);
+    console.log('✓ User monthly financials table created');
+    
     // 9. Daily active users snapshot - For DAU/MAU calculations
     console.log('Creating daily_active_users table...');
     await client.query(`
@@ -374,6 +392,8 @@ async function initializeEnhancedDatabase() {
       CREATE INDEX IF NOT EXISTS idx_revenue_user_id ON revenue_analytics(user_id);
       CREATE INDEX IF NOT EXISTS idx_revenue_ltv ON revenue_analytics(lifetime_value DESC);
       CREATE INDEX IF NOT EXISTS idx_revenue_channel ON revenue_analytics(acquisition_channel);
+      
+      CREATE INDEX IF NOT EXISTS idx_monthly_financials_user_date ON user_monthly_financials(user_id, year DESC, month DESC);
       
       CREATE INDEX IF NOT EXISTS idx_dau_date ON daily_active_users(activity_date DESC);
       CREATE INDEX IF NOT EXISTS idx_dau_user_id ON daily_active_users(user_id);

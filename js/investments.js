@@ -1,7 +1,68 @@
-// Investments Page Logic
+/**
+ * Investments Page - Portfolio Visualization
+ * Senior Developer Implementation for iFi Fintech
+ */
 
 // Initialize data
 let holdings = JSON.parse(localStorage.getItem('ifi_holdings')) || [];
+let onboardingInvestments = [];
+
+document.addEventListener('DOMContentLoaded', async function() {
+    await loadOnboardingInvestments();
+});
+
+async function loadOnboardingInvestments() {
+    try {
+        onboardingInvestments = await onboardingDataService.getInvestments();
+        console.log('📈 Loaded onboarding investments:', onboardingInvestments);
+        displayOnboardingInvestments();
+    } catch (error) {
+        console.error('❌ Error loading investments:', error);
+    }
+}
+
+function displayOnboardingInvestments() {
+    if (!onboardingInvestments || onboardingInvestments.length === 0) return;
+    
+    const container = document.querySelector('.portfolio-summary') || document.querySelector('main');
+    const totalValue = onboardingInvestments.reduce((sum, inv) => sum + (parseFloat(inv.value) || 0), 0);
+    
+    let html = `
+        <div class="investment-overview">
+            <h2>📊 Your Investment Portfolio</h2>
+            <div class="portfolio-metrics">
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-value">$${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                    <div class="metric-label">Total Portfolio Value</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">📈</div>
+                    <div class="metric-value">${onboardingInvestments.length}</div>
+                    <div class="metric-label">Investment Accounts</div>
+                </div>
+            </div>
+            <div class="investment-grid">
+    `;
+    
+    onboardingInvestments.forEach((inv, index) => {
+        const value = parseFloat(inv.value) || 0;
+        const percentage = totalValue > 0 ? (value / totalValue * 100).toFixed(1) : 0;
+        html += `
+            <div class="investment-card" style="animation-delay: ${index * 0.1}s;">
+                <div class="investment-header">
+                    <h3>${inv.name || 'Investment Account'}</h3>
+                    <span class="investment-type">${inv.type || 'Investment'}</span>
+                </div>
+                <div class="investment-value">$${value.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                <div class="investment-percentage">${percentage}% of portfolio</div>
+            </div>
+        `;
+    });
+    
+    html += `</div></div>`;
+    container.insertAdjacentHTML('afterbegin', html);
+}
 
 // DOM Elements
 const modal = document.getElementById('investmentModal');

@@ -1,7 +1,64 @@
 // Debt Management JavaScript
 
+// Load debt data from onboarding
+async function loadDebtData() {
+    try {
+        const debts = await onboardingDataService.getDebts();
+        const totalDebt = await onboardingDataService.getTotalDebts();
+        const income = await onboardingDataService.getMonthlyIncome();
+        
+        console.log('💳 Loading debt data:', { debts, totalDebt, income });
+        
+        // Update displays
+        if (debts && debts.length > 0) {
+            displayDebtsFromOnboarding(debts, totalDebt, income);
+        }
+        
+    } catch (error) {
+        console.error('❌ Error loading debt data:', error);
+    }
+}
+
+function displayDebtsFromOnboarding(debts, totalDebt, income) {
+    // Update total debt if element exists
+    const totalDebtEl = document.querySelector('[data-total-debt]');
+    if (totalDebtEl) {
+        totalDebtEl.textContent = `$${totalDebt.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+    }
+    
+    // Update debt-to-income ratio if element exists
+    if (income > 0) {
+        const dti = (totalDebt / (income * 12)) * 100;
+        const dtiEl = document.querySelector('[data-dti-ratio]');
+        if (dtiEl) {
+            dtiEl.textContent = `${dti.toFixed(1)}%`;
+            dtiEl.style.color = dti < 36 ? '#4ade80' : dti < 43 ? '#f59e0b' : '#ef4444';
+        }
+    }
+    
+    // Display debts in the list
+    const debtsContainer = document.querySelector('.debts-list') || document.getElementById('debts-list');
+    if (debtsContainer && debts.length > 0) {
+        debtsContainer.innerHTML = debts.map(debt => `
+            <div class="debt-item">
+                <div class="debt-header">
+                    <h4>${debt.type || 'Debt'}</h4>
+                    <span class="debt-amount">$${(debt.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                </div>
+                ${debt.rate ? `<p>Interest Rate: ${debt.rate}%</p>` : ''}
+                ${debt.payment ? `<p>Monthly Payment: $${(debt.payment || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>` : ''}
+            </div>
+        `).join('');
+    }
+}
+
 // Strategy tab switching
 document.addEventListener('DOMContentLoaded', function() {
+    // Load debt data first
+    if (typeof onboardingDataService !== 'undefined') {
+        loadDebtData();
+    }
+    
     const strategyTabs = document.querySelectorAll('.strategy-tab');
     const strategyContent = document.querySelector('.strategy-results');
     

@@ -7,18 +7,30 @@ const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid');
 const db = require('../config/database');
 const { encrypt, decrypt } = require('../utils/encryption');
 
-// Initialize Plaid client
-const configuration = new Configuration({
-  basePath: PlaidEnvironments[process.env.PLAID_ENV] || PlaidEnvironments.sandbox,
-  baseOptions: {
-    headers: {
-      'PLAID-CLIENT-ID': process.env.PLAID_CLIENT_ID,
-      'PLAID-SECRET': process.env.PLAID_SECRET,
-    },
-  },
-});
+// Check if Plaid credentials are configured
+const PLAID_CONFIGURED = !!(process.env.PLAID_CLIENT_ID && process.env.PLAID_SECRET);
 
-const plaidClient = new PlaidApi(configuration);
+if (!PLAID_CONFIGURED) {
+  console.warn('⚠️  Plaid credentials not configured. Bank connection features will be unavailable.');
+  console.warn('   To enable Plaid integration, set PLAID_CLIENT_ID and PLAID_SECRET in your .env file');
+}
+
+// Initialize Plaid client only if credentials are available
+let plaidClient = null;
+
+if (PLAID_CONFIGURED) {
+  const configuration = new Configuration({
+    basePath: PlaidEnvironments[process.env.PLAID_ENV] || PlaidEnvironments.sandbox,
+    baseOptions: {
+      headers: {
+        'PLAID-CLIENT-ID': process.env.PLAID_CLIENT_ID,
+        'PLAID-SECRET': process.env.PLAID_SECRET,
+      },
+    },
+  });
+  plaidClient = new PlaidApi(configuration);
+  console.log('✅ Plaid client initialized successfully');
+}
 
 /**
  * Create a link token for Plaid Link initialization
@@ -26,6 +38,11 @@ const plaidClient = new PlaidApi(configuration);
  * @returns {Promise<Object>} Link token data
  */
 async function createLinkToken(userId) {
+  // Check if Plaid is configured
+  if (!PLAID_CONFIGURED || !plaidClient) {
+    throw new Error('Plaid integration is not configured. Bank connection features are unavailable.');
+  }
+  
   try {
     const request = {
       user: {
@@ -60,6 +77,11 @@ async function createLinkToken(userId) {
  * @returns {Promise<Object>} Access token and item ID
  */
 async function exchangePublicToken(publicToken) {
+  // Check if Plaid is configured
+  if (!PLAID_CONFIGURED || !plaidClient) {
+    throw new Error('Plaid integration is not configured. Bank connection features are unavailable.');
+  }
+  
   try {
     const response = await plaidClient.itemPublicTokenExchange({
       public_token: publicToken,

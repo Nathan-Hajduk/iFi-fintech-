@@ -49,12 +49,23 @@ function setupPeriodToggle() {
 
 // ============ Initialize Dashboard ============
 function initializeDashboard() {
-    // Load user info
-    const currentUser = JSON.parse(localStorage.getItem('ifi_current_user'));
-    if (currentUser) {
-        const firstName = currentUser.firstName || currentUser.name?.split(' ')[0] || 'User';
-        document.getElementById('user-first-name').textContent = firstName;
-        document.getElementById('user-name-header').textContent = firstName;
+    // Load user info from auth-manager storage
+    const userDataStr = localStorage.getItem('ifi_user');
+    if (userDataStr) {
+        try {
+            const userData = JSON.parse(userDataStr);
+            const firstName = userData.first_name || userData.firstName || 'User';
+            const userFirstNameEl = document.getElementById('user-first-name');
+            if (userFirstNameEl) {
+                userFirstNameEl.textContent = firstName;
+            }
+            const userHeaderEl = document.getElementById('user-name-header');
+            if (userHeaderEl) {
+                userHeaderEl.textContent = firstName;
+            }
+        } catch (e) {
+            console.error('Failed to parse user data:', e);
+        }
     }
 }
 
@@ -126,6 +137,13 @@ function generateMetrics() {
     const metricsGrid = document.getElementById('metricsGrid');
     if (!metricsGrid) return;
 
+    // If no onboarding data, hide metrics grid
+    if (!onboardingData || !onboardingData.monthly_takehome) {
+        metricsGrid.style.display = 'none';
+        return;
+    }
+    
+    metricsGrid.style.display = 'grid';
     const monthlyIncome = getMonthlyIncome();
     const totalExpenses = getMonthlyExpenses();
     const netCashFlow = monthlyIncome - totalExpenses;

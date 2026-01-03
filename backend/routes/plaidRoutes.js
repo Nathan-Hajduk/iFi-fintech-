@@ -43,9 +43,15 @@ router.post('/create_link_token',
       
     } catch (error) {
       console.error('Create link token error:', error.message);
-      res.status(500).json({
-        error: 'Failed to create link token',
+      
+      // If Plaid is not configured, return a more user-friendly error
+      const isConfigError = error.message.includes('not configured');
+      
+      res.status(isConfigError ? 503 : 500).json({
+        error: isConfigError ? 'Service unavailable' : 'Failed to create link token',
         message: error.message,
+        configured: !isConfigError,
+        optional: true // Indicate this feature is optional
       });
     }
   }

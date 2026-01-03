@@ -308,13 +308,213 @@
                         </div>
                     </div>
 
-                    <div class="section-nav-buttons" style="margin-top: 2rem; display: flex; justify-content: space-between; gap: 1rem;">
-                        <button type="button" class="btn-secondary" onclick="navigateToSection('income')" style="padding: 0.875rem 2rem;">
-                            <i class="fas fa-arrow-left"></i> Previous: Income
-                        </button>
-                        <button type="button" class="btn-primary" id="expenses-next-btn" onclick="navigateToSection('assets')" style="padding: 0.875rem 2rem;">
-                            Next: Assets <i class="fas fa-arrow-right"></i>
-                        </button>
+                    </div>
+
+                    <!-- Budget Section - Hidden Initially -->
+                    <div class="financial-section" id="budget-section" data-section="budget" style="display: none;">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;"><i class="fas fa-chart-pie"></i> Monthly Budget</h3>
+                    <p class="step-subtitle" style="color: rgba(139, 192, 223, 0.9); margin-bottom: 1.5rem;">Set spending limits for each category to help reach your financial goals</p>
+                    
+                    <div class="form-group">
+                        <label>Create your monthly budget</label>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <button type="button" class="btn-secondary" style="flex: 1; padding: 0.75rem;" onclick="showBudgetFields()">
+                                <i class="fas fa-plus"></i> Set Budget Limits
+                            </button>
+                            <button type="button" class="btn-text" style="flex: 1; padding: 0.75rem;" onclick="skipBudget()">
+                                <i class="fas fa-forward"></i> Skip
+                            </button>
+                        </div>
+                        
+                        <div id="budget-fields" style="display: none; margin-top: 1rem; padding: 1.5rem; background: rgba(0, 212, 255, 0.05); border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                <div>
+                                    <h4 style="color: #00d4ff; margin: 0 0 0.25rem 0; font-size: 1rem;">Budget by Category</h4>
+                                    <p style="color: rgba(139, 192, 223, 0.85); margin: 0; font-size: 0.875rem;">Set monthly spending limits for each expense category</p>
+                                </div>
+                                <button type="button" class="btn-text" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="cancelBudget()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                            
+                            <!-- Budget Categories Grid -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                                <!-- Housing -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(102, 126, 234, 0.08); border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">🏠</span>
+                                        <label for="budget-housing" style="color: #e8eef9; font-weight: 600; margin: 0;">Housing</label>
+                                    </div>
+                                    <input type="number" id="budget-housing" name="budgetHousing" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Rent, mortgage</small>
+                                </div>
+
+                                <!-- Utilities -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">💡</span>
+                                        <label for="budget-utilities" style="color: #e8eef9; font-weight: 600; margin: 0;">Utilities</label>
+                                    </div>
+                                    <input type="number" id="budget-utilities" name="budgetUtilities" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Electric, water, gas, internet</small>
+                                </div>
+
+                                <!-- Food -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">🍽️</span>
+                                        <label for="budget-food" style="color: #e8eef9; font-weight: 600; margin: 0;">Food & Groceries</label>
+                                    </div>
+                                    <input type="number" id="budget-food" name="budgetFood" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Groceries, dining out</small>
+                                </div>
+
+                                <!-- Transportation -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">🚗</span>
+                                        <label for="budget-transportation" style="color: #e8eef9; font-weight: 600; margin: 0;">Transportation</label>
+                                    </div>
+                                    <input type="number" id="budget-transportation" name="budgetTransportation" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Gas, car payment, transit</small>
+                                </div>
+
+                                <!-- Insurance -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">🛡️</span>
+                                        <label for="budget-insurance" style="color: #e8eef9; font-weight: 600; margin: 0;">Insurance</label>
+                                    </div>
+                                    <input type="number" id="budget-insurance" name="budgetInsurance" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Health, auto, life</small>
+                                </div>
+
+                                <!-- Healthcare -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">⚕️</span>
+                                        <label for="budget-healthcare" style="color: #e8eef9; font-weight: 600; margin: 0;">Healthcare</label>
+                                    </div>
+                                    <input type="number" id="budget-healthcare" name="budgetHealthcare" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Medical, prescriptions</small>
+                                </div>
+
+                                <!-- Entertainment -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(236, 72, 153, 0.08); border: 1px solid rgba(236, 72, 153, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">🎬</span>
+                                        <label for="budget-entertainment" style="color: #e8eef9; font-weight: 600; margin: 0;">Entertainment</label>
+                                    </div>
+                                    <input type="number" id="budget-entertainment" name="budgetEntertainment" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Streaming, hobbies, events</small>
+                                </div>
+
+                                <!-- Shopping -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(20, 184, 166, 0.08); border: 1px solid rgba(20, 184, 166, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">🛍️</span>
+                                        <label for="budget-shopping" style="color: #e8eef9; font-weight: 600; margin: 0;">Shopping</label>
+                                    </div>
+                                    <input type="number" id="budget-shopping" name="budgetShopping" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Clothes, personal items</small>
+                                </div>
+
+                                <!-- Debt Payments -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(249, 115, 22, 0.08); border: 1px solid rgba(249, 115, 22, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">💳</span>
+                                        <label for="budget-debt" style="color: #e8eef9; font-weight: 600; margin: 0;">Debt Payments</label>
+                                    </div>
+                                    <input type="number" id="budget-debt" name="budgetDebt" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Credit cards, loans</small>
+                                </div>
+
+                                <!-- Savings -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">💰</span>
+                                        <label for="budget-savings" style="color: #e8eef9; font-weight: 600; margin: 0;">Savings</label>
+                                    </div>
+                                    <input type="number" id="budget-savings" name="budgetSavings" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Emergency fund, goals</small>
+                                </div>
+
+                                <!-- Other -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(107, 114, 128, 0.08); border: 1px solid rgba(107, 114, 128, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">📦</span>
+                                        <label for="budget-other" style="color: #e8eef9; font-weight: 600; margin: 0;">Other</label>
+                                    </div>
+                                    <input type="number" id="budget-other" name="budgetOther" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Miscellaneous expenses</small>
+                                </div>
+
+                                <!-- Subscriptions -->
+                                <div class="budget-category-item" style="padding: 1rem; background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 8px;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                        <span style="font-size: 1.5rem;">🔄</span>
+                                        <label for="budget-subscriptions" style="color: #e8eef9; font-weight: 600; margin: 0;">Subscriptions</label>
+                                    </div>
+                                    <input type="number" id="budget-subscriptions" name="budgetSubscriptions" min="0" step="1" placeholder="$0" 
+                                           style="width: 100%; padding: 0.625rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px; color: #fff; font-size: 0.95rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.8rem;">Netflix, Spotify, etc.</small>
+                                </div>
+                            </div>
+
+                            <!-- Investment Budget Section -->
+                            <div style="margin-top: 1.5rem; padding: 1.25rem; background: rgba(74, 222, 128, 0.08); border: 1px solid rgba(74, 222, 128, 0.2); border-radius: 8px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <span style="font-size: 1.75rem;">📈</span>
+                                        <div>
+                                            <h4 style="color: #4ade80; margin: 0 0 0.25rem 0; font-size: 1rem; font-weight: 600;">Investment Budget</h4>
+                                            <p style="color: rgba(139, 192, 223, 0.85); margin: 0; font-size: 0.85rem;">How much do you plan to invest monthly?</p>
+                                        </div>
+                                    </div>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none;">
+                                        <input type="checkbox" id="skip-investing-budget" style="width: 18px; height: 18px; cursor: pointer;" onchange="toggleInvestingBudget()">
+                                        <span style="color: rgba(139, 192, 223, 0.85); font-size: 0.9rem;">Skip</span>
+                                    </label>
+                                </div>
+                                
+                                <div id="investing-budget-container">
+                                    <input type="number" id="budget-investing" name="budgetInvesting" min="0" step="1" placeholder="Enter monthly investment amount" 
+                                           style="width: 100%; padding: 0.75rem 1rem; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 6px; color: #fff; font-size: 1rem;">
+                                    <small style="color: rgba(139, 192, 223, 0.75); font-size: 0.85rem; display: block; margin-top: 0.5rem;">
+                                        <i class="fas fa-lightbulb"></i> Tip: Financial experts recommend investing 15-20% of your income for long-term wealth building
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Budget Total Summary -->
+                            <div id="budget-total-display" style="margin-top: 1.5rem; padding: 1.25rem; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(102, 126, 234, 0.15)); border: 2px solid rgba(0, 212, 255, 0.3); border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                    <span style="font-weight: 600; color: #00d4ff; font-size: 1.05rem;"><i class="fas fa-calculator"></i> Total Budgeted:</span>
+                                    <span id="budget-total-amount" style="font-size: 1.5rem; font-weight: 700; color: #00d4ff;">$0</span>
+                                </div>
+                                <div id="budget-comparison" style="padding-top: 0.75rem; border-top: 1px solid rgba(0, 212, 255, 0.2); display: none;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="color: rgba(139, 192, 223, 0.85); font-size: 0.9rem;">Monthly Income:</span>
+                                        <span id="budget-income-display" style="color: rgba(255, 255, 255, 0.9); font-weight: 600;">$0</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                                        <span style="color: rgba(139, 192, 223, 0.85); font-size: 0.9rem;">Remaining:</span>
+                                        <span id="budget-remaining-display" style="font-weight: 700; font-size: 1.1rem;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     </div>
 

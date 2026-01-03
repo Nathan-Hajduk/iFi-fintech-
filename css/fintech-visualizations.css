@@ -1,0 +1,831 @@
+/**
+ * iFi Fintech Visualizations - Billion Dollar UI/UX
+ * Consistent dark theme with light blue accents across all pages
+ * Modern animations and transitions
+ */
+
+:root {
+    --primary-blue: #00d4ff;
+    --dark-bg: #0a0e27;
+    --card-bg: #141a2e;
+    --card-hover: #1c2438;
+    --text-primary: #e8eef9;
+    --text-secondary: #b8c5d9;
+    --success: #66bb6a;
+    --warning: #ffa726;
+    --danger: #ef5350;
+    --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    --gradient-success: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+    --gradient-danger: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
+    --shadow-sm: 0 2px 8px rgba(0, 212, 255, 0.1);
+    --shadow-md: 0 4px 16px rgba(0, 212, 255, 0.15);
+    --shadow-lg: 0 8px 32px rgba(0, 212, 255, 0.2);
+}
+
+/* Force dark theme - override any white backgrounds */
+body, main, section, div {
+    background-color: var(--dark-bg) !important;
+}
+
+/* Ensure cards are dark */
+.card, .metric-card, .budget-metric-card, .nw-card, .asset-card, .debt-card,
+.category-card, .subscription-card, .goal-recommendation, .investment-card,
+.insight-card, .expense-card {
+    background: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Chart containers - small height, wide */
+.chart-container, #cashFlowChart, #netWorthChart {
+    height: 200px !important;
+    max-height: 200px !important;
+    width: 100% !important;
+    margin: 1rem 0;
+}
+
+canvas {
+    max-height: 200px !important;
+    background: var(--card-bg) !important;
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+/* Global Animations */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes zoom-in {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse-animation {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: var(--shadow-md);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+@keyframes glow-effect {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
+    }
+}
+
+.fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+}
+
+.slide-up {
+    animation: slide-up 0.6s ease-out forwards;
+}
+
+.slide-left {
+    animation: slide-left 0.6s ease-out forwards;
+}
+
+.zoom-in {
+    animation: zoom-in 0.5s ease-out forwards;
+}
+
+.pulse-animation {
+    animation: pulse-animation 2s ease-in-out infinite;
+}
+
+.glow-effect {
+    animation: glow-effect 3s ease-in-out infinite;
+}
+
+/* ==================== BUDGET PAGE ==================== */
+.budget-hero {
+    margin-bottom: 3rem;
+}
+
+.budget-hero h1 {
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+.budget-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.budget-metric-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.budget-metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-blue);
+}
+
+.budget-metric-card .metric-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.budget-metric-card .metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.budget-metric-card .metric-label {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.budget-metric-card.positive .metric-value {
+    color: var(--success);
+}
+
+.budget-metric-card.negative .metric-value {
+    color: var(--danger);
+}
+
+.expense-breakdown-section,
+.subscriptions-section {
+    margin: 3rem 0;
+}
+
+.expense-breakdown-section h2,
+.subscriptions-section h2 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+}
+
+.cat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.cat-icon {
+    font-size: 1.75rem;
+}
+
+.cat-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.cat-amount {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+}
+
+.cat-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.cat-fill {
+    height: 100%;
+    transition: width 1s ease-out;
+    border-radius: 4px;
+}
+
+.cat-percent {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.subscriptions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.subscription-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.subscription-card:hover {
+    transform: scale(1.05);
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+}
+
+.sub-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.sub-details h4 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.sub-cost {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.sub-cost span {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ==================== NET WORTH PAGE ==================== */
+.networth-hero {
+    margin-bottom: 3rem;
+}
+
+.networth-hero h1 {
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+.networth-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.nw-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.nw-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-lg);
+}
+
+.nw-card.primary {
+    background: var(--gradient-primary);
+    border: none;
+}
+
+.nw-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.nw-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.nw-value.positive {
+    color: var(--success);
+}
+
+.nw-value.negative {
+    color: var(--danger);
+}
+
+.nw-card.primary .nw-value {
+    color: white;
+}
+
+.nw-label {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.nw-card.primary .nw-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.nw-subtext {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.nw-card.primary .nw-subtext {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.assets-section,
+.debts-section {
+    margin: 3rem 0;
+}
+
+.assets-section h2,
+.debts-section h2 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.section-desc {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.assets-grid,
+.debts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.asset-card,
+.debt-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.asset-card:hover,
+.debt-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+}
+
+.asset-header,
+.debt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.asset-header h3,
+.debt-header h3 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.asset-type,
+.debt-rate {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--primary-blue);
+}
+
+.asset-value,
+.debt-balance {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.asset-value {
+    color: var(--success);
+}
+
+.debt-balance {
+    color: var(--danger);
+}
+
+.asset-bar,
+.debt-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.asset-fill,
+.debt-fill {
+    height: 100%;
+    transition: width 1s ease-out;
+    border-radius: 4px;
+}
+
+.asset-percent,
+.debt-percent {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.debt-payment {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* ==================== GOALS PAGE ==================== */
+.goals-hero {
+    margin-bottom: 3rem;
+}
+
+.goals-hero h1 {
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+.goals-insight-card {
+    background: var(--gradient-primary);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.insight-icon {
+    font-size: 3rem;
+}
+
+.insight-content h3 {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.insight-content p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+}
+
+.recommended-goals-section {
+    margin: 3rem 0;
+}
+
+.recommended-goals-section h2 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+.goals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.goal-recommendation {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.goal-recommendation:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-lg);
+}
+
+.goal-rec-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.goal-rec-icon {
+    font-size: 2.5rem;
+}
+
+.goal-rec-header h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+}
+
+.goal-rec-target {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+}
+
+.goal-rec-desc {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.goal-rec-timeline {
+    padding: 1rem;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 8px;
+    color: var(--primary-blue);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.savings-insights-section {
+    margin: 3rem 0;
+}
+
+.savings-insights-section h2 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+.insights-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.insight-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.insight-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+}
+
+.insight-card.positive {
+    border-color: var(--success);
+}
+
+.insight-card.warning {
+    border-color: var(--warning);
+}
+
+.insight-card.info {
+    border-color: var(--primary-blue);
+}
+
+.insight-card.success {
+    border-color: var(--success);
+}
+
+.insight-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.insight-emoji {
+    font-size: 2rem;
+}
+
+.insight-header h3 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.insight-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+}
+
+.insight-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ==================== INVESTMENTS PAGE ==================== */
+.investment-overview {
+    margin-bottom: 3rem;
+}
+
+.investment-overview h2 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+.portfolio-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.investment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.investment-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.investment-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+}
+
+.investment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.investment-header h3 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.investment-type {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--primary-blue);
+}
+
+.investment-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 0.5rem;
+}
+
+.investment-percentage {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* ==================== TRANSACTIONS PAGE ==================== */
+.expense-summary-section {
+    margin-bottom: 3rem;
+}
+
+.expense-summary-section h2 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+.overview-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.metric-card.income {
+    border-color: var(--success);
+}
+
+.metric-card.expenses {
+    border-color: var(--danger);
+}
+
+.metric-card.subscriptions {
+    border-color: var(--warning);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 768px) {
+    .budget-cards-grid,
+    .networth-cards,
+    .categories-grid,
+    .assets-grid,
+    .debts-grid,
+    .goals-grid,
+    .insights-cards,
+    .investment-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .budget-hero h1,
+    .networth-hero h1,
+    .goals-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .nw-value,
+    .goal-rec-target {
+        font-size: 2rem;
+    }
+}
+
+/* ==================== SMOOTH TRANSITIONS ==================== */
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}

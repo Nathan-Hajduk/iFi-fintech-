@@ -1,7 +1,57 @@
-// Transactions Page Logic
+/**
+ * Transactions Page - Expense & Income Tracking
+ * Senior Developer Implementation for iFi Fintech
+ */
 
 // Initialize data
 let transactions = JSON.parse(localStorage.getItem('ifi_transactions')) || [];
+
+document.addEventListener('DOMContentLoaded', async function() {
+    await loadOnboardingTransactions();
+});
+
+async function loadOnboardingTransactions() {
+    try {
+        const expenses = await onboardingDataService.getExpenses();
+        const subscriptions = await onboardingDataService.getSubscriptions();
+        const income = await onboardingDataService.getMonthlyIncome();
+        
+        displayExpenseSummary(expenses, subscriptions, income);
+    } catch (error) {
+        console.error('❌ Error loading transaction data:', error);
+    }
+}
+
+function displayExpenseSummary(expenses, subscriptions, income) {
+    const container = document.querySelector('.summary-cards') || document.querySelector('main');
+    const totalExpenses = Object.values(expenses).reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
+    const subTotal = subscriptions.reduce((sum, sub) => sum + (parseFloat(sub.cost) || 0), 0);
+    
+    const summaryHTML = `
+        <div class="expense-summary-section">
+            <h2>💳 Monthly Financial Overview</h2>
+            <div class="overview-metrics">
+                <div class="metric-card income">
+                    <div class="metric-icon">💵</div>
+                    <div class="metric-value">$${income.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                    <div class="metric-label">Monthly Income</div>
+                </div>
+                <div class="metric-card expenses">
+                    <div class="metric-icon">🛒</div>
+                    <div class="metric-value">$${totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                    <div class="metric-label">Total Expenses</div>
+                </div>
+                <div class="metric-card subscriptions">
+                    <div class="metric-icon">🔄</div>
+                    <div class="metric-value">$${subTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                    <div class="metric-label">Subscriptions</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    container.insertAdjacentHTML('afterbegin', summaryHTML);
+}
 
 // DOM Elements
 const modal = document.getElementById('transactionModal');

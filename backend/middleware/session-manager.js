@@ -39,6 +39,8 @@ async function createSession(userId, accessToken, refreshToken, req, expiresAt) 
  */
 async function validateSession(accessToken) {
   try {
+    console.log('🔍 Validating session in database...');
+    
     // Update last_used_at and get session
     const result = await db.query(`
       UPDATE user_sessions
@@ -48,9 +50,27 @@ async function validateSession(accessToken) {
       RETURNING *
     `, [accessToken]);
     
+    if (result.rows[0]) {
+      console.log('✅ Session found in database for user:', result.rows[0].user_id);
+    } else {
+      console.log('❌ No valid session found in database');
+      // Check if session exists but is expired
+      const expiredCheck = await db.query(`
+        SELECT session_id, user_id, expires_at, expires_at < NOW() as is_expired
+        FROM user_sessions
+        WHERE access_token = $1
+        LIMIT 1
+      `, [accessToken]);
+      if (expiredCheck.rows[0]) {
+        console.log('⚠️  Session exists but expired:', expiredCheck.rows[0]);
+      } else {
+        console.log('⚠️  Session does not exist in database at all');
+      }
+    }
+    
     return result.rows[0] || null;
   } catch (error) {
-    console.error('Validate session error:', error);
+    console.error('❌ Validate session error:', error);
     return null;
   }
 }
@@ -96,6 +116,31 @@ async function updateSession(sessionId, newAccessToken, expiresAt) {
     return result.rows[0];
   } catch (error) {
     console.error('Update session error:', error);
+    throw error;
+  }
+}
+
+/**
+ * Update session by refresh token (for token refresh)
+ * @param {string} refreshToken - Refresh token
+ * @param {string} newAccessToken - New access token
+ * @param {Date} expiresAt - New expiration date
+ * @returns {Promise<Object>} Updated session
+ */
+async function updateSessionByRefreshToken(refreshToken, newAccessToken, expiresAt) {
+  try {
+    const result = await db.query(`
+      UPDATE user_sessions
+      SET access_token = $1,
+          expires_at = $2,
+          last_used_at = NOW()
+      WHERE refresh_token = $3
+      RETURNING *
+    `, [newAccessToken, expiresAt, refreshToken]);
+    
+    return result.rows[0];
+  } catch (error) {
+    console.error('Update session by refresh token error:', error);
     throw error;
   }
 }
@@ -190,6 +235,7 @@ module.exports = {
   validateSession,
   getSessionByRefreshToken,
   updateSession,
+  updateSessionByRefreshToken,
   deleteSession,
   deleteAllUserSessions,
   getUserSessions,
