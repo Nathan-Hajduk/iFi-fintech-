@@ -6,6 +6,14 @@
 .env.*
 backend/.env
 backend/.env.*
+**/*.env
+
+# API Keys and Credentials (CRITICAL)
+**/PRODUCTION_DATABASE_ACCESS.md
+**/production-db*
+**/*credentials*
+**/*secrets*
+**/config/production*
 
 # Node modules
 node_modules/
@@ -38,6 +46,8 @@ Thumbs.db
 # Database credentials and sensitive scripts
 backend/scripts/VIEW_DATABASE.bat
 backend/scripts/*production-db*
+backend/scripts/connect-production-db.*
+backend/scripts/setup-database-complete.*
 
 # Build outputs
 dist/
@@ -54,3 +64,6 @@ test-results/
 *.tmp
 *.temp
 *~
+
+# Git filter-branch backup
+.git/refs/original/

@@ -2,20 +2,25 @@
 // Uses free APIs: Alpha Vantage (stocks) and NewsAPI (business news)
 
 // API Configuration (Free tier limits apply)
+// IMPORTANT: Get your own API keys from the respective services
+// Store them in environment variables or a config file (NOT committed to git)
 const API_CONFIG = {
     // Alpha Vantage for real-time stock data (500 requests/day free)
+    // Get your key from: https://www.alphavantage.co/support/#api-key
     stocks: {
-        apiKey: 'TSN6D01DO3LXRGB6',
+        apiKey: process.env.ALPHA_VANTAGE_KEY || 'YOUR_ALPHA_VANTAGE_KEY_HERE',
         baseURL: 'https://www.alphavantage.co/query'
     },
     // NewsAPI for business news (100 requests/day free)
+    // Get your key from: https://newsapi.org/register
     news: {
-        apiKey: '1f433c2798f54b7ab0b4a1a7026b1151', // Replace with your key from: https://newsapi.org/register
+        apiKey: process.env.NEWS_API_KEY || 'YOUR_NEWS_API_KEY_HERE',
         baseURL: 'https://newsapi.org/v2'
     },
     // Finnhub as backup for stocks (60 requests/minute free)
+    // Get your key from: https://finnhub.io/register
     finnhub: {
-        apiKey: 'd54bb3pr01qlj84c1g40d54bb3pr01qlj84c1g4g', // Replace with your key from: https://finnhub.io/register
+        apiKey: process.env.FINNHUB_API_KEY || 'YOUR_FINNHUB_KEY_HERE',
         baseURL: 'https://finnhub.io/api/v1'
     }
 };
