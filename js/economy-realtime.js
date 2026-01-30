@@ -304,13 +304,13 @@ async function loadBusinessNews() {
     }
 }
 
-// Display news articles
+// Display news articles with modal functionality
 function displayNewsArticles(articles) {
     const newsContainer = document.getElementById('news-container');
     if (!newsContainer) return;
     
-    const newsHTML = articles.map(article => `
-        <article class="news-card" data-category="${article.source.name}">
+    const newsHTML = articles.map((article, index) => `
+        <article class="news-card" data-category="${article.source.name}" onclick="openNewsModal(${index})">
             <div class="news-image" style="background-image: url('${article.urlToImage || '/images/placeholder-news.jpg'}')"></div>
             <div class="news-content">
                 <div class="news-meta">
@@ -319,14 +319,70 @@ function displayNewsArticles(articles) {
                 </div>
                 <h3 class="news-title">${sanitizeHTML(article.title)}</h3>
                 <p class="news-description">${sanitizeHTML(article.description || 'No description available')}</p>
-                <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="news-link">
-                    Read More <i class="fas fa-external-link-alt"></i>
-                </a>
+                <button class="news-read-more-btn">
+                    Read Full Story <i class="fas fa-arrow-right"></i>
+                </button>
             </div>
         </article>
     `).join('');
     
     newsContainer.innerHTML = newsHTML;
+    
+    // Store articles globally for modal access
+    window.currentNewsArticles = articles;
+}
+
+// Open news story modal
+function openNewsModal(articleIndex) {
+    const article = window.currentNewsArticles[articleIndex];
+    if (!article) return;
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'news-modal-overlay';
+    modal.innerHTML = `
+        <div class="news-modal-content">
+            <div class="news-modal-header">
+                <div class="news-modal-meta">
+                    <span class="news-modal-source">${sanitizeHTML(article.source.name)}</span>
+                    <span class="news-modal-time">${getTimeAgo(article.publishedAt)}</span>
+                </div>
+                <button class="news-modal-close" onclick="closeNewsModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            ${article.urlToImage ? `<div class="news-modal-image" style="background-image: url('${article.urlToImage}')"></div>` : ''}
+            <div class="news-modal-body">
+                <h2 class="news-modal-title">${sanitizeHTML(article.title)}</h2>
+                <p class="news-modal-description">${sanitizeHTML(article.description || 'No description available')}</p>
+                ${article.content ? `<p class="news-modal-content">${sanitizeHTML(article.content)}</p>` : ''}
+                <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="news-modal-external-link">
+                    <i class="fas fa-external-link-alt"></i> Read full article at ${article.source.name}
+                </a>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Animate in
+    setTimeout(() => modal.classList.add('active'), 10);
+    
+    // Close on overlay click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeNewsModal();
+        }
+    });
+}
+
+// Close news modal
+function closeNewsModal() {
+    const modal = document.querySelector('.news-modal-overlay');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => modal.remove(), 300);
+    }
 }
 
 // Display mock news (when API not configured)

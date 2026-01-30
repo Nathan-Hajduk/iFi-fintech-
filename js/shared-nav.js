@@ -15,8 +15,8 @@ const NAV_CONFIG = {
         { id: 'ifi-ai', name: 'iFi AI', icon: 'fa-robot', href: 'ifi-ai.html' }
     ],
     userMenuItems: [
-        { name: 'Profile', icon: 'fa-user', href: 'settings.html' },
         { name: 'Settings', icon: 'fa-cog', href: 'settings.html' },
+        { name: 'Contact', icon: 'fa-envelope', href: 'contact-us.html' },
         { name: 'Help', icon: 'fa-question-circle', href: 'feedback.html' }
     ]
 };

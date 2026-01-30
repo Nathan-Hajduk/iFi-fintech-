@@ -1,12 +1,23 @@
-# iFi Project - Git Ignore
-# Exclude sensitive and system files
+# ===================================
+# iFi - Git Ignore Configuration
+# Excludes sensitive and unnecessary files
+# ===================================
 
-# Environment variables (CRITICAL - NEVER COMMIT)
+# ===================================
+# SENSITIVE FILES - NEVER COMMIT
+# ===================================
+
+# Environment variables (contains API keys, secrets, passwords)
 .env
 .env.*
 backend/.env
 backend/.env.*
 **/*.env
+*.env
+
+# Backup environment files
+.env.backup
+.env.old
 
 # API Keys and Credentials (CRITICAL)
 **/PRODUCTION_DATABASE_ACCESS.md
@@ -15,39 +26,178 @@ backend/.env.*
 **/*secrets*
 **/config/production*
 
-# Node modules
-node_modules/
-backend/node_modules/
-
-# Logs
-logs/
-*.log
-backend/logs/
-
-# System files
-desktop.ini
-.DS_Store
-Thumbs.db
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Windows shortcuts
-*.lnk
-
-# Demo videos and large media
-*.mp4
-*.mov
-*.avi
-
 # Database credentials and sensitive scripts
 backend/scripts/VIEW_DATABASE.bat
 backend/scripts/*production-db*
 backend/scripts/connect-production-db.*
 backend/scripts/setup-database-complete.*
+
+# ===================================
+# NODE.JS / NPM
+# ===================================
+
+# Dependencies
+node_modules/
+backend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# ===================================
+# LOGS
+# ===================================
+
+logs/
+backend/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.npm
+.yarn-integrity
+
+# ===================================
+# DATABASE
+# ===================================
+
+# Database files (if using SQLite locally)
+*.db
+*.sqlite
+*.sqlite3
+
+# Database dumps (may contain sensitive data)
+*.sql.backup
+*.dump
+backup/
+
+# ===================================
+# IDE / EDITOR
+# ===================================
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+.history/
+
+# JetBrains IDEs (WebStorm, IntelliJ, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ===================================
+# OPERATING SYSTEM
+# ===================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# ===================================
+# TEMPORARY FILES
+# ===================================
+
+*.tmp
+*.temp
+*.bak
+*.cache
+.cache/
+
+# ===================================
+# BUILD / DIST
+# ===================================
+
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vuepress/dist
+
+# ===================================
+# TESTING
+# ===================================
+
+coverage/
+.nyc_output/
+*.lcov
+
+# ===================================
+# MEDIA FILES
+# ===================================
+
+# Demo videos and large media
+*.mp4
+*.mov
+*.avi
+*.webm
+
+# ===================================
+# MISC
+# ===================================
+
+# Old backups folder (may contain sensitive data)
+OLD_BACKUPS/
+
+# Personal notes
+NOTES.md
+TODO_PRIVATE.md
+
+# Certificates and keys
+*.pem
+*.key
+*.cert
+*.crt
+
+# ===================================
+# KEEP THESE (Public info)
+# ===================================
+
+# README files are public
+!README.md
+!**/README.md
+
+# Documentation is public
+!docs/**/*.md
+
+# Example/template files are public
+!.env.example
+!.env.template
+
+# SQL schema files (structure only, no data)
+!backend/scripts/init-database.js
+!backend/scripts/init-database-enhanced.js
 
 # Build outputs
 dist/

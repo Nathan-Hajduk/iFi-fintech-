@@ -45,19 +45,19 @@ const EXPENSE_ICONS = {
     other: '📦'
 };
 
-// Expense category colors for charts
+// Expense category colors for charts - enhanced for clear differentiation
 const CATEGORY_COLORS = {
-    housing: '#667eea',
-    utilities: '#f59e0b',
-    food: '#10b981',
-    transportation: '#3b82f6',
-    insurance: '#8b5cf6',
-    healthcare: '#ef4444',
-    entertainment: '#ec4899',
-    shopping: '#14b8a6',
-    debt: '#f97316',
-    savings: '#06b6d4',
-    other: '#6b7280'
+    housing: '#667eea',      // Purple-blue
+    utilities: '#f59e0b',    // Orange
+    food: '#10b981',         // Green
+    transportation: '#3b82f6', // Blue
+    insurance: '#8b5cf6',    // Purple
+    healthcare: '#ef4444',   // Red
+    entertainment: '#ec4899', // Pink
+    shopping: '#14b8a6',     // Teal
+    debt: '#f97316',         // Dark orange
+    savings: '#06b6d4',      // Cyan
+    other: '#94a3b8'         // Gray-blue
 };
 
 //
@@ -86,7 +86,7 @@ async function initializeVisualizations() {
         renderIncomeBreakdown(onboardingData);
         renderCashFlowVisualization(onboardingData);
         renderMonthlyExpenses(onboardingData);
-        renderBudgetPieChart(onboardingData);
+        renderDualPieCharts(onboardingData);
         renderSubscriptionsList(onboardingData);
         renderIncomeVsExpensesChart(onboardingData);
         renderFinancialHealthScore(onboardingData);
@@ -98,6 +98,58 @@ async function initializeVisualizations() {
         console.error('❌ Error initializing visualizations:', error);
     }
 }
+
+/**
+ * Refresh all visualizations with latest data
+ * Call this after user updates any financial information
+ */
+async function refreshDashboardVisualizations() {
+    console.log('🔄 Refreshing dashboard visualizations...');
+    
+    try {
+        // Force reload from backend
+        const response = await fetch(`${API_URL}/api/user/onboarding-data`, {
+            credentials: 'include',
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch updated data');
+        }
+        
+        const data = await response.json();
+        console.log('📊 Updated data received:', data);
+        
+        // Re-render all visualizations
+        renderIncomeBreakdown(data);
+        renderCashFlowVisualization(data);
+        renderMonthlyExpenses(data);
+        renderDualPieCharts(data);
+        renderSubscriptionsList(data);
+        renderIncomeVsExpensesChart(data);
+        renderFinancialHealthScore(data);
+        renderPersonalizedRecommendations(data);
+        
+        console.log('✅ Dashboard refreshed successfully');
+        
+        // Show success notification if available
+        if (typeof showNotification === 'function') {
+            showNotification('Dashboard updated with your latest information', 'success');
+        }
+        
+    } catch (error) {
+        console.error('❌ Error refreshing dashboard:', error);
+        if (typeof showNotification === 'function') {
+            showNotification('Error updating dashboard. Please refresh the page.', 'error');
+        }
+    }
+}
+
+// Make refresh function globally available
+window.refreshDashboardVisualizations = refreshDashboardVisualizations;
 
 /**
  * Fetch onboarding data from backend
@@ -176,7 +228,7 @@ function renderCashFlowVisualization(data) {
         <div class="cash-flow-visual cash-flow-${cashFlowLevel}">
             ${generateFloatingDollarBills(dollarBillCount)}
             <div class="money-container">
-                <div class="cash-flow-amount">Monthly Cash Flow</div>
+                <div class="cash-flow-amount">${cashFlow >= 0 ? '+' : ''}$${Math.abs(cashFlow).toLocaleString()}</div>
             </div>
             ${generateDebtHand(expenses)}
         </div>
@@ -327,9 +379,10 @@ function renderIncomeBreakdown(data) {
     `;
 }
 
-// Global variable to store the chart instance
+// Global variables for chart management
 let incomeExpensesChartInstance = null;
 let monthlyFinancialData = [];
+let currentChartPeriod = 'year';
 
 /**
  * Render Interactive Income vs Expenses Line Chart
@@ -353,29 +406,11 @@ async function renderIncomeVsExpensesChart(data) {
     // Load historical adjustments from backend
     await loadMonthlyFinancials();
     
-    // Generate 12-month data with adjustments
+    // Generate data based on current period (year or month)
     const { labels, incomeData, expenseData } = generateChartData(baseIncome, baseExpenses);
     
-    // Create interactive chart controls
-    const controlsHTML = `
-        <div class="chart-controls">
-            <div class="chart-header-row">
-                <h4><i class="fas fa-chart-line"></i> Income vs Expenses Trend</h4>
-                <button class="edit-chart-btn" onclick="openMonthEditModal()" title="Edit monthly data">
-                    <i class="fas fa-edit"></i> Edit Data
-                </button>
-            </div>
-            <div class="chart-info">
-                <span class="info-badge">
-                    <i class="fas fa-info-circle"></i>
-                    Click "Edit Data" to adjust income/expenses for specific months
-                </span>
-            </div>
-        </div>
-        <canvas id="incomeExpenseLineChart" style="max-height: 300px;"></canvas>
-    `;
-    
-    container.innerHTML = controlsHTML;
+    // Create canvas for chart
+    container.innerHTML = `<canvas id="incomeExpenseLineChart" style="height: 100%;"></canvas>`;
     
     const canvas = document.getElementById('incomeExpenseLineChart');
     const ctx = canvas.getContext('2d');
@@ -504,25 +539,43 @@ function generateChartData(baseIncome, baseExpenses) {
     const incomeData = [];
     const expenseData = [];
     
-    // Generate last 12 months
-    for (let i = 11; i >= 0; i--) {
-        const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-        const monthName = date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+    if (currentChartPeriod === 'year') {
+        // Generate last 12 months
+        for (let i = 11; i >= 0; i--) {
+            const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            const monthName = date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+            
+            labels.push(monthName);
+            
+            // Check if this month has custom data
+            const customData = monthlyFinancialData.find(d => d.month === month && d.year === year);
+            
+            if (customData) {
+                incomeData.push(parseFloat(customData.income));
+                expenseData.push(parseFloat(customData.expenses));
+            } else {
+                // Use base values with slight variation for realism
+                incomeData.push(baseIncome);
+                expenseData.push(baseExpenses * (0.95 + Math.random() * 0.1));
+            }
+        }
+    } else {
+        // Generate last 30 days
+        const dailyIncome = baseIncome / 30;
+        const dailyExpenses = baseExpenses / 30;
         
-        labels.push(monthName);
-        
-        // Check if this month has custom data
-        const customData = monthlyFinancialData.find(d => d.month === month && d.year === year);
-        
-        if (customData) {
-            incomeData.push(parseFloat(customData.income));
-            expenseData.push(parseFloat(customData.expenses));
-        } else {
-            // Use base values with slight variation for realism
-            incomeData.push(baseIncome);
-            expenseData.push(baseExpenses * (0.95 + Math.random() * 0.1));
+        for (let i = 29; i >= 0; i--) {
+            const date = new Date(currentDate);
+            date.setDate(date.getDate() - i);
+            const dayLabel = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            
+            labels.push(dayLabel);
+            
+            // Add realistic daily variations
+            incomeData.push(dailyIncome * (0.8 + Math.random() * 0.4));
+            expenseData.push(dailyExpenses * (0.85 + Math.random() * 0.3));
         }
     }
     
@@ -638,19 +691,26 @@ function renderMonthlyExpenses(data) {
 function renderBudgetPieChart(data) {
     const container = document.getElementById('budgetPieContainer');
     
-    // Check if we have both expenses and budget data
-    if (!data.expenses || !data.budget) {
+    // Check if we have expenses data - if no budget, show expense pie chart instead
+    if (!data.expenses) {
         container.innerHTML = createMissingDataPrompt(
-            'No Budget Data',
-            'Complete your budget and expense information to track your spending',
+            'No Expense Data',
+            'Add your expenses to see spending breakdown',
             3,
-            'budget'
+            'expenses'
         );
         return;
     }
 
     try {
         const expenses = typeof data.expenses === 'string' ? JSON.parse(data.expenses) : data.expenses;
+        
+        // If no budget data, create a spending pie chart showing expense distribution
+        if (!data.budget) {
+            renderExpensePieChart(expenses, container);
+            return;
+        }
+        
         const budget = typeof data.budget === 'string' ? JSON.parse(data.budget) : data.budget;
 
         // Create comparison data for categories that have both budget and expenses
@@ -771,6 +831,221 @@ function createPieSlice(slice, cx, cy, radius) {
     ].join(' ');
     
     return `<path d="${pathData}" fill="${slice.color}" class="pie-slice" />`;
+}
+
+/**
+ * Render Dual Pie Charts - Budget Plan vs Actual Expenses
+ */
+function renderDualPieCharts(data) {
+    const budgetContainer = document.getElementById('budgetPlanPieContainer');
+    const budgetLegendContainer = document.getElementById('budgetPlanLegend');
+    const expensesContainer = document.getElementById('actualExpensesPieContainer');
+    const expensesLegendContainer = document.getElementById('actualExpensesLegend');
+    
+    // Check if we have budget data
+    let budget = {};
+    if (data.budget) {
+        try {
+            budget = typeof data.budget === 'string' ? JSON.parse(data.budget) : data.budget;
+        } catch (e) {
+            console.error('Error parsing budget:', e);
+        }
+    }
+    
+    // Check if we have expenses data
+    let expenses = {};
+    if (data.expenses) {
+        try {
+            expenses = typeof data.expenses === 'string' ? JSON.parse(data.expenses) : data.expenses;
+        } catch (e) {
+            console.error('Error parsing expenses:', e);
+        }
+    }
+    
+    // Render Budget Plan Pie Chart
+    if (Object.keys(budget).length > 0) {
+        renderSinglePieChart(budget, budgetContainer, budgetLegendContainer, 'budget');
+    } else {
+        budgetContainer.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">No budget plan yet</p>
+                <a href="onboarding.html?continue=true&step=3&section=budget" 
+                   style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #00d4ff, #667eea); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: transform 0.2s ease;">
+                    Complete Budget
+                </a>
+            </div>
+        `;
+        budgetLegendContainer.innerHTML = '';
+    }
+    
+    // Render Actual Expenses Pie Chart
+    if (Object.keys(expenses).length > 0) {
+        renderSinglePieChart(expenses, expensesContainer, expensesLegendContainer, 'expenses');
+    } else {
+        expensesContainer.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">💸</div>
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">No expense data yet</p>
+                <a href="onboarding.html?continue=true&step=3&section=expenses" 
+                   style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #00d4ff, #667eea); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: transform 0.2s ease;">
+                    Add Expenses
+                </a>
+            </div>
+        `;
+        expensesLegendContainer.innerHTML = '';
+    }
+}
+
+/**
+ * Render a single pie chart with legend
+ */
+function renderSinglePieChart(data, container, legendContainer, type) {
+    const filteredData = Object.entries(data)
+        .filter(([key, value]) => key !== 'investingSkipped' && parseFloat(value) > 0)
+        .map(([category, amount]) => ({
+            category,
+            amount: parseFloat(amount),
+            color: CATEGORY_COLORS[category] || '#6b7280',
+            icon: EXPENSE_ICONS[category] || '📦'
+        }))
+        .sort((a, b) => b.amount - a.amount);
+    
+    if (filteredData.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.6);">No data</p>';
+        return;
+    }
+    
+    const total = filteredData.reduce((sum, item) => sum + item.amount, 0);
+    
+    // Calculate pie slices
+    let currentAngle = -90;
+    const slices = filteredData.map(item => {
+        const percentage = (item.amount / total) * 100;
+        const angle = (percentage / 100) * 360;
+        const slice = {
+            ...item,
+            percentage,
+            startAngle: currentAngle,
+            endAngle: currentAngle + angle
+        };
+        currentAngle += angle;
+        return slice;
+    });
+    
+    // Create SVG pie chart
+    const svgSize = 250;
+    const radius = 100;
+    const cx = svgSize / 2;
+    const cy = svgSize / 2;
+    
+    const svgPaths = slices.map(slice => createPieSlice(slice, cx, cy, radius)).join('');
+    
+    container.innerHTML = `
+        <svg viewBox="0 0 ${svgSize} ${svgSize}" style="width: 100%; height: 100%;">
+            ${svgPaths}
+            <circle cx="${cx}" cy="${cy}" r="60" fill="rgba(10, 14, 39, 0.9)" />
+            <text x="${cx}" y="${cy - 10}" text-anchor="middle" fill="#00d4ff" font-size="24" font-weight="700">$${Math.round(total).toLocaleString()}</text>
+            <text x="${cx}" y="${cy + 15}" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="12">Total</text>
+        </svg>
+    `;
+    
+    // Create legend
+    legendContainer.innerHTML = slices.map(slice => `
+        <div class="legend-item">
+            <div class="legend-color" style="background: ${slice.color};"></div>
+            <span class="legend-label">${slice.icon} ${capitalize(slice.category)}</span>
+            <span class="legend-value">$${slice.amount.toLocaleString()}</span>
+        </div>
+    `).join('');
+}
+
+/**
+ * AI Brain Reveal Animation
+ */
+function revealAIRecommendations() {
+    const button = document.querySelector('.ai-brain-reveal-btn');
+    const content = document.getElementById('recommendationsContainer');
+    
+    if (!button || !content) return;
+    
+    // Add opening animation class
+    button.classList.add('opening');
+    
+    // After animation, hide button and show content
+    setTimeout(() => {
+        button.style.display = 'none';
+        content.classList.remove('hidden');
+        content.classList.add('revealed');
+        
+        // Scroll to recommendations
+        content.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 1200);
+}
+
+// Make function globally available
+window.revealAIRecommendations = revealAIRecommendations;
+
+/**
+ * Render Expense Pie Chart - Shows spending distribution by category
+ */
+function renderExpensePieChart(expenses, container) {
+    const expenseEntries = Object.entries(expenses)
+        .filter(([_, value]) => parseFloat(value) > 0)
+        .map(([category, amount]) => ({
+            category,
+            amount: parseFloat(amount),
+            icon: EXPENSE_ICONS[category] || '📦',
+            color: CATEGORY_COLORS[category] || '#6b7280'
+        }))
+        .sort((a, b) => b.amount - a.amount);
+    
+    if (expenseEntries.length === 0) {
+        container.innerHTML = createMissingDataPrompt(
+            'No Expense Data',
+            'Add your expenses to see spending breakdown',
+            3,
+            'expenses'
+        );
+        return;
+    }
+    
+    const total = expenseEntries.reduce((sum, entry) => sum + entry.amount, 0);
+    
+    container.innerHTML = `
+        <div style="padding: 1rem;">
+            <h4 style="color: #00d4ff; margin: 0 0 1.5rem 0; text-align: center;">
+                <i class="fas fa-chart-pie"></i> Spending Breakdown
+            </h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+                ${expenseEntries.map(entry => {
+                    const percentage = (entry.amount / total * 100).toFixed(1);
+                    return `
+                        <div style="flex: 0 0 calc(50% - 0.5rem); background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.1); border-radius: 8px; padding: 1rem; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">${entry.icon}</div>
+                            <div style="color: #00d4ff; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">
+                                ${capitalize(entry.category)}
+                            </div>
+                            <div style="color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem;">
+                                $${entry.amount.toLocaleString()}
+                            </div>
+                            <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.85rem;">
+                                ${percentage}% of total
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem; padding: 1rem; background: rgba(0, 212, 255, 0.1); border-radius: 8px;">
+                <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 0.25rem;">
+                    Total Monthly Spending
+                </div>
+                <div style="color: #00d4ff; font-size: 1.5rem; font-weight: 700;">
+                    $${total.toLocaleString()}
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 /**
@@ -1493,9 +1768,22 @@ async function saveMonthlyData() {
         const result = await response.json();
         
         if (result.success) {
-            // Reload data and refresh chart
+            // Reload data and refresh all affected visualizations
             await loadMonthlyFinancials();
-            await refreshIncomeVsExpensesChart();
+            
+            // Fetch latest onboarding data to update all visualizations
+            const response = await fetch(`${API_URL}/api/user/onboarding-data`, {
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                const freshData = await response.json();
+                // Refresh all visualizations that use income/expense data
+                await renderIncomeVsExpensesChart(freshData);
+                renderCashFlowVisualization(freshData);
+                renderPersonalizedRecommendations(freshData);
+            }
+            
             displayExistingAdjustments();
             clearModalForm();
             
@@ -1617,12 +1905,39 @@ function getMonthName(monthNum) {
 }
 
 /**
- * Refresh the income vs expenses chart
+ * Refresh the income vs expenses chart with latest data
  */
 async function refreshIncomeVsExpensesChart() {
-    const userData = JSON.parse(localStorage.getItem('ifi_user') || '{}');
-    const onboardingData = userData.onboarding_data || {};
-    await renderIncomeVsExpensesChart(onboardingData);
+    try {
+        // Fetch fresh data from backend
+        const response = await fetch(`${API_URL}/api/user/onboarding-data`, {
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            const onboardingData = await response.json();
+            await renderIncomeVsExpensesChart(onboardingData);
+        } else {
+            console.error('Failed to fetch data for chart refresh');
+        }
+    } catch (error) {
+        console.error('Error refreshing income vs expenses chart:', error);
+    }
+}
+
+/**
+ * Switch chart period between year and month view
+ */
+async function switchChartPeriod(period) {
+    currentChartPeriod = period;
+    
+    // Update button states
+    document.querySelectorAll('.period-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.period === period);
+    });
+    
+    // Refresh chart with new period
+    await refreshIncomeVsExpensesChart();
 }
 
 /**
@@ -1738,7 +2053,8 @@ function renderPersonalizedRecommendations(data) {
     const container = document.getElementById('recommendationsContainer');
     if (!container) return;
     
-    if (!data || !data.monthly_takehome || !data.expenses) {
+    // Check if we have any financial data at all
+    if (!data || !data.monthly_takehome) {
         container.innerHTML = createMissingDataPrompt(
             'No Recommendations Yet',
             'Complete your financial profile to get personalized recommendations',
@@ -1749,13 +2065,20 @@ function renderPersonalizedRecommendations(data) {
 
     const recommendations = generateRecommendationsFromData(data);
     
+    // Store recommendations but don't show them yet (user will click the AI brain button)
     if (recommendations.length === 0) {
         container.innerHTML = `
-            <div style="text-align: center; padding: 2rem; color: rgba(255,255,255,0.6);">
-                <i class="fas fa-check-circle" style="font-size: 2.5rem; margin-bottom: 1rem; color: #10b981;"></i>
-                <p style="font-size: 1.1rem; margin: 0;">Great job! You're managing your finances well.</p>
+            <div style="padding: 2rem; text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+                <h4 style="color: #4ade80; margin: 0 0 0.5rem 0;">Great Job!</h4>
+                <p style="color: rgba(255,255,255,0.7); margin: 0;">You're managing your finances well. Keep it up!</p>
             </div>
         `;
+        // Auto-reveal if no recommendations
+        const button = document.querySelector('.ai-brain-reveal-btn');
+        if (button) button.style.display = 'none';
+        container.classList.remove('hidden');
+        container.classList.add('revealed');
         return;
     }
     
@@ -1788,13 +2111,47 @@ function renderPersonalizedRecommendations(data) {
 function generateRecommendationsFromData(data) {
     const recommendations = [];
     const monthlyIncome = parseFloat(data.monthly_takehome) || 0;
-    const expenses = typeof data.expenses === 'string' ? JSON.parse(data.expenses) : data.expenses;
-    const totalExpenses = Object.values(expenses || {}).reduce((sum, val) => sum + parseFloat(val || 0), 0);
+    
+    // Parse expenses safely
+    let expenses = {};
+    try {
+        expenses = (data.expenses && typeof data.expenses === 'string') ? JSON.parse(data.expenses) : (data.expenses || {});
+    } catch (e) {
+        console.error('Error parsing expenses for recommendations:', e);
+        expenses = {};
+    }
+    
+    const totalExpenses = Object.values(expenses).reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
     const netCashFlow = monthlyIncome - totalExpenses;
     
-    // Housing cost analysis
-    if (expenses.housing) {
-        const housingPercent = (expenses.housing / monthlyIncome) * 100;
+    // If no income data, suggest completing profile
+    if (monthlyIncome === 0) {
+        recommendations.push({
+            category: 'Getting Started',
+            priority: 'high',
+            icon: 'fa-rocket',
+            title: 'Complete Your Financial Profile',
+            description: 'Add your income and expenses to get personalized financial insights.',
+            action: 'Go to Settings → Onboarding to complete your financial profile.'
+        });
+        return recommendations;
+    }
+    
+    // If no expense data, suggest adding it
+    if (totalExpenses === 0) {
+        recommendations.push({
+            category: 'Track Expenses',
+            priority: 'medium',
+            icon: 'fa-receipt',
+            title: 'Start Tracking Your Expenses',
+            description: 'Add your monthly expenses to see where your money is going.',
+            action: 'Complete the expenses section in your onboarding to get detailed insights.'
+        });
+    }
+    
+    // Housing cost analysis (only if we have expense data)
+    if (expenses.housing && parseFloat(expenses.housing) > 0) {
+        const housingPercent = (parseFloat(expenses.housing) / monthlyIncome) * 100;
         if (housingPercent > 30) {
             recommendations.push({
                 category: 'Housing',
@@ -1808,29 +2165,43 @@ function generateRecommendationsFromData(data) {
         }
     }
     
-    // Savings recommendation
-    if (netCashFlow > 0 && netCashFlow < monthlyIncome * 0.20) {
-        recommendations.push({
-            category: 'Savings',
-            priority: 'medium',
-            icon: 'fa-piggy-bank',
-            title: 'Increase Savings Rate',
-            description: `You're saving ${((netCashFlow/monthlyIncome)*100).toFixed(1)}% of income. Aim for 20% or more.`,
-            action: 'Review your discretionary spending and automate savings transfers.',
-            potential: `Target: $${Math.round(monthlyIncome * 0.20)}/month`
-        });
+    // Savings recommendation (only if we have expense data)
+    if (totalExpenses > 0) {
+        if (netCashFlow > 0 && netCashFlow < monthlyIncome * 0.20) {
+            recommendations.push({
+                category: 'Savings',
+                priority: 'medium',
+                icon: 'fa-piggy-bank',
+                title: 'Increase Savings Rate',
+                description: `You're saving ${((netCashFlow/monthlyIncome)*100).toFixed(1)}% of income. Aim for 20% or more.`,
+                action: 'Review your discretionary spending and automate savings transfers.',
+                potential: `Target: $${Math.round(monthlyIncome * 0.20)}/month`
+            });
+        }
+        
+        // Negative cash flow
+        if (netCashFlow < 0) {
+            recommendations.push({
+                category: 'Budget',
+                priority: 'high',
+                icon: 'fa-exclamation-triangle',
+                title: 'Spending Exceeds Income',
+                description: `You're spending $${Math.abs(Math.round(netCashFlow))} more than you earn each month.`,
+                action: 'Review all expenses and identify areas to cut back immediately.',
+                potential: `Need to reduce spending by $${Math.abs(Math.round(netCashFlow))}/month`
+            });
+        }
     }
     
-    // Negative cash flow
-    if (netCashFlow < 0) {
+    // If user has good cash flow, give positive feedback
+    if (totalExpenses > 0 && netCashFlow >= monthlyIncome * 0.20) {
         recommendations.push({
-            category: 'Budget',
-            priority: 'high',
-            icon: 'fa-exclamation-triangle',
-            title: 'Spending Exceeds Income',
-            description: `You're spending $${Math.abs(Math.round(netCashFlow))} more than you earn each month.`,
-            action: 'Review all expenses and identify areas to cut back immediately.',
-            potential: `Need to reduce spending by $${Math.abs(Math.round(netCashFlow))}/month`
+            category: 'Great Work',
+            priority: 'low',
+            icon: 'fa-star',
+            title: 'Excellent Savings Rate!',
+            description: `You're saving ${((netCashFlow/monthlyIncome)*100).toFixed(1)}% of your income - that's fantastic!`,
+            action: 'Keep up the great work and consider increasing your investment contributions.'
         });
     }
     

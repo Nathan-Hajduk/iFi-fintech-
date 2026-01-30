@@ -1,252 +1,485 @@
 /**
- * Net Worth Page - Asset & Debt Visualization
- * Senior Developer Implementation for iFi Fintech
+ * Net Worth Dashboard
+ * Displays assets, liabilities, and net worth trends from onboarding data
  */
 
-async function initializeNetWorthPage() {
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', async function() {
     try {
-        console.log('📊 Initializing Net Worth Page...');
+        // Check if data exists
+        const hasData = await checkPageData('networth');
         
-        const data = await ifiPageInit.loadPageData('Net Worth');
-        if (!data) {
-            ifiPageInit.showNoDataMessage('Complete onboarding to track your net worth.');
+        if (!hasData) {
+            showCompleteOnboardingMessage(
+                'networth',
+                'assets',
+                'Build a complete picture of your financial health by tracking your assets and liabilities.'
+            );
             return;
         }
         
-        const assets = await onboardingDataService.getAssets();
-        const debts = await onboardingDataService.getDebts();
-        const totalAssets = await onboardingDataService.getTotalAssets();
-        const totalDebts = await onboardingDataService.getTotalDebts();
-        const netWorth = await onboardingDataService.getNetWorth();
-        
-        console.log('📊 Data loaded:', { assets, debts, totalAssets, totalDebts, netWorth });
-        
-        displayNetWorthOverview(netWorth, totalAssets, totalDebts);
-        displayAssetsBreakdown(assets, totalAssets);
-        displayDebtsBreakdown(debts, totalDebts);
+        // Load and display data
+        await loadNetWorthData();
     } catch (error) {
-        console.error('❌ Error initializing net worth:', error);
-        ifiPageInit.showNoDataMessage('Error loading net worth data.');
+        console.error('Error initializing net worth page:', error);
+        showError('Failed to load net worth data. Please try again later.');
+    }
+});
+
+/**
+ * Load and display net worth data from onboarding
+ */
+async function loadNetWorthData() {
+    const data = await fetchOnboardingDataFromBackend();
+    
+    if (!data) {
+        showCompleteOnboardingMessage('networth', 'assets', 'Get started by adding your financial information.');
+        return;
+    }
+    
+    // Parse assets
+    let assets = [];
+    if (data.assets) {
+        try {
+            assets = typeof data.assets === 'string' ? JSON.parse(data.assets) : data.assets;
+            if (!Array.isArray(assets)) assets = [];
+        } catch (e) {
+            console.error('Error parsing assets:', e);
+            assets = [];
+        }
+    }
+    
+    // Parse debts/liabilities
+    let liabilities = [];
+    if (data.debts) {
+        try {
+            liabilities = typeof data.debts === 'string' ? JSON.parse(data.debts) : data.debts;
+            if (!Array.isArray(liabilities)) liabilities = [];
+        } catch (e) {
+            console.error('Error parsing liabilities:', e);
+            liabilities = [];
+        }
+    }
+    
+    // Calculate totals
+    const totalAssets = assets.reduce((sum, asset) => sum + (parseFloat(asset.value) || 0), 0);
+    const totalLiabilities = liabilities.reduce((sum, debt) => sum + (parseFloat(debt.balance) || 0), 0);
+    const netWorth = totalAssets - totalLiabilities;
+    
+    // Update summary cards
+    updateSummaryCards(netWorth, totalAssets, totalLiabilities);
+    
+    // Render lists
+    renderAssetsList(assets);
+    renderLiabilitiesList(liabilities);
+    
+    // Create visualizations
+    renderNetWorthTrendChart(netWorth);
+    renderDebtRatioWidget(totalAssets, totalLiabilities);
+    
+    // Generate AI insights
+    generateAIInsights(netWorth, totalAssets, totalLiabilities, assets, liabilities);
+}
+
+/**
+ * Update summary cards with values
+ */
+function updateSummaryCards(netWorth, totalAssets, totalLiabilities) {
+    // Net worth with trend
+    const netWorthElement = document.getElementById('netWorth');
+    if (netWorthElement) {
+        netWorthElement.textContent = formatCurrency(netWorth);
+        netWorthElement.parentElement.parentElement.classList.add('fade-in');
+    }
+    
+    // Total assets
+    const assetsElement = document.getElementById('totalAssets');
+    if (assetsElement) {
+        assetsElement.textContent = formatCurrency(totalAssets);
+        assetsElement.parentElement.parentElement.classList.add('fade-in');
+    }
+    
+    // Total liabilities
+    const liabilitiesElement = document.getElementById('totalLiabilities');
+    if (liabilitiesElement) {
+        liabilitiesElement.textContent = formatCurrency(totalLiabilities);
+        liabilitiesElement.parentElement.parentElement.classList.add('fade-in');
     }
 }
 
-function displayNetWorthOverview(netWorth, assets, debts) {
-    const main = document.querySelector('main');
-    if (!main) return;
+/**
+ * Render assets list
+ */
+function renderAssetsList(assets) {
+    const assetsList = document.getElementById('assetsList');
+    if (!assetsList) return;
     
-    const overviewHTML = `
-        <div class="networth-hero">
-            <h1>📊 Net Worth Tracker</h1>
-            <div class="networth-cards">
-                <div class="nw-card primary glow-effect">
-                    <div class="nw-icon">💎</div>
-                    <div class="nw-value ${netWorth >= 0 ? 'positive' : 'negative'}">
-                        ${netWorth >= 0 ? '+' : ''}$${Math.abs(netWorth).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                    </div>
-                    <div class="nw-label">Net Worth</div>
-                    <div class="nw-subtext">${netWorth >= 0 ? 'Building wealth 📈' : 'Debt reduction mode 💪'}</div>
-                </div>
-                <div class="nw-card assets pulse-animation">
-                    <div class="nw-icon">💰</div>
-                    <div class="nw-value positive">$${assets.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                    <div class="nw-label">Total Assets</div>
-                    <div class="nw-subtext">What you own</div>
-                </div>
-                <div class="nw-card debts">
-                    <div class="nw-icon">📉</div>
-                    <div class="nw-value negative">$${debts.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                    <div class="nw-label">Total Debts</div>
-                    <div class="nw-subtext">What you owe</div>
+    if (assets.length === 0) {
+        assetsList.innerHTML = '<li class="empty-state">No assets added yet. Complete onboarding to add your assets.</li>';
+        return;
+    }
+    
+    assetsList.innerHTML = assets.map(asset => `
+        <li class="balance-item">
+            <div class="item-info">
+                <i class="fas ${getAssetIcon(asset.type || asset.name)}" aria-hidden="true"></i>
+                <div>
+                    <strong>${asset.name || 'Asset'}</strong>
+                    <span class="account-number">${asset.type || 'Asset'}</span>
                 </div>
             </div>
-        </div>
-    `;
-    
-    main.insertAdjacentHTML('afterbegin', overviewHTML);
+            <span class="amount">${formatCurrency(asset.value || 0)}</span>
+        </li>
+    `).join('');
 }
 
-function displayAssetsBreakdown(assets, total) {
-    const main = document.querySelector('main');
-    if (!main || !assets || assets.length === 0) return;
+/**
+ * Render liabilities list
+ */
+function renderLiabilitiesList(liabilities) {
+    const liabilitiesList = document.getElementById('liabilitiesList');
+    if (!liabilitiesList) return;
     
-    const assetsHTML = `
-        <div class="assets-section">
-            <h2>💰 Your Assets</h2>
-            <p class="section-desc">Things you own that have value</p>
-            <div class="assets-grid">
-                ${assets.map((asset, i) => {
-                    const value = parseFloat(asset.value) || 0;
-                    const percent = total > 0 ? (value / total * 100).toFixed(1) : 0;
-                    return `
-                        <div class="asset-card zoom-in" style="animation-delay: ${i * 0.1}s;">
-                            <div class="asset-header">
-                                <h3>${asset.name || 'Asset'}</h3>
-                                <span class="asset-type">${asset.type || 'Asset'}</span>
-                            </div>
-                            <div class="asset-value">$${value.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                            <div class="asset-bar">
-                                <div class="asset-fill" style="width: ${percent}%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
-                            </div>
-                            <div class="asset-percent">${percent}% of total assets</div>
-                        </div>
-                    `;
-                }).join('')}
+    if (liabilities.length === 0) {
+        liabilitiesList.innerHTML = '<li class="empty-state">No liabilities tracked. Great job staying debt-free!</li>';
+        return;
+    }
+    
+    liabilitiesList.innerHTML = liabilities.map(debt => `
+        <li class="balance-item debt">
+            <div class="item-info">
+                <i class="fas ${getDebtIcon(debt.type || debt.name)}" aria-hidden="true"></i>
+                <div>
+                    <strong>${debt.name || 'Debt'}</strong>
+                    <span class="account-number">${debt.type || 'Liability'} ${debt.apr ? `• ${debt.apr}% APR` : ''}</span>
+                </div>
             </div>
-        </div>
-    `;
-    
-    main.insertAdjacentHTML('beforeend', assetsHTML);
+            <span class="amount negative">-${formatCurrency(debt.balance || 0)}</span>
+        </li>
+    `).join('');
 }
 
-function displayDebtsBreakdown(debts, total) {
-    const main = document.querySelector('main');
-    if (!main || !debts || debts.length === 0) return;
+/**
+ * Render net worth trend chart (12 months simulated)
+ */
+function renderNetWorthTrendChart(currentNetWorth) {
+    const canvas = document.getElementById('netWorthChart');
+    if (!canvas) return;
     
-    const debtsHTML = `
-        <div class="debts-section">
-            <h2>📉 Your Debts</h2>
-            <p class="section-desc">Obligations you're working to eliminate</p>
-            <div class="debts-grid">
-                ${debts.map((debt, i) => {
-                    const balance = parseFloat(debt.balance) || 0;
-                    const rate = parseFloat(debt.rate) || 0;
-                    const percent = total > 0 ? (balance / total * 100).toFixed(1) : 0;
-                    return `
-                        <div class="debt-card slide-left" style="animation-delay: ${i * 0.1}s;">
-                            <div class="debt-header">
-                                <h3>${debt.name || 'Debt'}</h3>
-                                <span class="debt-rate">${rate.toFixed(2)}% APR</span>
-                            </div>
-                            <div class="debt-balance">$${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                            <div class="debt-bar">
-                                <div class="debt-fill" style="width: ${percent}%; background: linear-gradient(90deg, #ef4444, #dc2626);"></div>
-                            </div>
-                            <div class="debt-percent">${percent}% of total debt</div>
-                            ${debt.payment ? `<div class="debt-payment">Min Payment: $${parseFloat(debt.payment).toFixed(2)}/mo</div>` : ''}
-                        </div>
-                    `;
-                }).join('')}
-            </div>
-        </div>
-    `;
+    const ctx = canvas.getContext('2d');
     
-    main.insertAdjacentHTML('beforeend', debtsHTML);
-}
-
-document.addEventListener('DOMContentLoaded', async function() {
-    await initializeNetWorthPage();
-    const ctx = document.getElementById('netWorthChart');
+    // Generate 12 months of simulated data (showing growth trend)
+    const months = [];
+    const values = [];
+    const today = new Date();
     
-    if (ctx) {
-        // Use real net worth for trend projection
-        const netWorth = await onboardingDataService.getNetWorth();
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    for (let i = 11; i >= 0; i--) {
+        const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        months.push(date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' }));
         
-        // Project growth (simplified projection)
-        const monthlyChange = 300; // Average monthly improvement
-        const netWorthData = months.map((_, i) => netWorth + (monthlyChange * i));
-        
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: months,
-                datasets: [{
-                    label: 'Net Worth',
-                    data: netWorthData,
-                    borderColor: '#3498db',
-                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 3,
-                    pointRadius: 5,
-                    pointBackgroundColor: '#3498db',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointHoverRadius: 7
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        padding: 12,
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        callbacks: {
-                            label: function(context) {
-                                return 'Net Worth: $' + context.parsed.y.toLocaleString();
-                            }
-                        }
-                    }
+        // Simulate growth from 92% to 100% of current value
+        const growthFactor = 0.92 + (0.08 * (11 - i) / 11);
+        values.push(Math.round(currentNetWorth * growthFactor));
+    }
+    
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Net Worth',
+                data: values,
+                borderColor: '#00d4ff',
+                backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBackgroundColor: '#00d4ff',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
                 },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        ticks: {
-                            callback: function(value) {
-                                return '$' + (value / 1000).toFixed(0) + 'k';
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
+                tooltip: {
+                    backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                    titleColor: '#00d4ff',
+                    bodyColor: '#fff',
+                    borderColor: '#00d4ff',
+                    borderWidth: 1,
+                    padding: 12,
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) {
+                            return 'Net Worth: ' + formatCurrency(context.parsed.y);
                         }
                     }
                 }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.05)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.6)',
+                        callback: function(value) {
+                            return '$' + (value / 1000).toFixed(0) + 'K';
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.6)'
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
             }
+        }
+    });
+}
+
+/**
+ * Render debt-to-asset ratio widget
+ */
+function renderDebtRatioWidget(totalAssets, totalLiabilities) {
+    const ratio = totalAssets > 0 ? (totalLiabilities / totalAssets * 100) : 0;
+    
+    // Determine health status
+    let status = 'excellent';
+    let statusText = 'Excellent';
+    let statusColor = '#4ade80';
+    
+    if (ratio > 50) {
+        status = 'concerning';
+        statusText = 'Needs Attention';
+        statusColor = '#ef4444';
+    } else if (ratio > 36) {
+        status = 'moderate';
+        statusText = 'Moderate';
+        statusColor = '#f59e0b';
+    }
+    
+    // Add widget to page if section exists
+    const chartSection = document.querySelector('.chart-section');
+    if (chartSection && ratio > 0) {
+        const ratioWidget = document.createElement('div');
+        ratioWidget.className = 'card';
+        ratioWidget.innerHTML = `
+            <h2><i class="fas fa-balance-scale"></i> Debt-to-Asset Ratio</h2>
+            <div class="ratio-display">
+                <div class="ratio-circle" style="background: conic-gradient(${statusColor} ${ratio * 3.6}deg, rgba(255,255,255,0.1) 0deg);">
+                    <div class="ratio-inner">
+                        <span class="ratio-value">${ratio.toFixed(1)}%</span>
+                        <span class="ratio-status" style="color: ${statusColor};">${statusText}</span>
+                    </div>
+                </div>
+                <div class="ratio-info">
+                    <p><strong>What this means:</strong></p>
+                    <p>${getRatioExplanation(ratio)}</p>
+                </div>
+            </div>
+            <style>
+                .ratio-display {
+                    display: flex;
+                    align-items: center;
+                    gap: 2rem;
+                    margin-top: 1.5rem;
+                }
+                .ratio-circle {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                }
+                .ratio-inner {
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    background: #0a0e27;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .ratio-value {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: white;
+                }
+                .ratio-status {
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                }
+                .ratio-info {
+                    flex: 1;
+                    color: rgba(255, 255, 255, 0.8);
+                    line-height: 1.6;
+                }
+                @media (max-width: 768px) {
+                    .ratio-display {
+                        flex-direction: column;
+                    }
+                }
+            </style>
+        `;
+        chartSection.appendChild(ratioWidget);
+    }
+}
+
+/**
+ * Generate AI insights based on financial data
+ */
+function generateAIInsights(netWorth, totalAssets, totalLiabilities, assets, liabilities) {
+    const insightsCard = document.querySelector('.insights-card');
+    if (!insightsCard) return;
+    
+    const insightsList = insightsCard.querySelector('.insight-list');
+    if (!insightsList) return;
+    
+    const insights = [];
+    
+    // Net worth insight
+    if (netWorth > 0) {
+        insights.push({
+            icon: 'fa-arrow-up',
+            color: 'success',
+            text: `Your net worth is <strong>${formatCurrency(netWorth)}</strong>. You're building wealth steadily!`
+        });
+    } else if (netWorth < 0) {
+        insights.push({
+            icon: 'fa-exclamation-triangle',
+            color: 'warning',
+            text: `Your liabilities exceed assets by <strong>${formatCurrency(Math.abs(netWorth))}</strong>. Focus on debt reduction.`
         });
     }
     
-    // Calculate and update total net worth
-    updateNetWorthSummary();
-});
-
-// Calculate net worth from assets and liabilities
-function updateNetWorthSummary() {
-    const assets = [12450, 78200, 125000]; // From HTML data
-    const liabilities = [285000, 18500, 3200]; // From HTML data
+    // Debt ratio insight
+    const ratio = totalAssets > 0 ? (totalLiabilities / totalAssets * 100) : 0;
+    if (ratio > 0) {
+        if (ratio < 36) {
+            insights.push({
+                icon: 'fa-check-circle',
+                color: 'success',
+                text: `Your debt-to-asset ratio is ${ratio.toFixed(1)}% — well within the healthy range (under 36%).`
+            });
+        } else {
+            insights.push({
+                icon: 'fa-chart-line',
+                color: 'warning',
+                text: `Your debt ratio is ${ratio.toFixed(1)}%. Consider paying down high-interest debt to improve this.`
+            });
+        }
+    }
     
-    const totalAssets = assets.reduce((sum, val) => sum + val, 0);
-    const totalLiabilities = liabilities.reduce((sum, val) => sum + val, 0);
-    const netWorth = totalAssets - totalLiabilities;
+    // Asset diversity insight
+    if (assets.length >= 3) {
+        insights.push({
+            icon: 'fa-layer-group',
+            color: 'info',
+            text: `Great diversification! You're tracking ${assets.length} different assets across your portfolio.`
+        });
+    } else if (assets.length === 0) {
+        insights.push({
+            icon: 'fa-lightbulb',
+            color: 'info',
+            text: `Start building wealth by adding your first assets to track. Even small amounts compound over time!`
+        });
+    }
     
-    // Update summary card values
-    const netWorthElement = document.querySelector('.summary-card.primary .big-number');
-    const assetsElement = document.querySelectorAll('.summary-card .big-number')[1];
-    const liabilitiesElement = document.querySelectorAll('.summary-card .big-number')[2];
-    
-    if (netWorthElement) netWorthElement.textContent = '$' + netWorth.toLocaleString();
-    if (assetsElement) assetsElement.textContent = '$' + totalAssets.toLocaleString();
-    if (liabilitiesElement) liabilitiesElement.textContent = '-$' + totalLiabilities.toLocaleString();
+    // Render insights
+    insightsList.innerHTML = insights.map(insight => `
+        <li class="insight-item">
+            <i class="fas ${insight.icon} text-${insight.color}"></i>
+            <p>${insight.text}</p>
+        </li>
+    `).join('');
 }
 
-// Add Asset modal handler (placeholder)
-document.addEventListener('DOMContentLoaded', function() {
-    const addAssetBtns = document.querySelectorAll('.add-account-btn');
-    
-    addAssetBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const isAsset = this.textContent.includes('Asset');
-            const accountType = isAsset ? 'asset' : 'liability';
-            
-            if (typeof showToast === 'function') {
-                showToast(
-                    `Add ${accountType} feature coming soon! This will connect with your bank via Plaid for real-time data.`,
-                    'info',
-                    4000
-                );
-            } else {
-                alert(`Add ${accountType} feature coming soon! This will connect with your bank via Plaid for real-time data.`);
-            }
-        });
-    });
-});
+/**
+ * Helper: Get icon for asset type
+ */
+function getAssetIcon(assetName) {
+    const name = assetName.toLowerCase();
+    if (name.includes('cash') || name.includes('checking') || name.includes('saving')) return 'fa-university';
+    if (name.includes('401k') || name.includes('ira') || name.includes('investment') || name.includes('stock')) return 'fa-chart-line';
+    if (name.includes('home') || name.includes('house') || name.includes('property') || name.includes('real estate')) return 'fa-home';
+    if (name.includes('car') || name.includes('vehicle')) return 'fa-car';
+    if (name.includes('crypto') || name.includes('bitcoin') || name.includes('eth')) return 'fa-bitcoin';
+    return 'fa-coins';
+}
+
+/**
+ * Helper: Get icon for debt type
+ */
+function getDebtIcon(debtName) {
+    const name = debtName.toLowerCase();
+    if (name.includes('mortgage') || name.includes('home')) return 'fa-home';
+    if (name.includes('car') || name.includes('auto') || name.includes('vehicle')) return 'fa-car';
+    if (name.includes('credit') || name.includes('card')) return 'fa-credit-card';
+    if (name.includes('student') || name.includes('education')) return 'fa-graduation-cap';
+    if (name.includes('personal') || name.includes('loan')) return 'fa-hand-holding-usd';
+    return 'fa-file-invoice-dollar';
+}
+
+/**
+ * Helper: Get explanation for debt ratio
+ */
+function getRatioExplanation(ratio) {
+    if (ratio < 20) {
+        return 'Outstanding! Your debt is very manageable relative to your assets. You have strong financial flexibility.';
+    } else if (ratio < 36) {
+        return 'Good standing! Your debt is within the healthy range. Keep maintaining this balance.';
+    } else if (ratio < 50) {
+        return 'Moderate concern. Consider focusing on paying down high-interest debt to improve your ratio.';
+    } else {
+        return 'High debt burden. Prioritize debt reduction strategies like the avalanche or snowball method.';
+    }
+}
+
+/**
+ * Helper: Format currency
+ */
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(amount);
+}
+
+/**
+ * Helper: Show error message
+ */
+function showError(message) {
+    const main = document.querySelector('main');
+    if (main) {
+        main.innerHTML = `
+            <div class="error-container">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Error Loading Data</h2>
+                <p>${message}</p>
+                <a href="dashboard.html" class="btn-primary">Return to Dashboard</a>
+            </div>
+        `;
+    }
+}

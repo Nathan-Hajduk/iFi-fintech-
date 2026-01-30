@@ -20,23 +20,25 @@
     <!-- Navigation loaded dynamically -->
 
     <main class="dashboard-container">
-        <!-- Welcome Banner -->
-        <section class="welcome-banner">
+        <!-- Animated Welcome Header -->
+        <section class="welcome-banner animated-header">
             <div class="welcome-content">
-                <div class="welcome-header">
-                    <h1>Welcome back, <span id="user-first-name">User</span>!</h1>
-                    <div class="period-toggle">
-                        <button class="period-btn active" data-period="monthly">Monthly</button>
-                        <button class="period-btn" data-period="annual">Annual</button>
+                <div class="welcome-header-animated">
+                    <div class="user-greeting">
+                        <span class="greeting-text">Welcome back,</span>
+                        <h1 class="user-name-animated" id="user-first-name">User</h1>
+                        <div class="greeting-underline"></div>
+                    </div>
+                    <div class="financial-pulse">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-ring"></div>
                     </div>
                 </div>
-                <p id="welcome-subtitle">Here's your financial overview</p>
+                <p id="welcome-subtitle" class="subtitle-fade-in">Here's your financial overview</p>
             </div>
             <div class="quick-actions">
-                <button class="action-btn" onclick="window.location.href='transactions.html'">
-                    <i class="fas fa-plus"></i> Add Transaction
-                </button>
-                <button class="action-btn secondary" onclick="window.location.href='ifi-ai.html'">
+                <button class="action-btn ai-button" onclick="window.location.href='ifi-ai.html'">
                     <i class="fas fa-brain"></i> Ask iFi AI
                 </button>
             </div>
@@ -48,7 +50,9 @@
             <div class="widget income-breakdown">
                 <div class="widget-header">
                     <h3><i class="fas fa-hand-holding-usd"></i> Monthly Income</h3>
-                    <span class="widget-subtitle">All income sources</span>
+                    <button class="tip-btn" onclick="showTip('income')" title="Get income tips">
+                        <i class="fas fa-lightbulb"></i> Tip
+                    </button>
                 </div>
                 <div class="widget-body">
                     <div id="incomeBreakdownContainer"></div>
@@ -59,7 +63,9 @@
             <div class="widget expenses-breakdown">
                 <div class="widget-header">
                     <h3><i class="fas fa-receipt"></i> Monthly Expenses</h3>
-                    <span class="widget-subtitle">Where every dollar goes</span>
+                    <button class="tip-btn" onclick="showTip('expenses')" title="Get expense tips">
+                        <i class="fas fa-lightbulb"></i> Tip
+                    </button>
                 </div>
                 <div class="widget-body">
                     <div id="expensesListContainer"></div>
@@ -70,21 +76,36 @@
             <div class="widget cash-flow-animated">
                 <div class="widget-header">
                     <h3><i class="fas fa-money-bill-wave"></i> Cash Flow Visualization</h3>
-                    <span class="widget-subtitle">Your money in motion</span>
+                    <button class="tip-btn" onclick="showTip('cashflow')" title="Get cash flow tips">
+                        <i class="fas fa-lightbulb"></i> Tip
+                    </button>
                 </div>
                 <div class="widget-body">
                     <div id="cashFlowVisualContainer"></div>
                 </div>
             </div>
 
-            <!-- Budget Pie Chart -->
-            <div class="widget budget-pie">
+            <!-- Budget vs Actual Dual Pie Charts -->
+            <div class="widget budget-comparison-dual">
                 <div class="widget-header">
-                    <h3><i class="fas fa-chart-pie"></i> Budget Distribution</h3>
-                    <span class="widget-subtitle">Spending by category</span>
+                    <h3><i class="fas fa-chart-pie"></i> Budget vs Actual Spending</h3>
+                    <button class="tip-btn" onclick="showTip('budget')" title="Get budget tips">
+                        <i class="fas fa-lightbulb"></i> Tip
+                    </button>
                 </div>
                 <div class="widget-body">
-                    <div id="budgetPieContainer"></div>
+                    <div class="dual-pie-container">
+                        <div class="pie-chart-section">
+                            <h4 class="pie-title">Budget Plan</h4>
+                            <div id="budgetPlanPieContainer" class="pie-chart-canvas"></div>
+                            <div id="budgetPlanLegend" class="pie-legend"></div>
+                        </div>
+                        <div class="pie-chart-section">
+                            <h4 class="pie-title">Actual Expenses</h4>
+                            <div id="actualExpensesPieContainer" class="pie-chart-canvas"></div>
+                            <div id="actualExpensesLegend" class="pie-legend"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -114,22 +135,51 @@
             <div class="widget cash-flow-chart-widget">
                 <div class="widget-header">
                     <h3><i class="fas fa-chart-line"></i> Income vs Expenses</h3>
-                    <span class="widget-subtitle">6-month trend analysis</span>
+                    <div class="chart-period-selector">
+                        <button class="period-btn active" data-period="year" onclick="switchChartPeriod('year')">
+                            <i class="fas fa-calendar-alt"></i> Year
+                        </button>
+                        <button class="period-btn" data-period="month" onclick="switchChartPeriod('month')">
+                            <i class="fas fa-calendar-day"></i> Month
+                        </button>
+                        <button class="edit-data-btn" onclick="openMonthEditModal()" title="Edit data for specific periods">
+                            <i class="fas fa-edit"></i> Edit Data
+                        </button>
+                    </div>
                 </div>
-                <div class="widget-body" style="height: 250px;">
+                <div class="widget-body" style="height: 300px;">
                     <div id="incomeVsExpensesChart" style="height: 100%;"></div>
                 </div>
             </div>
             
-            <!-- Personalized Recommendations -->
-            <div class="widget recommendations">
+            <!-- Personalized Recommendations with iFi AI Brain -->
+            <div class="widget recommendations-ai-reveal">
                 <div class="widget-header">
-                    <h3><i class="fas fa-star"></i> Personalized Recommendations</h3>
-                    <span class="widget-subtitle">Actions to improve your finances</span>
+                    <h3><i class="fas fa-lightbulb"></i> AI-Powered Insights</h3>
+                    <span class="widget-subtitle">Personalized recommendations based on your data</span>
                 </div>
                 <div class="widget-body">
-                    <div id="recommendationsContainer">
-                        <!-- Generated dynamically -->
+                    <div class="ai-reveal-section">
+                        <button class="ai-brain-reveal-btn" onclick="revealAIRecommendations()">
+                            <div class="robot-brain-container">
+                                <div class="robot-head">
+                                    <div class="brain-top"></div>
+                                    <div class="brain-left"></div>
+                                    <div class="brain-right"></div>
+                                    <div class="robot-eyes">
+                                        <div class="eye left-eye"></div>
+                                        <div class="eye right-eye"></div>
+                                    </div>
+                                </div>
+                                <div class="ai-spark"></div>
+                                <div class="ai-spark"></div>
+                                <div class="ai-spark"></div>
+                            </div>
+                            <span class="reveal-text">Reveal My Recommendations</span>
+                        </button>
+                        <div id="recommendationsContainer" class="recommendations-content hidden">
+                            <!-- Generated dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -146,20 +196,26 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Insights & Recommendations -->
-            <div class="widget insights">
-                <div class="widget-header">
-                    <h3><i class="fas fa-lightbulb"></i> Insights & Tips</h3>
-                </div>
-                <div class="widget-body">
-                    <div class="insight-list" id="insightList">
-                        <!-- Generated based on user data -->
-                    </div>
-                </div>
-            </div>
         </div>
     </main>
+
+    <!-- Tip Modal -->
+    <div class="tip-modal-overlay" id="tipModal">
+        <div class="tip-modal">
+            <div class="tip-modal-header">
+                <div class="tip-modal-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span id="tipModalTitle">Financial Insight</span>
+                </div>
+                <button class="tip-modal-close" onclick="closeTipModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="tip-modal-content" id="tipModalContent">
+                <!-- Content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
 
     <script src="../js/auth-manager.js"></script>
     <script src="../js/auth-guard.js"></script>
@@ -167,6 +223,7 @@
     <script src="../js/data/subscriptions-database.js"></script>
     <script src="../js/page-init-helper.js"></script>
     <script src="../js/shared-nav.js"></script>
+    <script src="../js/tip-system.js"></script>
     <script src="../js/dashboard.js"></script>
     <script src="../js/dashboard-enhanced.js"></script>
     <script src="../js/dashboard-visualizations.js"></script>

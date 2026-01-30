@@ -3,6 +3,448 @@
    Billion-dollar fintech-grade animations
 ============================================ */
 
+/* ============================================
+   ANIMATED HEADER WITH USERNAME
+============================================ */
+.animated-header {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(102, 126, 234, 0.15) 100%);
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-header-animated {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+}
+
+.user-greeting {
+    flex: 1;
+}
+
+.greeting-text {
+    font-size: 1.1rem;
+    color: rgba(139, 192, 223, 0.9);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.5rem;
+    animation: fadeInDown 0.6s ease;
+}
+
+.user-name-animated {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00d4ff, #667eea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    animation: slideInLeft 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+}
+
+.greeting-underline {
+    height: 4px;
+    background: linear-gradient(90deg, #00d4ff, #667eea, transparent);
+    margin-top: 0.5rem;
+    border-radius: 2px;
+    animation: expandWidth 1s ease 0.5s both;
+    transform-origin: left;
+}
+
+.financial-pulse {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pulse-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid #00d4ff;
+    border-radius: 50%;
+    animation: pulse 2s ease-out infinite;
+    opacity: 0;
+}
+
+.pulse-ring:nth-child(2) {
+    animation-delay: 0.6s;
+}
+
+.pulse-ring:nth-child(3) {
+    animation-delay: 1.2s;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes expandWidth {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.subtitle-fade-in {
+    animation: fadeInUp 0.8s ease 0.3s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ask iFi AI Button Enhancement */
+.ai-button {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+}
+
+.ai-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+}
+
+/* ============================================
+   DUAL PIE CHART LAYOUT
+============================================ */
+.budget-comparison-dual {
+    grid-column: span 12;
+}
+
+.dual-pie-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.pie-chart-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pie-title {
+    color: #00d4ff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+}
+
+.pie-chart-canvas {
+    width: 250px;
+    height: 250px;
+    position: relative;
+}
+
+.pie-legend {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.legend-item:hover {
+    background: rgba(0, 212, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.legend-label {
+    flex: 1;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.legend-value {
+    font-weight: 600;
+    color: #00d4ff;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 968px) {
+    .dual-pie-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   AI BRAIN REVEAL ANIMATION
+============================================ */
+.recommendations-ai-reveal {
+    grid-column: span 12;
+    order: 999;
+}
+
+.ai-reveal-section {
+    position: relative;
+    min-height: 300px;
+}
+
+.ai-brain-reveal-btn {
+    width: 100%;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-brain-reveal-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+    border-color: rgba(102, 126, 234, 0.6);
+}
+
+.robot-brain-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+}
+
+.robot-head {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    border-radius: 50% 50% 45% 45%;
+    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+    animation: bobbing 3s ease-in-out infinite;
+}
+
+.brain-top,
+.brain-left,
+.brain-right {
+    position: absolute;
+    background: linear-gradient(135deg, #00d4ff, #667eea);
+    border-radius: 50%;
+    animation: brainPulse 2s ease-in-out infinite;
+}
+
+.brain-top {
+    width: 100px;
+    height: 70px;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 40% 40%;
+}
+
+.brain-left {
+    width: 70px;
+    height: 85px;
+    left: 8px;
+    top: 50px;
+    border-radius: 50% 30%;
+}
+
+.brain-right {
+    width: 70px;
+    height: 85px;
+    right: 8px;
+    top: 50px;
+    border-radius: 30% 50%;
+}
+
+.robot-eyes {
+    position: absolute;
+    width: 70%;
+    height: 50px;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.eye {
+    width: 32px;
+    height: 32px;
+    background: #00d4ff;
+    border-radius: 50%;
+    box-shadow: 0 0 25px #00d4ff;
+    animation: blink 4s ease-in-out infinite;
+}
+
+.ai-spark {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #00d4ff;
+    border-radius: 50%;
+    animation: sparkFloat 3s ease-in-out infinite;
+}
+
+.ai-spark:nth-child(2) {
+    top: 30px;
+    left: -20px;
+    animation-delay: 0.5s;
+}
+
+.ai-spark:nth-child(3) {
+    top: 30px;
+    right: -20px;
+    animation-delay: 1s;
+}
+
+.ai-spark:nth-child(4) {
+    bottom: 30px;
+    left: 50%;
+    animation-delay: 1.5s;
+}
+
+.reveal-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #00d4ff;
+    display: block;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+@keyframes bobbing {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes brainPulse {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes blink {
+    0%, 90%, 100% { opacity: 1; }
+    95% { opacity: 0; }
+}
+
+@keyframes sparkFloat {
+    0% { transform: translateY(0) scale(0); opacity: 0; }
+    50% { opacity: 1; transform: translateY(-30px) scale(1); }
+    100% { transform: translateY(-60px) scale(0); opacity: 0; }
+}
+
+/* Brain Opening Animation */
+.ai-brain-reveal-btn.opening .brain-top {
+    animation: brainOpenTop 1s ease forwards;
+}
+
+.ai-brain-reveal-btn.opening .brain-left {
+    animation: brainOpenLeft 1s ease forwards;
+}
+
+.ai-brain-reveal-btn.opening .brain-right {
+    animation: brainOpenRight 1s ease forwards;
+}
+
+@keyframes brainOpenTop {
+    to {
+        transform: translateX(-50%) translateY(-20px);
+        opacity: 0;
+    }
+}
+
+@keyframes brainOpenLeft {
+    to {
+        transform: translateX(-30px) rotate(-45deg);
+        opacity: 0;
+    }
+}
+
+@keyframes brainOpenRight {
+    to {
+        transform: translateX(30px) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+.recommendations-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+    margin-top: 2rem;
+}
+
+.recommendations-content.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.recommendations-content.hidden {
+    display: none;
+}
+
 /* Widget Grid Layout for New Visualizations */
 .income-breakdown {
     grid-column: span 6;
@@ -16,8 +458,8 @@
     grid-column: span 6;
 }
 
-.budget-pie {
-    grid-column: span 6;
+.budget-comparison-dual {
+    grid-column: span 12;
 }
 
 .subscriptions-widget {
@@ -32,11 +474,327 @@
     grid-column: span 12;
 }
 
+.recommendations-ai-reveal {
+    grid-column: span 12;
+}
+
+/* Make AI recommendations fill the width with no empty space */
+.recommendations-ai-reveal .widget-body {
+    min-height: auto;
+    padding: 1rem;
+}
+
+.ai-reveal-section {
+    text-align: center;
+    min-height: auto;
+    width: 100%;
+}
+
+.ai-brain-reveal-btn {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 3.5rem 2rem;
+    transition: all 0.3s ease;
+}
+
+.robot-brain-container {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 2rem;
+}
+
+.reveal-text {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.recommendations-content {
+    margin-top: 2rem;
+    animation: expandDown 0.5s ease-out;
+}
+
+.recommendations-content.hidden {
+    display: none;
+}
+
+.recommendations-content.revealed {
+    display: block;
+}
+
+@keyframes expandDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        max-height: 2000px;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   TIP BUTTONS & MODAL SYSTEM
+============================================ */
+.widget-header {
+    position: relative;
+}
+
+.tip-btn {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.tip-btn:hover {
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+}
+
+.tip-btn i {
+    font-size: 1rem;
+    animation: lightbulbGlow 2s ease-in-out infinite;
+}
+
+@keyframes lightbulbGlow {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.8; filter: brightness(1.5); }
+}
+
+/* Chart Period Selector */
+.chart-period-selector {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.period-btn {
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    color: #00d4ff;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.period-btn:hover {
+    background: rgba(0, 212, 255, 0.2);
+    border-color: rgba(0, 212, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.period-btn.active {
+    background: linear-gradient(135deg, #00d4ff, #667eea);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.edit-data-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.edit-data-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+/* Tip Modal Overlay */
+.tip-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.tip-modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.tip-modal {
+    background: linear-gradient(135deg, rgba(10, 14, 39, 0.98), rgba(20, 26, 46, 0.98));
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+}
+
+.tip-modal-overlay.active .tip-modal {
+    transform: scale(1) translateY(0);
+}
+
+.tip-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(0, 212, 255, 0.2);
+}
+
+.tip-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #00d4ff;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.tip-modal-title i {
+    font-size: 2rem;
+    animation: lightbulbGlow 2s ease-in-out infinite;
+}
+
+.tip-modal-close {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.2rem;
+}
+
+.tip-modal-close:hover {
+    background: rgba(239, 68, 68, 0.3);
+    transform: rotate(90deg);
+}
+
+.tip-modal-content {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+}
+
+.tip-category {
+    background: rgba(0, 212, 255, 0.1);
+    border-left: 4px solid #00d4ff;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+}
+
+.tip-category h4 {
+    color: #00d4ff;
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tip-category p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.tip-highlight {
+    background: rgba(245, 158, 11, 0.1);
+    border-left: 4px solid #f59e0b;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+}
+
+.tip-highlight strong {
+    color: #f59e0b;
+}
+
+.tip-action-items {
+    margin-top: 1.5rem;
+}
+
+.tip-action-items h4 {
+    color: #4ade80;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tip-action-items ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tip-action-items li {
+    padding: 0.75rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.tip-action-items li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #4ade80;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
 /* Responsive Grid */
 @media (max-width: 968px) {
     .income-breakdown,
     .expenses-breakdown,
-    .budget-pie,
     .subscriptions-widget,
     .health-score-enhanced {
         grid-column: span 12;
@@ -236,15 +994,8 @@
     filter: brightness(1.2);
 }
 
-.pie-legend {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
+/* REMOVED - Using the earlier .pie-legend definition instead (line 191) */
+/* This absolute positioning was causing the legend to float in middle */
 
 .legend-item {
     display: flex;

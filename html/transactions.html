@@ -17,162 +17,520 @@
 <body>
     <!-- Navigation loaded dynamically -->
 
-    <main class="transactions-container">
-        <!-- Page Header -->
-        <section class="page-title-section">
-            <div class="page-title-content">
-                <h1><i class="fas fa-receipt"></i> Transactions</h1>
-                <p>Track and manage all your financial activity</p>
+    <main class="plaid-coming-soon">
+        <div class="coming-soon-container">
+            <!-- Animated Background Pattern -->
+            <div class="background-pattern">
+                <div class="pattern-circle"></div>
+                <div class="pattern-circle"></div>
+                <div class="pattern-circle"></div>
             </div>
-            <button class="btn-add-transaction" onclick="openAddTransactionModal()">
-                <i class="fas fa-plus"></i> Add Transaction
-            </button>
-        </section>
-
-        <!-- Summary Cards -->
-        <section class="summary-cards">
-            <div class="summary-card income">
-                <div class="summary-icon"><i class="fas fa-arrow-down"></i></div>
-                <div class="summary-content">
-                    <span class="summary-label">Total Income</span>
-                    <span class="summary-value" id="totalIncome">$0</span>
-                    <span class="summary-period">This Month</span>
+            
+            <!-- Content -->
+            <div class="coming-soon-content">
+                <!-- Plaid Logo & iFi Integration -->
+                <div class="logo-section">
+                    <div class="plaid-logo-container">
+                        <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="20" y="20" width="70" height="70" fill="#00d4ff" rx="8"/>
+                            <rect x="110" y="20" width="70" height="70" fill="#667eea" rx="8"/>
+                            <rect x="20" y="110" width="70" height="70" fill="#764ba2" rx="8"/>
+                            <rect x="110" y="110" width="70" height="70" fill="#00d4ff" rx="8"/>
+                        </svg>
+                    </div>
+                    <div class="integration-arrow">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div class="ifi-logo-container">
+                        <svg class="logo" width="80" height="80" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
+                            <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
+                            <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Main Heading -->
+                <h1 class="coming-soon-title">
+                    <span class="gradient-text">Bank Connection</span>
+                    <br>Coming Soon
+                </h1>
+                
+                <!-- Description -->
+                <p class="coming-soon-description">
+                    We're integrating Plaid to bring you seamless, secure bank connections and automatic transaction tracking. 
+                    Link all your accounts in seconds and get real-time financial insights.
+                </p>
+                
+                <!-- Features Grid -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Bank-Level Security</h3>
+                        <p>256-bit encryption protects all your financial data</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Instant Sync</h3>
+                        <p>Real-time transaction updates from 12,000+ banks</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Auto-Categorization</h3>
+                        <p>AI-powered transaction categorization and insights</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Smart Analytics</h3>
+                        <p>Spending patterns, trends, and predictions</p>
+                    </div>
+                </div>
+                
+                <!-- Timeline -->
+                <div class="timeline-section">
+                    <h3 class="timeline-title">
+                        <i class="fas fa-rocket"></i> Expected Launch
+                    </h3>
+                    <div class="timeline-date">Q2 2026</div>
+                    <p class="timeline-subtitle">We're working hard to bring you the best banking integration experience</p>
+                </div>
+                
+                <!-- Notify Me Form -->
+                <div class="notify-section">
+                    <h3>Get Notified When We Launch</h3>
+                    <form class="notify-form" id="notifyForm" onsubmit="submitNotification(event)">
+                        <div class="form-group-inline">
+                            <input 
+                                type="email" 
+                                id="notifyEmail" 
+                                placeholder="Enter your email address" 
+                                required
+                                class="email-input"
+                            />
+                            <button type="submit" class="btn-notify">
+                                <i class="fas fa-bell"></i> Notify Me
+                            </button>
+                        </div>
+                        <small class="form-hint">We'll send you an email as soon as Plaid integration goes live</small>
+                    </form>
+                    <div id="notifySuccess" class="notify-success" style="display: none;">
+                        <i class="fas fa-check-circle"></i> You're on the list! We'll notify you when it's ready.
+                    </div>
+                </div>
+                
+                <!-- Meanwhile CTA -->
+                <div class="meanwhile-section">
+                    <p class="meanwhile-text">Meanwhile, explore other features</p>
+                    <div class="cta-buttons">
+                        <a href="dashboard.html" class="btn-cta primary">
+                            <i class="fas fa-chart-pie"></i> View Dashboard
+                        </a>
+                        <a href="budget.html" class="btn-cta secondary">
+                            <i class="fas fa-wallet"></i> Manage Budget
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="summary-card expense">
-                <div class="summary-icon"><i class="fas fa-arrow-up"></i></div>
-                <div class="summary-content">
-                    <span class="summary-label">Total Expenses</span>
-                    <span class="summary-value" id="totalExpenses">$0</span>
-                    <span class="summary-period">This Month</span>
-                </div>
-            </div>
-            <div class="summary-card balance">
-                <div class="summary-icon"><i class="fas fa-wallet"></i></div>
-                <div class="summary-content">
-                    <span class="summary-label">Net Cash Flow</span>
-                    <span class="summary-value" id="netCashFlow">$0</span>
-                    <span class="summary-period">This Month</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Filters & Search -->
-        <section class="transaction-controls">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search transactions..." onkeyup="filterTransactions()">
-            </div>
-            <div class="filters">
-                <select id="categoryFilter" onchange="filterTransactions()">
-                    <option value="">All Categories</option>
-                    <option value="income">Income</option>
-                    <option value="food">Food & Dining</option>
-                    <option value="transportation">Transportation</option>
-                    <option value="utilities">Utilities</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="shopping">Shopping</option>
-                    <option value="healthcare">Healthcare</option>
-                    <option value="other">Other</option>
-                </select>
-                <select id="typeFilter" onchange="filterTransactions()">
-                    <option value="">All Types</option>
-                    <option value="income">Income</option>
-                    <option value="expense">Expense</option>
-                </select>
-                <select id="periodFilter" onchange="filterTransactions()">
-                    <option value="month">This Month</option>
-                    <option value="quarter">This Quarter</option>
-                    <option value="year">This Year</option>
-                    <option value="all">All Time</option>
-                </select>
-            </div>
-        </section>
-
-        <!-- Transactions List -->
-        <section class="transactions-list">
-            <div class="list-header">
-                <h3>Recent Transactions</h3>
-                <span id="transactionCount">0 transactions</span>
-            </div>
-            <div class="transactions-grid" id="transactionsGrid">
-                <!-- Transactions will be dynamically loaded here -->
-            </div>
-        </section>
+        </div>
     </main>
 
-    <!-- Add Transaction Modal -->
-    <div class="modal" id="addTransactionModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Add Transaction</h2>
-                <button class="modal-close" onclick="closeAddTransactionModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form class="transaction-form" id="transactionForm" onsubmit="addTransaction(event)">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Type</label>
-                        <div class="type-selector">
-                            <label class="type-option">
-                                <input type="radio" name="type" value="income" required>
-                                <span><i class="fas fa-arrow-down"></i> Income</span>
-                            </label>
-                            <label class="type-option">
-                                <input type="radio" name="type" value="expense" checked required>
-                                <span><i class="fas fa-arrow-up"></i> Expense</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="amount"><i class="fas fa-dollar-sign"></i> Amount</label>
-                        <input type="number" id="amount" name="amount" step="0.01" min="0.01" placeholder="0.00" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="date"><i class="fas fa-calendar"></i> Date</label>
-                        <input type="date" id="date" name="date" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="description"><i class="fas fa-file-alt"></i> Description</label>
-                    <input type="text" id="description" name="description" placeholder="What was this for?" required>
-                </div>
-                <div class="form-group">
-                    <label for="category"><i class="fas fa-tag"></i> Category</label>
-                    <select id="category" name="category" required>
-                        <option value="">Select category</option>
-                        <option value="income">Income</option>
-                        <option value="food">Food & Dining</option>
-                        <option value="transportation">Transportation</option>
-                        <option value="utilities">Utilities</option>
-                        <option value="entertainment">Entertainment</option>
-                        <option value="shopping">Shopping</option>
-                        <option value="healthcare">Healthcare</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn-secondary" onclick="closeAddTransactionModal()">Cancel</button>
-                    <button type="submit" class="btn-primary">Add Transaction</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- CSS Styles -->
+    <style>
+        .plaid-coming-soon {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(10, 14, 39, 1), rgba(20, 26, 46, 1));
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+        
+        .coming-soon-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* Animated Background */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .pattern-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent);
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .pattern-circle:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+        
+        .pattern-circle:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            bottom: -50px;
+            left: -50px;
+            animation-delay: 7s;
+        }
+        
+        .pattern-circle:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 14s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(50px, 50px) scale(1.1); opacity: 0.5; }
+        }
+        
+        /* Content */
+        .coming-soon-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        /* Logo Section */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .plaid-logo-container, .ifi-logo-container {
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        .integration-arrow {
+            font-size: 2rem;
+            color: #00d4ff;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        
+        /* Typography */
+        .coming-soon-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .coming-soon-description {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto 4rem auto;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+        
+        .feature-card {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            color: white;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Timeline */
+        .timeline-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease-out 0.8s backwards;
+        }
+        
+        .timeline-title {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-date {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+        
+        /* Notify Section */
+        .notify-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 1s backwards;
+        }
+        
+        .notify-section h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group-inline {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto 0.75rem auto;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .email-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .btn-notify {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00d4ff, #667eea);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .btn-notify:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        }
+        
+        .form-hint {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+        }
+        
+        .notify-success {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            color: #4ade80;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+        
+        /* Meanwhile Section */
+        .meanwhile-section {
+            animation: fadeInUp 1s ease-out 1.2s backwards;
+        }
+        
+        .meanwhile-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-cta {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-cta.primary {
+            background: linear-gradient(135deg, #00d4ff, #667eea);
+            color: white;
+        }
+        
+        .btn-cta.secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            color: white;
+        }
+        
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .coming-soon-title {
+                font-size: 2.5rem;
+            }
+            
+            .logo-section {
+                gap: 1rem;
+            }
+            
+            .plaid-logo-container svg,
+            .ifi-logo-container svg {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .form-group-inline {
+                flex-direction: column;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 
     <script src="../js/auth-manager.js"></script>
     <script src="../js/auth-guard.js"></script>
-    <script src="../js/onboarding-data-service.js"></script>
     <script src="../js/page-init-helper.js"></script>
     <script src="../js/shared-nav.js"></script>
-    <script src="../js/transactions.js"></script>
     <script>
         // Initialize unified navigation
         initializeNavigation('transactions');
+        
+        // Handle notification form submission
+        function submitNotification(event) {
+            event.preventDefault();
+            const email = document.getElementById('notifyEmail').value;
+            
+            // Store notification preference (could be sent to backend)
+            localStorage.setItem('plaid_notify_email', email);
+            
+            // Show success message
+            document.querySelector('.notify-form').style.display = 'none';
+            document.getElementById('notifySuccess').style.display = 'block';
+            
+            console.log('Notification signup:', email);
+        }
     </script>
-    <script src="../js/auth-manager.js"></script>
-    <script src="../js/auth-guard.js"></script>
+
 </body>
 </html>

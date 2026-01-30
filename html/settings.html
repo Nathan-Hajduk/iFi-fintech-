@@ -14,46 +14,183 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <header class="page-header">
-        <svg class="logo" width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-            <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
-            <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
-            <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
-        </svg>
-        <div class="header-content">
-            <h1>Settings</h1>
-            <p>Manage your account settings and preferences.</p>
-        </div>
-    </header>
-    <nav class="dashboard-menu">
-        <ul>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="transactions.html">Transactions</a></li>
-            <li><a href="settings.html">Settings</a></li>
-            <li><a href="investments.html">Investments</a></li>
-            <li><a href="economy.html">Today's Economy</a></li>
-            <li><a href="ifi-ai.html">iFi AI</a></li>
-        </ul>
-    </nav>
+    <div id="navContainer"></div>
+
     <main class="settings-container">
-        <form class="settings-form">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required>
+        <div class="settings-header">
+            <h1><i class="fas fa-cog"></i> Account Settings</h1>
+            <p>Manage your profile, security, and preferences</p>
+        </div>
+
+        <!-- Profile Settings -->
+        <section class="settings-section">
+            <div class="section-header">
+                <i class="fas fa-user-circle"></i>
+                <h2>Profile Information</h2>
             </div>
-            <div class="form-group">
-                <label for="password">Change Password</label>
-                <input type="password" id="password" name="password">
+            <form id="profileForm" class="settings-form">
+                <div class="form-group">
+                    <label for="profileName">Full Name</label>
+                    <input type="text" id="profileName" name="profileName" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="profileEmail">Email Address</label>
+                    <input type="email" id="profileEmail" name="profileEmail" placeholder="john@example.com" disabled>
+                    <small>Email changes require verification. Contact support to update.</small>
+                </div>
+                <div class="form-group">
+                    <label for="monthlySavingsGoal">Monthly Savings Goal</label>
+                    <input type="number" id="monthlySavingsGoal" name="monthlySavingsGoal" placeholder="500" min="0" step="1">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Profile Changes
+                </button>
+            </form>
+        </section>
+
+        <!-- Security Settings -->
+        <section class="settings-section">
+            <div class="section-header">
+                <i class="fas fa-shield-alt"></i>
+                <h2>Security & Password</h2>
             </div>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
+            <form id="passwordForm" class="settings-form">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password">
+                    <small>Minimum 8 characters, mix of letters, numbers, and symbols recommended</small>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-key"></i> Change Password
+                </button>
+            </form>
+        </section>
+
+        <!-- Theme Preferences -->
+        <section class="settings-section">
+            <div class="section-header">
+                <i class="fas fa-palette"></i>
+                <h2>Theme & Appearance</h2>
+            </div>
+            <div class="theme-options">
+                <label class="theme-option">
+                    <input type="radio" name="theme" value="dark" checked>
+                    <div class="theme-card dark">
+                        <i class="fas fa-moon"></i>
+                        <span>Dark Mode</span>
+                    </div>
+                </label>
+                <label class="theme-option">
+                    <input type="radio" name="theme" value="light">
+                    <div class="theme-card light">
+                        <i class="fas fa-sun"></i>
+                        <span>Light Mode</span>
+                    </div>
+                </label>
+            </div>
+        </section>
+
+        <!-- Notification Preferences -->
+        <section class="settings-section">
+            <div class="section-header">
+                <i class="fas fa-bell"></i>
+                <h2>Notification Preferences</h2>
+            </div>
+            <div class="notification-options">
+                <label class="notification-item">
+                    <div class="notification-info">
+                        <i class="fas fa-dollar-sign"></i>
+                        <div>
+                            <h4>Budget Alerts</h4>
+                            <p>Get notified when you're close to budget limits</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" id="notifBudgetAlerts" class="notification-toggle" checked>
+                </label>
+                <label class="notification-item">
+                    <div class="notification-info">
+                        <i class="fas fa-bullseye"></i>
+                        <div>
+                            <h4>Goal Milestones</h4>
+                            <p>Celebrate when you reach savings milestones</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" id="notifGoalMilestones" class="notification-toggle" checked>
+                </label>
+                <label class="notification-item">
+                    <div class="notification-info">
+                        <i class="fas fa-credit-card"></i>
+                        <div>
+                            <h4>Debt Payment Reminders</h4>
+                            <p>Reminders for upcoming debt payment due dates</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" id="notifDebtReminders" class="notification-toggle" checked>
+                </label>
+                <label class="notification-item">
+                    <div class="notification-info">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h4>Market Updates</h4>
+                            <p>Daily market summaries and significant changes</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" id="notifMarketUpdates" class="notification-toggle">
+                </label>
+            </div>
+        </section>
+
+        <!-- Data Management -->
+        <section class="settings-section">
+            <div class="section-header">
+                <i class="fas fa-database"></i>
+                <h2>Data Management</h2>
+            </div>
+            <div class="data-actions">
+                <button id="exportDataBtn" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Export My Data (JSON)
+                </button>
+                <p class="action-description">Download all your financial data in JSON format</p>
+            </div>
+        </section>
+
+        <!-- Danger Zone -->
+        <section class="settings-section danger-zone">
+            <div class="section-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Danger Zone</h2>
+            </div>
+            <div class="danger-content">
+                <div class="danger-warning">
+                    <p><strong>Account Deletion</strong></p>
+                    <p>Once you delete your account, there is no going back. All your data will be permanently removed.</p>
+                </div>
+                <button id="deleteAccountBtn" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> Delete My Account
+                </button>
+            </div>
+        </section>
     </main>
+
+    <script src="../js/api-client.js"></script>
     <script src="../js/auth-manager.js"></script>
     <script src="../js/auth-guard.js"></script>
+    <script src="../js/onboarding-data-service.js"></script>
     <script src="../js/shared-nav.js"></script>
+    <script src="../js/settings.js"></script>
     <script>
-        // Initialize navigation
-        initializeNavigation('settings');
+        // Initialize navigation with settings page active
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeNavigation('settings');
+        });
     </script>
 </body>
 </html>

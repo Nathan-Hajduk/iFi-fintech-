@@ -3,140 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact iFi - Get in touch with our support team for help with your financial journey">
-    <title>Contact Us | iFi - We're Here to Help</title>
+    <meta name="description" content="Get in touch with iFi. We're here to help with questions, support, and feedback.">
+    <title>Contact Us - iFi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/contact-us.css">
-    <link rel="stylesheet" href="../css/animations.css">
-    <link rel="stylesheet" href="../css/light-theme.css">
+    <link rel="stylesheet" href="../css/login-enhanced.css">
+    <link rel="stylesheet" href="../css/contact-enhanced.css">
+    <link rel="stylesheet" href="../css/legal-footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="floating-shapes">
+            <div class="shape shape-circle"></div>
+            <div class="shape shape-square"></div>
+            <div class="shape shape-triangle"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
     <header class="modern-header">
         <div class="header-inner">
             <a href="Login.html" class="logo-brand">
-                <svg class="logo" width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
-                    <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
-                    <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
-                </svg>
+                <div class="logo-animated">
+                    <div class="logo-bar bar-1"></div>
+                    <div class="logo-bar bar-2"></div>
+                    <div class="logo-bar bar-3"></div>
+                </div>
                 <span class="brand-name">iFi</span>
             </a>
             <nav class="header-nav">
-                <a href="how-it-works.html" class="nav-link">How It Works</a>
                 <a href="features.html" class="nav-link">Features</a>
+                <a href="how-it-works.html" class="nav-link">How It Works</a>
                 <a href="pricing.html" class="nav-link">Pricing</a>
-                <a href="contact-us.html" class="nav-link active">Contact Us</a>
-                <a href="signup.html" class="cta-button">Sign Up</a>
+                <a href="contact-us.html" class="nav-link active">Contact</a>
+                <a href="signup.html" class="cta-button">Get Started Free</a>
             </nav>
         </div>
     </header>
 
-    <div class="contact-page">
-        <div class="contact-container">
-            <!-- Contact Info Panel -->
-            <div class="contact-info scroll-reveal-left">
-                <h2>Get In Touch</h2>
-                <p>Our team is here to help you navigate your financial journey. Reach out through any of these channels.</p>
-                
-                <div class="contact-methods">
-                    <div class="contact-method">
-                        <div class="method-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="method-details">
-                            <h3>Call Us</h3>
-                            <p>(800) 555-0123</p>
-                            <p>Mon-Fri: 8AM-8PM ET</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-method">
-                        <div class="method-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="method-details">
-                            <h3>Email Us</h3>
-                            <p>support@ifi-finance.com</p>
-                            <p>Response within 24 hours</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-method">
-                        <div class="method-icon">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <div class="method-details">
-                            <h3>Live Chat</h3>
-                            <p>Available 24/7</p>
-                            <p>Average wait: 2 minutes</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="response-badge">
-                    <p><i class="fas fa-clock"></i> Typical response within 24 hours</p>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero-section-contact">
+        <div class="hero-container-contact">
+            <div class="hero-badge">
+                <i class="fas fa-comments"></i>
+                <span>We're Here to Help</span>
             </div>
-            
-            <!-- Contact Form Section -->
-            <div class="contact-form-section scroll-reveal-right">
+            <h1 class="hero-title-contact">
+                Get In Touch<br/>
+                <span class="gradient-text">We'd Love to Hear From You</span>
+            </h1>
+            <p class="hero-subtitle-contact">
+                Questions? Feedback? Just want to say hi? We're all ears.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <!-- Contact Form -->
+            <div class="contact-form-card">
                 <h2>Send Us a Message</h2>
-                <p>Fill out the form below and we'll get back to you as soon as possible.</p>
-                
-                <form class="contact-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
-                        </div>
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">
+                            <i class="fas fa-user"></i>
+                            Your Name
+                        </label>
+                        <input type="text" id="name" name="name" required placeholder="John Doe">
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                        <label for="email">
+                            <i class="fas fa-envelope"></i>
+                            Email Address
+                        </label>
+                        <input type="email" id="email" name="email" required placeholder="john@example.com">
                     </div>
                     
                     <div class="form-group">
-                        <label for="subject">Subject</label>
+                        <label for="subject">
+                            <i class="fas fa-tag"></i>
+                            Subject
+                        </label>
                         <select id="subject" name="subject" required>
-                            <option value="">Select a topic</option>
-                            <option value="account">Account & Login Issues</option>
-                            <option value="billing">Billing & Subscription</option>
-                            <option value="features">Features & Functionality</option>
-                            <option value="technical">Technical Support</option>
-                            <option value="feedback">Feedback & Suggestions</option>
+                            <option value="">Select a topic...</option>
+                            <option value="support">Technical Support</option>
+                            <option value="billing">Billing Question</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="feedback">General Feedback</option>
                             <option value="other">Other</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" placeholder="Tell us how we can help..." required></textarea>
+                        <label for="message">
+                            <i class="fas fa-comment-dots"></i>
+                            Message
+                        </label>
+                        <textarea id="message" name="message" rows="6" required placeholder="Tell us what's on your mind..."></textarea>
                     </div>
                     
-                    <button type="submit" class="btn-send">
-                        Send Message
+                    <button type="submit" class="btn-submit">
+                        <span>Send Message</span>
                         <i class="fas fa-paper-plane"></i>
                     </button>
+                    
+                    <div id="formMessage" class="form-message"></div>
                 </form>
             </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info-card">
+                <h2>Other Ways to Reach Us</h2>
+                
+                <div class="contact-method">
+                    <div class="method-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="method-info">
+                        <h3>Email</h3>
+                        <p>support@ifiapp.com</p>
+                        <span class="response-time">Response within 24 hours</span>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="method-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="method-info">
+                        <h3>Phone</h3>
+                        <p>1-800-iFi-HELP (1-800-434-4357)</p>
+                        <span class="response-time">Mon-Fri, 9am-6pm EST</span>
+                    </div>
+                </div>
+                
+                <div class="social-links">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <footer class="footer">
-        <p>&copy; 2025 iFi. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="contact-us.html">Contact</a></p>
-    </footer>
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Quick answers to common questions</p>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Is iFi really free?</h3>
+                    <p>Yes! We offer a completely free tier with access to core features. Premium features are available for those who want more advanced tools.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Is my data secure?</h3>
+                    <p>Absolutely. We use bank-level 256-bit encryption and never sell your data. Your financial information is protected with the highest security standards.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Can I cancel anytime?</h3>
+                    <p>Yes, you can cancel your premium subscription anytime with no penalties. Your free account remains active indefinitely.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Do you have a mobile app?</h3>
+                    <p>Our web app works perfectly on mobile browsers. Native iOS and Android apps are coming soon!</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <script src="../js/site.js"></script>
-    <script src="../js/animations.js"></script>
-    <script src="../js/scroll-animations.js"></script>
+    <!-- Footer -->
+    <footer id="legal-footer"></footer>
+
+    <script src="../js/api-client.js"></script>
+    <script src="../js/contact-enhanced.js"></script>
+    <script src="../js/legal-footer.js"></script>
 </body>
 </html>

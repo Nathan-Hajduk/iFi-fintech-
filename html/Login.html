@@ -3,523 +3,434 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="iFi login page - Sign in to your intelligent financial companion">
-    <title>Login | iFi - Your Intelligent Financial Future</title>
+    <meta name="description" content="iFi - Your intelligent financial companion. Take control of your money with AI-powered insights, smart budgeting, and personalized financial guidance.">
+    <title>iFi - Your Money, But Smarter</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/login.css">
-    <link rel="stylesheet" href="../css/login-text-larger.css">
-    <link rel="stylesheet" href="../css/light-theme.css">
+    <link rel="stylesheet" href="../css/login-enhanced.css">
+    <link rel="stylesheet" href="../css/legal-footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="floating-shapes">
+            <div class="shape shape-circle"></div>
+            <div class="shape shape-square"></div>
+            <div class="shape shape-triangle"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
     <header class="modern-header">
         <div class="header-inner">
             <a href="Login.html" class="logo-brand">
-                <svg class="logo" width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
-                    <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
-                    <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
-                </svg>
+                <div class="logo-animated">
+                    <div class="logo-bar bar-1"></div>
+                    <div class="logo-bar bar-2"></div>
+                    <div class="logo-bar bar-3"></div>
+                </div>
                 <span class="brand-name">iFi</span>
             </a>
             <nav class="header-nav">
-                <a href="how-it-works.html" class="nav-link">How It Works</a>
                 <a href="features.html" class="nav-link">Features</a>
+                <a href="how-it-works.html" class="nav-link">How It Works</a>
                 <a href="pricing.html" class="nav-link">Pricing</a>
-                <a href="contact-us.html" class="nav-link">Contact Us</a>
-                <a href="signup.html" class="cta-button">Sign Up</a>
+                <a href="contact-us.html" class="nav-link">Contact</a>
+                <a href="signup.html" class="cta-button">Get Started Free</a>
             </nav>
         </div>
     </header>
 
-    <main class="split-container">
-        <div class="value-proposition">
-            <div class="hero-image" aria-hidden="true">
-                <img src="https://images.hdqwalls.com/download/best-nature-image-1400x900.jpg"
-                     alt=""
-                     class="feature-image">
-            </div>
-
-            <div class="text-box" role="region" aria-label="iFi value proposition">
-                <h2>The Future of Finance is Here</h2>
-                <p class="lead-text"> iFi helps people learn to manage their own finances with confidence using our cutting-edge tools and AI insights. Hence the name.</p>
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <i class="fas fa-chart-line" aria-hidden="true"></i>
-                        <span>Smart Investment Tracking</span>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">✨</span>
+                    <span>AI-Powered Financial Intelligence</span>
+                </div>
+                <h1 class="hero-title">
+                    Your Money,<br/>
+                    <span class="gradient-text">But Smarter</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Take control of your financial future with AI-powered insights, intelligent budgeting, 
+                    debt elimination strategies, and personalized goal tracking—all in one powerful platform.
+                </p>
+                
+                <!-- Feature Highlights -->
+                <div class="quick-stats">
+                    <div class="stat">
+                        <div class="stat-icon"><i class="fas fa-brain"></i></div>
+                        <div class="stat-label">AI-Powered Insights</div>
                     </div>
-                    <div class="feature-item">
-                        <i class="fas fa-robot" aria-hidden="true"></i>
-                        <span>AI-Powered Financial Insights</span>
+                    <div class="stat">
+                        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="stat-label">Smart Analytics</div>
                     </div>
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt" aria-hidden="true"></i>
-                        <span>Secure Transaction Management</span>
+                    <div class="stat">
+                        <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="stat-label">Bank-Level Security</div>
                     </div>
                 </div>
-
-                <a href="#features" class="cta-learn-more" aria-label="Learn how iFi helps">
-                    Learn how iFi helps <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
-                </a>
             </div>
-        </div>
 
-        <div class="login-section">
-            <div class="login-card">
-                <div class="card-header">
-                    <h2>Sign In</h2>                </div>
-                <form class="login-form" id="loginForm" data-handler="inline">
-                    <div class="form-group">
-                        <label for="username"><i class="fas fa-user"></i> Username or Email</label>
-                        <input type="text" 
-                               id="username" 
-                               name="username"
-                               required 
-                               autocomplete="username"
-                               aria-required="true">
-                        <a href="forgot-username.html" class="help-link">Forgot Username?</a>
+            <!-- Login Card (Floating) -->
+            <div class="login-card-float">
+                <div class="card-glow"></div>
+                <div class="login-card">
+                    <div class="card-header">
+                        <h2>Welcome Back</h2>
+                        <p>Sign in to continue your financial journey</p>
                     </div>
-
-                    <div class="form-group">
-                        <label for="password"><i class="fas fa-lock"></i> Password</label>
-                        <div class="password-input-wrapper">
-                            <input type="password" 
-                                   id="password" 
-                                   name="password"
+                    
+                    <form class="login-form" id="loginForm" data-handler="inline">
+                        <div class="form-group">
+                            <label for="username">
+                                <i class="fas fa-user"></i>
+                                Username or Email
+                            </label>
+                            <input type="text" 
+                                   id="username" 
+                                   name="username"
+                                   placeholder="Enter your username"
                                    required 
-                                   autocomplete="current-password"
-                                   aria-required="true">
-                            <i class="fas fa-eye" id="togglePassword" aria-label="Toggle password visibility"></i>
+                                   autocomplete="username">
+                            <a href="forgot-username.html" class="help-link">Forgot username?</a>
                         </div>
-                        <a href="forgot-password.html" class="help-link">Forgot Password?</a>
-                    </div>
 
-                    <button type="submit" class="btn-modern btn-primary">Sign In <i class="fas fa-arrow-right"></i></button>
+                        <div class="form-group">
+                            <label for="password">
+                                <i class="fas fa-lock"></i>
+                                Password
+                            </label>
+                            <div class="password-wrapper">
+                                <input type="password" 
+                                       id="password" 
+                                       name="password"
+                                       placeholder="Enter your password"
+                                       required 
+                                       autocomplete="current-password">
+                                <button type="button" class="toggle-password" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <a href="forgot-password.html" class="help-link">Forgot password?</a>
+                        </div>
 
-                    <div id="loginMessage" role="status" aria-live="polite" style="margin-top: 12px;"></div>
+                        <button type="submit" class="btn-primary">
+                            Sign In
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
 
-                    <p class="signup-prompt">
-                        New to iFi? <a href="signup.html" class="signup-link">Create an account</a>
-                    </p>
-                </form>
+                        <div class="divider">
+                            <span>or</span>
+                        </div>
+
+                        <a href="signup.html" class="btn-secondary">
+                            Create New Account
+                            <i class="fas fa-sparkles"></i>
+                        </a>
+                    </form>
+
+                    <div id="loginMessage" class="login-message"></div>
+                </div>
             </div>
         </div>
-    </main>
 
-    <!-- AI Empowerment Section -->
-    <section class="ai-empowerment-section scroll-reveal">
-        <div class="empowerment-container">
-            <div class="empowerment-content">
-                <div class="stat-callout scroll-reveal-fade">
-                    <div class="stat-number">$3,000+</div>
-                    <div class="stat-label">Average Annual Cost of a Financial Advisor</div>
-                </div>
-                
-                <h2 class="empowerment-title scroll-reveal">
-                    Why Pay Thousands When You Can <span class="gradient-text">Learn & Earn</span>?
-                </h2>
-                
-                <p class="empowerment-description scroll-reveal">
-                    Traditional financial advisors charge 1-2% of your assets annually—that's thousands of dollars for advice you could learn yourself. 
-                    With iFi's AI-powered guidance, you gain financial intelligence, not just recommendations. Take control, build knowledge, and keep more of your money.
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-icon"></div>
+            <span>Discover more</span>
+        </div>
+    </section>
+
+    <!-- Why You NEED iFi Section -->
+    <section id="features" class="why-ifi-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-badge">Why iFi?</span>
+                <h2 class="section-title">Money stress? <span class="gradient-text">We get it.</span></h2>
+                <p class="section-subtitle">
+                    Most people are winging it with their finances. iFi gives you the clarity and confidence 
+                    to actually win with money.
                 </p>
-                
-                <div class="comparison-grid">
-                    <div class="comparison-card traditional scroll-reveal-left">
-                        <div class="comparison-icon">
-                            <i class="fas fa-user-tie"></i>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1: AI Insights -->
+                <div class="feature-card">
+                    <div class="feature-visual">
+                        <div class="ai-brain-animation">
+                            <div class="brain-core"></div>
+                            <div class="brain-pulse pulse-1"></div>
+                            <div class="brain-pulse pulse-2"></div>
+                            <div class="brain-pulse pulse-3"></div>
                         </div>
-                        <h3>Traditional Advisor</h3>
-                        <ul class="comparison-list">
-                            <li><i class="fas fa-times"></i> $3,000-$10,000+ per year</li>
-                            <li><i class="fas fa-times"></i> Limited availability</li>
-                            <li><i class="fas fa-times"></i> Advice without education</li>
-                            <li><i class="fas fa-times"></i> One-size-fits-all strategies</li>
-                        </ul>
                     </div>
-                    
-                    <div class="vs-divider scroll-reveal-fade">
-                        <span>VS</span>
-                    </div>
-                    
-                    <div class="comparison-card ifi-way scroll-reveal-right">
-                        <div class="comparison-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h3>iFi AI Assistant</h3>
-                        <ul class="comparison-list">
-                            <li><i class="fas fa-check"></i> $14.99/month or FREE</li>
-                            <li><i class="fas fa-check"></i> 24/7 instant guidance</li>
-                            <li><i class="fas fa-check"></i> Learn while you grow</li>
-                            <li><i class="fas fa-check"></i> Personalized to your goals</li>
-                        </ul>
+                    <h3>AI That Actually Helps</h3>
+                    <p>
+                        Get personalized insights that make sense. No jargon, no confusion—just 
+                        clear guidance on what to do next with your money.
+                    </p>
+                    <div class="feature-stat">
+                        <strong>AI-Powered Analysis</strong> provides instant insights based on your spending patterns and financial goals
                     </div>
                 </div>
-                
-                <div class="empowerment-cta scroll-reveal">\n                    <p class="cta-text">
-                        <i class="fas fa-lightbulb"></i>
-                        <strong>Financial intelligence is the real wealth.</strong> Our AI teaches you the "why" behind every decision, 
-                        so you become your own expert.
+
+                <!-- Feature 2: Debt Destroyer -->
+                <div class="feature-card">
+                    <div class="feature-visual">
+                        <div class="debt-crusher-animation">
+                            <div class="debt-bars">
+                                <div class="debt-bar" style="height: 80%"></div>
+                                <div class="debt-bar" style="height: 60%"></div>
+                                <div class="debt-bar" style="height: 40%"></div>
+                                <div class="debt-bar" style="height: 20%"></div>
+                                <div class="debt-bar" style="height: 5%"></div>
+                            </div>
+                            <div class="crusher-hammer"></div>
+                        </div>
+                    </div>
+                    <h3>Crush Debt Strategically</h3>
+                    <p>
+                        See exactly how much you'll save with avalanche vs snowball methods. 
+                        Watch your debt disappear faster than you thought possible.
                     </p>
-                    <a href="signup.html" class="btn-modern btn-primary btn-large">
-                        Start Your Journey Free <i class="fas fa-rocket"></i>
-                    </a>
+                    <div class="feature-stat">
+                        <strong>Smart Debt Strategies</strong> - Compare avalanche and snowball methods to find your optimal payoff plan
+                    </div>
+                </div>
+
+                <!-- Feature 3: Goal Tracking -->
+                <div class="feature-card">
+                    <div class="feature-visual">
+                        <div class="goal-tracker-animation">
+                            <div class="goal-ring">
+                                <svg viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" class="goal-bg"></circle>
+                                    <circle cx="50" cy="50" r="45" class="goal-progress"></circle>
+                                </svg>
+                                <div class="goal-percentage">78%</div>
+                            </div>
+                            <div class="goal-stars">
+                                <div class="star"></div>
+                                <div class="star"></div>
+                                <div class="star"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Goals You'll Actually Hit</h3>
+                    <p>
+                        Turn dreams into plans. See exactly when you'll hit your goals and 
+                        get motivated by watching your progress tick up.
+                    </p>
+                    <div class="feature-stat">
+                        <strong>Smart Goal Planning</strong> - Automatic timeline calculations show when you'll reach your financial goals
+                    </div>
+                </div>
+
+                <!-- Feature 4: Smart Budgeting -->
+                <div class="feature-card">
+                    <div class="feature-visual">
+                        <div class="budget-pie-animation">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" class="pie-segment segment-1"></circle>
+                                <circle cx="50" cy="50" r="40" class="pie-segment segment-2"></circle>
+                                <circle cx="50" cy="50" r="40" class="pie-segment segment-3"></circle>
+                            </svg>
+                            <div class="budget-icon">💰</div>
+                        </div>
+                    </div>
+                    <h3>Budget Without the Hassle</h3>
+                    <p>
+                        Visual budgets that make sense at a glance. Know where your money goes 
+                        and make smarter decisions automatically.
+                    </p>
+                    <div class="feature-stat">
+                        <strong>Visual Budgeting</strong> - See spending patterns at a glance with intelligent category tracking
+                    </div>
+                </div>
+
+                <!-- Feature 5: Investment Tracker -->
+                <div class="feature-card">
+                    <div class="feature-visual">
+                        <div class="investment-graph-animation">
+                            <div class="graph-line"></div>
+                            <div class="graph-dots">
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                            <div class="trend-arrow">📈</div>
+                        </div>
+                    </div>
+                    <h3>Portfolio That Works</h3>
+                    <p>
+                        Track all investments in one place. Get diversification scores and 
+                        understand if you're actually building wealth.
+                    </p>
+                    <div class="feature-stat">
+                        <strong>Portfolio Analytics</strong> - Track diversification, asset allocation, and performance across all investments
+                    </div>
+                </div>
+
+                <!-- Feature 6: Real-Time Economy -->
+                <div class="feature-card">
+                    <div class="feature-visual">
+                        <div class="market-pulse-animation">
+                            <div class="pulse-center"></div>
+                            <div class="pulse-ring ring-1"></div>
+                            <div class="pulse-ring ring-2"></div>
+                            <div class="pulse-ring ring-3"></div>
+                            <div class="market-ticker">
+                                <span class="ticker-up">+2.4%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Stay Market-Smart</h3>
+                    <p>
+                        Real-time market data and news that matters. Make informed decisions 
+                        without drowning in information.
+                    </p>
+                    <div class="feature-stat">
+                        <strong>Updated every 5 seconds</strong> with the latest market data
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features-section scroll-reveal">\n        <div class="section-header scroll-reveal">
-            <h2 class="section-title">Why <span class="gradient-text">iFi</span>?</h2>
-            <p class="section-subtitle">  iFi Enables users to manage their finances effortlessly </p>
-        </div>
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-badge">Simple Process</span>
+                <h2 class="section-title">Get started in <span class="gradient-text">3 minutes</span></h2>
+            </div>
 
-        <div class="features-grid">
-            <!-- Budgeting Feature -->
-            <article class="feature-card scroll-reveal">
-                <div class="feature-icon budget-icon">
-                    <i class="fas fa-wallet"></i>
+            <div class="steps-flow">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-visual">
+                        <div class="signup-animation">
+                            <div class="form-icon">📝</div>
+                            <div class="checkmark">✓</div>
+                        </div>
+                    </div>
+                    <h3>Create Account</h3>
+                    <p>Sign up free in 30 seconds. No credit card required.</p>
                 </div>
-                <h3>Smart Budgeting</h3>
-                <p class="feature-desc">In today's volatile economy, every dollar counts. iFi's intelligent budgeting system analyzes your spending patterns, identifies savings opportunities, and helps you build financial resilience against inflation and economic uncertainty.</p>
-                <ul class="feature-highlights">
-                    <li><i class="fas fa-check"></i> Real-time expense tracking</li>
-                    <li><i class="fas fa-check"></i> Automated savings goals</li>
-                    <li><i class="fas fa-check"></i> Inflation-adjusted planning</li>
-                </ul>
-            </article>
 
-            <!-- AI System Feature -->
-            <article class="feature-card featured">
-                <div class="feature-badge">AI-Powered</div>
-                <div class="feature-icon ai-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
-                <h3>iFi AI Assistant</h3>
-                <p class="feature-desc">Our AI engine creates personalized short-term and long-term financial strategies. Whether you're planning next week's groceries or retirement, iFi AI considers market trends, your risk tolerance, and life goals to optimize every decision.</p>
-                <ul class="feature-highlights">
-                    <li><i class="fas fa-check"></i> Personalized investment strategies</li>
-                    <li><i class="fas fa-check"></i> Purchase timing recommendations</li>
-                    <li><i class="fas fa-check"></i> Adaptive budget forecasting</li>
-                    <li><i class="fas fa-check"></i> Risk assessment & alerts</li>
-                </ul>
-            </article>
+                <div class="step-arrow">→</div>
 
-            <!-- Dashboard Feature -->
-            <article class="feature-card">
-                <div class="feature-icon dashboard-icon">
-                    <i class="fas fa-chart-pie"></i>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-visual">
+                        <div class="data-flow-animation">
+                            <div class="data-stream"></div>
+                            <div class="data-stream"></div>
+                            <div class="data-stream"></div>
+                        </div>
+                    </div>
+                    <h3>Quick Setup</h3>
+                    <p>Tell us about your finances. Takes 2 minutes max.</p>
                 </div>
-                <h3>Personal Finance Dashboard</h3>
-                <p class="feature-desc">Your financial life at a glance. The dashboard provides a comprehensive overview of your net worth, cash flow, savings rate, and financial health score—updated in real-time with beautiful visualizations.</p>
-                <ul class="feature-highlights">
-                    <li><i class="fas fa-check"></i> Net worth tracking</li>
-                    <li><i class="fas fa-check"></i> Cash flow analysis</li>
-                    <li><i class="fas fa-check"></i> Custom financial metrics</li>
-                </ul>
-            </article>
 
-            <!-- Transactions Feature -->
-            <article class="feature-card">
-                <div class="feature-icon transactions-icon">
-                    <i class="fas fa-receipt"></i>
-                </div>
-                <h3>Transaction Intelligence</h3>
-                <p class="feature-desc">Never miss a payment or lose track of spending. Our transaction page automatically categorizes daily purchases, flags lingering debts, tracks subscriptions, and reminds you of upcoming monthly or annual payments.</p>
-                <ul class="feature-highlights">
-                    <li><i class="fas fa-check"></i> Auto-categorization</li>
-                    <li><i class="fas fa-check"></i> Subscription tracking & alerts</li>
-                    <li><i class="fas fa-check"></i> Debt payoff planner</li>
-                    <li><i class="fas fa-check"></i> Recurring payment calendar</li>
-                </ul>
-            </article>
-        </div>
+                <div class="step-arrow">→</div>
 
-        <!-- Second Row - Investment and Economy Cards -->
-        <div class="features-grid" style="margin-top: 2rem;">
-            <!-- Investments Feature -->
-            <article class="feature-card">
-                <div class="feature-icon investments-icon">
-                    <i class="fas fa-chart-line"></i>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-visual">
+                        <div class="rocket-animation">
+                            <div class="rocket">🚀</div>
+                            <div class="rocket-trail"></div>
+                        </div>
+                    </div>
+                    <h3>Start Winning</h3>
+                    <p>Get instant insights and start crushing your money goals.</p>
                 </div>
-                <h3>Investment Portfolio Tracker</h3>
-                <p class="feature-desc">Monitor your entire investment portfolio in one place. Track stocks, ETFs, crypto, bonds, and alternative investments with real-time prices, performance analytics, and AI-driven rebalancing recommendations.</p>
-                <ul class="feature-highlights">
-                    <li><i class="fas fa-check"></i> Multi-asset tracking (stocks, ETFs, crypto)</li>
-                    <li><i class="fas fa-check"></i> Performance & risk metrics</li>
-                    <li><i class="fas fa-check"></i> Portfolio diversification analysis</li>
-                    <li><i class="fas fa-check"></i> Tax-loss harvesting alerts</li>
-                </ul>
-            </article>
+            </div>
 
-            <!-- Economy News Feature -->
-            <article class="feature-card">
-                <div class="feature-icon economy-icon">
-                    <i class="fas fa-globe-americas"></i>
-                </div>
-                <h3>Today's Economy</h3>
-                <p class="feature-desc">Stay ahead of market movements. Get curated news and analysis on industries, businesses, and economic indicators that impact your investments and purchasing power—powered by AI that filters noise and surfaces what matters to you.</p>
-                <ul class="feature-highlights">
-                    <li><i class="fas fa-check"></i> Personalized economic news</li>
-                    <li><i class="fas fa-check"></i> Industry trend analysis</li>
-                    <li><i class="fas fa-check"></i> Market impact alerts</li>
-                    <li><i class="fas fa-check"></i> Company earnings & reports</li>
-                </ul>
-            </article>
+            <div class="cta-section">
+                <a href="signup.html" class="btn-large">
+                    <span>Start Your Financial Journey</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <p class="cta-note">Free to start • No credit card required</p>
+            </div>
         </div>
     </section>
 
-    <!-- Debt Crisis Awareness Section -->
-    <section class="debt-awareness-section">
-        <div class="awareness-container">
-            <div class="awareness-content">
-                <div class="urgent-stats">
-                    <div class="stat-box debt-stat">
-                        <div class="stat-icon">
-                            <i class="fas fa-credit-card"></i>
-                        </div>
-                        <div class="stat-number">$104,215</div>
-                        <div class="stat-label">Average American Household Debt</div>
+    <!-- What You Get -->
+    <section class="testimonials-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-badge">Complete Financial Platform</span>
+                <h2 class="section-title">Everything you need <span class="gradient-text">in one place</span></h2>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-robot"></i>
                     </div>
-                    <div class="stat-box interest-stat">
-                        <div class="stat-icon">
-                            <i class="fas fa-percentage"></i>
-                        </div>
-                        <div class="stat-number">22.8%</div>
-                        <div class="stat-label">Average Credit Card APR</div>
-                    </div>
-                    <div class="stat-box crisis-stat">
-                        <div class="stat-icon">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <div class="stat-number">77%</div>
-                        <div class="stat-label">Of Americans Living Paycheck to Paycheck</div>
-                    </div>
+                    <h3>AI Financial Assistant</h3>
+                    <p class="testimonial-text">
+                        Get instant answers to financial questions, personalized recommendations, 
+                        and smart insights based on your spending patterns and goals.
+                    </p>
                 </div>
-                
-                <h2 class="awareness-title">
-                    The Debt Crisis is Real. <span class="gradient-text-alert">Your Future Doesn't Have to Be.</span>
-                </h2>
-                
-                <p class="awareness-description">
-                    Every day you wait, compound interest works against you. Credit card debt at 22.8% APR doubles in just 3 years. 
-                    Student loans, mortgages, car payments—they pile up while financial literacy remains absent from our education system. 
-                    <strong>The time to act is now, not tomorrow.</strong>
-                </p>
-                
-                <div class="literacy-importance">
-                    <div class="importance-card">
-                        <div class="card-icon warning">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h3>Time is Your Biggest Asset</h3>
-                        <p>Starting your financial journey today vs. 5 years from now can mean the difference of hundreds of thousands in lifetime wealth. Compound interest works both ways—use it to your advantage.</p>
+
+                <div class="testimonial-card">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-calculator"></i>
                     </div>
-                    
-                    <div class="importance-card">
-                        <div class="card-icon education">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h3>Knowledge is Financial Power</h3>
-                        <p>Financial literacy isn't taught in schools, but it determines your quality of life. Understanding budgeting, investing, and debt management isn't optional—it's essential survival in modern America.</p>
-                    </div>
-                    
-                    <div class="importance-card">
-                        <div class="card-icon freedom">
-                            <i class="fas fa-dove"></i>
-                        </div>
-                        <h3>Break the Cycle</h3>
-                        <p>You don't have to follow the statistics. With the right tools and education, you can escape the paycheck-to-paycheck cycle, eliminate debt, and build generational wealth.</p>
-                    </div>
+                    <h3>Debt Elimination Tools</h3>
+                    <p class="testimonial-text">
+                        Compare avalanche vs snowball strategies, track payoff progress, 
+                        and see your debt-free date with intelligent calculators.
+                    </p>
                 </div>
-                
-                <div class="urgency-cta">
-                    <div class="urgency-message">
-                        <i class="fas fa-bolt"></i>
-                        <div>
-                            <h3>Every Month Counts</h3>
-                            <p>A $5,000 credit card balance at 22.8% APR costs you <strong>$95/month in interest alone</strong>. That's $1,140/year going nowhere. 
-                            iFi helps you see these hidden costs and create an action plan to eliminate them.</p>
-                        </div>
+
+                <div class="testimonial-card">
+                    <div class="feature-icon-large">
+                        <i class="fas fa-bullseye"></i>
                     </div>
-                    <a href="signup.html" class="btn-modern btn-urgent btn-large">
-                        Take Control Today <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <p class="urgency-subtext">
-                        <i class="fas fa-shield-alt"></i>
-                        Free to start. No credit card required. Begin your financial transformation now.
+                    <h3>Goal Achievement System</h3>
+                    <p class="testimonial-text">
+                        Set financial goals, track progress visually, and get timeline projections 
+                        showing exactly when you'll reach each milestone.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="cta-content">
-            <h2>Ready to Transform Your Financial Future?</h2>
-            <p>Join our community of users who've taken control of their finances with iFi</p>
-            <a href="signup.html" class="btn-modern btn-large">Get Started Free <i class="fas fa-arrow-right"></i></a>
+    <!-- Final CTA -->
+    <section class="final-cta-section">
+        <div class="cta-container">
+            <h2>Start Your Financial<br/><span class="gradient-text">Transformation Today</span></h2>
+            <p>Take control of your money with AI-powered tools designed to help you budget, save, and invest smarter.</p>
+            <a href="signup.html" class="btn-large">
+                <span>Get Started Free</span>
+                <i class="fas fa-sparkles"></i>
+            </a>
+            <p class="cta-footer">No credit card required • 2-minute setup • Free to start</p>
         </div>
     </section>
 
-    <footer class="modern-footer">
-        <p>&copy; 2025 iFi. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-    </footer>
+    <script src="../js/api-client.js"></script>
     <script src="../js/auth-manager.js"></script>
-    <script src="../js/login-validation.js"></script>
-    <script>
-        // Toast helpers (scoped to this page)
-        function ensureToastContainer() {
-            let container = document.querySelector('.toast-container');
-            if (!container) {
-                container = document.createElement('div');
-                container.className = 'toast-container';
-                document.body.appendChild(container);
-            }
-            return container;
-        }
-        function showToast(type, message) {
-            const container = ensureToastContainer();
-            const toast = document.createElement('div');
-            toast.className = `toast ${type === 'success' ? 'toast-success' : type === 'error' ? 'toast-error' : ''}`;
-            toast.innerHTML = `
-                <span class="toast-icon">${type === 'success' ? '✔️' : type === 'error' ? '⚠️' : 'ℹ️'}</span>
-                <span class="toast-message">${message}</span>
-            `;
-            container.appendChild(toast);
-            void toast.offsetWidth;
-            toast.classList.add('show');
-            const remove = () => {
-                toast.classList.remove('show');
-                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
-            };
-            const timeout = setTimeout(remove, 3000);
-            toast.addEventListener('click', () => { clearTimeout(timeout); remove(); });
-        }
-
-        // NOTE: Removed automatic redirect check to prevent redirect loops
-        // Login redirect is handled only after successful login below
-
-        // JWT Authentication with authManager
-        (function() {
-            const form = document.getElementById('loginForm');
-            const messageEl = document.getElementById('loginMessage');
-            if (!form) return;
-            const submitBtn = form.querySelector('button[type="submit"]');
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                messageEl.textContent = '';
-                
-                const email = document.getElementById('username').value.trim();
-                const password = document.getElementById('password').value;
-                
-                if (!email || !password) {
-                    messageEl.textContent = 'Please enter your email and password.';
-                    messageEl.style.color = '#d33';
-                    return;
-                }
-                
-                try {
-                    // Spinner on
-                    if (submitBtn) {
-                        submitBtn.disabled = true;
-                        submitBtn.classList.add('loading');
-                        submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Signing In';
-                    }
-                    
-                    // Use JWT authentication
-                    const result = await authManager.login(email, password);
-                    
-                    // Success
-                    messageEl.textContent = 'Login successful. Redirecting…';
-                    messageEl.style.color = '#2a7';
-                    showToast('success', `Welcome back, ${result.user.firstName || 'User'}!`);
-                    
-                    // Check for redirect parameter or use default
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const redirectTo = urlParams.get('redirect');
-                    
-                    // Check if user has completed onboarding from API response
-                    const onboardingComplete = result.onboardingCompleted;
-                    const defaultRedirect = onboardingComplete ? './dashboard.html' : './onboarding.html';
-                    
-                    setTimeout(() => {
-                        window.location.href = redirectTo || defaultRedirect;
-                    }, 700);
-                    
-                } catch (err) {
-                    console.error('Login error:', err);
-                    messageEl.textContent = err.message || 'Login failed. Please try again.';
-                    messageEl.style.color = '#d33';
-                    showToast('error', err.message || 'Login failed');
-                } finally {
-                    if (submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.classList.remove('loading');
-                        submitBtn.innerHTML = 'Sign In <i class="fas fa-arrow-right"></i>';
-                    }
-                }
-            });
-        })();
-
-        // Smooth scroll for Learn how iFi helps button with no delay and smooth animation
-        document.querySelector('.cta-learn-more').addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector('#features');
-            target.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start'
-            });
-        });
-
-        // Password visibility toggle
-        const togglePassword = document.querySelector('#togglePassword');
-        const passwordField = document.querySelector('#password');
-        
-        if (togglePassword && passwordField) {
-            togglePassword.addEventListener('click', function() {
-                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordField.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            });
-        }
-
-        // Scroll Reveal Animations
-        const scrollRevealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-fade');
-        
-        const revealOnScroll = () => {
-            scrollRevealElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementBottom = element.getBoundingClientRect().bottom;
-                const windowHeight = window.innerHeight;
-                
-                // Reveal when element is 20% into viewport
-                if (elementTop < windowHeight * 0.8 && elementBottom > 0) {
-                    element.classList.add('revealed');
-                }
-            });
-        };
-        
-        // Check on page load
-        revealOnScroll();
-        
-        // Check on scroll with throttle for performance
-        let scrollTimeout;
-        window.addEventListener('scroll', () => {
-            if (scrollTimeout) {
-                window.cancelAnimationFrame(scrollTimeout);
-            }
-            scrollTimeout = window.requestAnimationFrame(() => {
-                revealOnScroll();
-            });
-        });
-    </script>
+    <script src="../js/login-enhanced.js"></script>
+    <script src="../js/legal-footer.js"></script>
 </body>
 </html>

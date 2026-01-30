@@ -7,28 +7,42 @@
     <title>Sign Up | iFi - Your Intelligent Financial Future</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/login-enhanced.css">
     <link rel="stylesheet" href="../css/signup.css">
-    <link rel="stylesheet" href="../css/light-theme.css">
+    <link rel="stylesheet" href="../css/legal-footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="floating-shapes">
+            <div class="shape shape-circle"></div>
+            <div class="shape shape-square"></div>
+            <div class="shape shape-triangle"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
     <header class="modern-header">
         <div class="header-inner">
             <a href="Login.html" class="logo-brand">
-                <svg class="logo" width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
-                    <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
-                    <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
-                </svg>
+                <div class="logo-animated">
+                    <div class="logo-bar bar-1"></div>
+                    <div class="logo-bar bar-2"></div>
+                    <div class="logo-bar bar-3"></div>
+                </div>
                 <span class="brand-name">iFi</span>
             </a>
             <nav class="header-nav">
-                <a href="how-it-works.html" class="nav-link">How It Works</a>
                 <a href="features.html" class="nav-link">Features</a>
+                <a href="how-it-works.html" class="nav-link">How It Works</a>
                 <a href="pricing.html" class="nav-link">Pricing</a>
-                <a href="contact-us.html" class="nav-link">Contact Us</a>
+                <a href="contact-us.html" class="nav-link">Contact</a>
                 <a href="Login.html" class="cta-button">Login</a>
             </nav>
         </div>
@@ -38,7 +52,7 @@
         <div class="signup-content">
             <div class="signup-header scroll-reveal">
                 <h1>Create Your Account</h1>
-                <p class="subtitle">Join thousands of users taking control of their financial future</p>
+                <p class="subtitle">Take control of your financial future with AI-powered insights</p>
             </div>
 
             <div class="signup-card scroll-reveal">
@@ -82,13 +96,14 @@
                             <input type="password" 
                                    id="password" 
                                    name="password" 
-                                   pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{9,}$"
                                    placeholder="Create a strong password"
                                    required
                                    style="padding-right: 45px;">
-                            <i class="fas fa-eye" id="togglePassword" 
-                               style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; z-index: 10;"
-                               aria-label="Toggle password visibility"></i>
+                            <button type="button" id="togglePassword" 
+                               style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; background: none; border: none; color: #666; z-index: 10;"
+                               aria-label="Toggle password visibility">
+                                <i class="fas fa-eye"></i>
+                            </button>
                         </div>
                         <div class="password-requirements">
                             <p class="requirements-title"><i class="fas fa-info-circle"></i> Password must contain:</p>
@@ -96,7 +111,7 @@
                                 <li><i class="fas fa-check"></i> At least 9 characters</li>
                                 <li><i class="fas fa-check"></i> At least one capital letter</li>
                                 <li><i class="fas fa-check"></i> At least one number</li>
-                                <li><i class="fas fa-check"></i> At least one symbol (!@#$%^&*)</li>
+                                <li><i class="fas fa-check"></i> At least one special character</li>
                             </ul>
                         </div>
                     </div>
@@ -250,22 +265,32 @@
         </div>
     </main>
 
-    <footer class="modern-footer">
-        <p>&copy; 2025 iFi. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-    </footer>
+        <!-- Footer -->
+    <footer id="legal-footer"></footer>
+
+    <script src="../js/legal-footer.js"></script>
 
     <script src="../js/signup-validation.js"></script>
     <script>
-        // Password visibility toggles
+        // Password visibility toggles - Fixed version
         const togglePassword = document.querySelector('#togglePassword');
         const passwordField = document.querySelector('#password');
         
         if (togglePassword && passwordField) {
-            togglePassword.addEventListener('click', function() {
-                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordField.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
+            togglePassword.addEventListener('click', function(e) {
+                e.preventDefault();
+                const type = passwordField.getAttribute('type');
+                const icon = this.querySelector('i');
+                
+                if (type === 'password') {
+                    passwordField.setAttribute('type', 'text');
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.setAttribute('type', 'password');
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
             });
         }
 
@@ -273,11 +298,20 @@
         const reenterPasswordField = document.querySelector('#reenter-password');
         
         if (toggleReenterPassword && reenterPasswordField) {
-            toggleReenterPassword.addEventListener('click', function() {
-                const type = reenterPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                reenterPasswordField.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
+            toggleReenterPassword.addEventListener('click', function(e) {
+                e.preventDefault();
+                const type = reenterPasswordField.getAttribute('type');
+                const icon = this.querySelector('i');
+                
+                if (type === 'password') {
+                    reenterPasswordField.setAttribute('type', 'text');
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    reenterPasswordField.setAttribute('type', 'password');
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
             });
         }
     </script>

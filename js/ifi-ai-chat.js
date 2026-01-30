@@ -170,7 +170,7 @@ class IFiAIChat {
     }
 
     try {
-      const response = await authManager.fetch('/api/ifi-ai/conversation-history');
+      const response = await authManager.fetch('/api/ai/insights');
       const data = await response.json();
 
       if (data.success && data.history) {
@@ -212,7 +212,7 @@ class IFiAIChat {
 
     try {
       // Send to backend
-      const response = await authManager.fetch('/api/ifi-ai/chat', {
+      const response = await authManager.fetch('/api/ai/chat', {
         method: 'POST',
         body: JSON.stringify({
           message: message,

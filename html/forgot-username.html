@@ -3,47 +3,390 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Forgot username - Recover your iFi account username">
+    <meta name="description" content="Recover your iFi account username">
     <title>Forgot Username | iFi - Your Intelligent Financial Future</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/forgot-pages.css">
-    <link rel="stylesheet" href="../css/light-theme.css">
+    <link rel="stylesheet" href="../css/login-enhanced.css">
+    <link rel="stylesheet" href="../css/legal-footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #00d4ff 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #667eea 0%, transparent 70%);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -7s;
+        }
+
+        .orb3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #00d4ff 0%, transparent 70%);
+            top: 50%;
+            right: 10%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 50px) scale(0.9); }
+            75% { transform: translate(70px, 30px) scale(1.05); }
+        }
+
+        /* Header */
+        .modern-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 1rem;
+        }
+
+        .nav-link:hover {
+            color: #00d4ff;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #00d4ff 0%, #667eea 100%);
+            color: #fff;
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Main Container */
+        .forgot-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 2rem 4rem;
+        }
+
+        .forgot-content {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .forgot-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #667eea 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
+        }
+
+        .forgot-icon i {
+            font-size: 3rem;
+            color: #fff;
+        }
+
+        .forgot-content h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+        }
+
+        /* Form Card */
+        .forgot-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group label i {
+            color: #00d4ff;
+            margin-right: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #667eea 100%);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary i {
+            margin-left: 0.5rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #00d4ff;
+        }
+
+        .back-link i {
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(10, 14, 39, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #00d4ff;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-nav {
+                gap: 1rem;
+            }
+
+            .nav-link {
+                font-size: 0.9rem;
+            }
+
+            .forgot-content h1 {
+                font-size: 2rem;
+            }
+
+            .forgot-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .forgot-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .forgot-icon i {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+    </div>
+
+    <!-- Header -->
     <header class="modern-header">
         <div class="header-inner">
             <a href="Login.html" class="logo-brand">
                 <svg class="logo" width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="6" y="30" width="10" height="14" fill="#5dade2" rx="2"/>
-                    <rect x="20" y="18" width="10" height="26" fill="#3498db" rx="2"/>
-                    <rect x="34" y="6" width="10" height="38" fill="#2980b9" rx="2"/>
+                    <rect x="6" y="30" width="10" height="14" fill="#00d4ff" rx="2"/>
+                    <rect x="20" y="18" width="10" height="26" fill="#667eea" rx="2"/>
+                    <rect x="34" y="6" width="10" height="38" fill="#00d4ff" rx="2"/>
                 </svg>
                 <span class="brand-name">iFi</span>
             </a>
             <nav class="header-nav">
-                <a href="how-it-works.html" class="nav-link">How It Works</a>
                 <a href="features.html" class="nav-link">Features</a>
+                <a href="how-it-works.html" class="nav-link">How It Works</a>
                 <a href="pricing.html" class="nav-link">Pricing</a>
-                <a href="contact-us.html" class="nav-link">Contact Us</a>
+                <a href="contact-us.html" class="nav-link">Contact</a>
                 <a href="Login.html" class="cta-button">Login</a>
             </nav>
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="forgot-container">
         <div class="forgot-content">
             <div class="forgot-icon">
-                <i class="fas fa-user-circle"></i>
+                <i class="fas fa-user-tag"></i>
             </div>
             <h1>Forgot Username?</h1>
             <p class="subtitle">Enter your email address and we'll send your username</p>
 
             <div class="forgot-card">
-                <form class="forgot-form" action="username-sent.html">
+                <form class="forgot-form" id="forgot-username-form">
                     <div class="form-group">
                         <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
                         <input type="email" 
@@ -53,21 +396,75 @@
                                required 
                                autocomplete="email">
                     </div>
-                    <button type="submit" class="btn-modern btn-primary">
+                    <button type="submit" class="btn-primary">
                         Send Username <i class="fas fa-arrow-right"></i>
                     </button>
-                    <div class="aux-links">
-                        <a class="back-link" href="Login.html">
-                            <i class="fas fa-arrow-left"></i> Back to Login
-                        </a>
-                    </div>
+                    <a class="back-link" href="Login.html">
+                        <i class="fas fa-arrow-left"></i> Back to Login
+                    </a>
                 </form>
             </div>
         </div>
     </main>
 
-    <footer class="modern-footer">
-        <p>&copy; 2025 iFi. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-    </footer>
+    <!-- Footer -->
+    <footer id="legal-footer"></footer>
+
+    <script src="../js/legal-footer.js"></script>
+    <script src="../js/api-client.js"></script>
+    <script>
+        // Handle forgot username form submission
+        // NOTE: Backend endpoint /api/auth/forgot-username needs to be created
+        const forgotForm = document.querySelector('.forgot-form');
+        const emailInput = document.getElementById('email');
+        const submitBtn = forgotForm.querySelector('button[type="submit"]');
+        
+        forgotForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Sending...';
+            
+            try {
+                // TODO: Create backend endpoint for username recovery
+                // For now, redirect directly to confirmation page
+                alert('Username recovery feature is currently under development. Please contact support for assistance.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                
+                // Uncomment when backend endpoint is ready:
+                /*
+                const apiClient = new APIClient();
+                const response = await apiClient.request('/auth/forgot-username', {
+                    method: 'POST',
+                    body: JSON.stringify({ email }),
+                });
+                
+                if (response.success) {
+                    sessionStorage.setItem('recovery_email', email);
+                    window.location.href = 'username-sent.html';
+                } else {
+                    alert(response.message || 'Failed to send username. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }
+                */
+            } catch (error) {
+                console.error('Username recovery error:', error);
+                alert('An error occurred. Please try again later.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    </script>
 </body>
 </html>

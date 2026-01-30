@@ -970,13 +970,6 @@ function navigateToSection(sectionName) {
         targetSection.style.display = 'block';
         targetSection.classList.add('active-subsection', 'revealed');
         
-        // Also show the income section if we're on a different section (Step 3 flow)
-        const incomeSection = document.getElementById('income-section');
-        if (incomeSection && sectionName !== 'income') {
-            incomeSection.style.display = 'block';
-            incomeSection.classList.add('revealed', 'completed');
-        }
-        
         // Scroll to the target section
         setTimeout(() => {
             targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });

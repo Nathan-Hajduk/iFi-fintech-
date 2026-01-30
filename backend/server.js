@@ -28,6 +28,7 @@ const {
 const plaidRoutes = require('./routes/plaidRoutes');
 const authRoutes = require('./routes/auth');
 const ifiAIRoutes = require('./routes/ifi-ai');
+const openaiRoutes = require('./routes/openai');
 const userRoutes = require('./routes/user');
 const paymentRoutes = require('./routes/payments');
 const databaseViewerRoutes = require('./routes/database-viewer');
@@ -94,6 +95,9 @@ app.use('/api/payments', paymentRoutes);
 
 // iFi AI routes (requires authentication + premium)
 app.use('/api/ifi-ai', ifiAIRoutes);
+
+// OpenAI Financial Intelligence routes (requires authentication)
+app.use('/api/ai', openaiRoutes);
 
 // Plaid routes with specific rate limiting
 app.use('/api/plaid', plaidLimiter, plaidRoutes);

@@ -345,7 +345,8 @@ function validatePassword(input) {
     const value = input.value;
     const hasUpperCase = /[A-Z]/.test(value);
     const hasNumber = /[0-9]/.test(value);
-    const hasSymbol = /[!@#$%^&*]/.test(value);
+    // Accept wide range of special characters commonly used in passwords
+    const hasSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(value);
     const isLongEnough = value.length >= 9;
 
     if (!value) {
